@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import MobileLayout from './components/layout/MobileLayout';
 import Home from './pages/Home';
 import Schedule from './pages/Schedule';
@@ -8,7 +8,7 @@ import Records from './pages/Records';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<MobileLayout />}>
           <Route index element={<Home />} />
@@ -18,7 +18,7 @@ function App() {
           <Route path="records" element={<Records />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
