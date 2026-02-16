@@ -1,1 +1,13 @@
-File not found: /v1/AUTH_mw/wikipedia-commons-local-public.5e/5/5e/Jeju_Island_Map.svg
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Jeju Island Outline -->
+    <path d="M120 300 C 120 200, 300 100, 400 100 C 550 100, 750 200, 750 300 C 750 400, 600 500, 400 500 C 200 500, 120 400, 120 300 Z" fill="#E6EEF5" stroke="#CBD5E1" stroke-width="2"/>
+    
+    <!-- Hallasan Mountain -->
+    <path d="M380 320 L 400 280 L 420 320 Z" fill="#94A3B8" opacity="0.5"/>
+    
+    <!-- Udo Island (East) -->
+    <circle cx="770" cy="290" r="15" fill="#E6EEF5" stroke="#CBD5E1" stroke-width="2"/>
+    
+    <!-- Text Label -->
+    <text x="400" y="550" text-anchor="middle" fill="#94A3B8" font-family="sans-serif" font-size="24" font-weight="bold" opacity="0.3">JEJU ISLAND</text>
+</svg>
