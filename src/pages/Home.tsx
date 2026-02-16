@@ -18,19 +18,19 @@ const Home: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-4">
                 <Link to="/schedule" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center aspect-square hover:bg-gray-50 transition-colors">
-                    <span className="text-2xl mb-2">📅</span>
+                    <span className="text-7xl mb-4">📅</span>
                     <span className="font-semibold">일정표</span>
                 </Link>
                 <Link to="/reservations" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center aspect-square hover:bg-gray-50 transition-colors">
-                    <span className="text-2xl mb-2">🎫</span>
+                    <span className="text-7xl mb-4">🎫</span>
                     <span className="font-semibold">예약 확인</span>
                 </Link>
                 <Link to="/guide" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center aspect-square hover:bg-gray-50 transition-colors">
-                    <span className="text-2xl mb-2">📖</span>
+                    <span className="text-7xl mb-4">📖</span>
                     <span className="font-semibold">가이드</span>
                 </Link>
                 <Link to="/records" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center aspect-square hover:bg-gray-50 transition-colors">
-                    <span className="text-2xl mb-2">📸</span>
+                    <span className="text-7xl mb-4">📸</span>
                     <span className="font-semibold">여행 기록</span>
                 </Link>
             </div>

@@ -33,7 +33,7 @@ export const RESERVATIONS: ReservationData = {
         cost: 80700,
         reservationNumber: "2602165717",
         rentalDuration: "95시간 대여",
-        imgUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Hyundai_Kona_Electric_Classic_Chalk_White_%281%29.jpg/640px-Hyundai_Kona_Electric_Classic_Chalk_White_%281%29.jpg" // Using a generic placeholder for now
+        imgUrl: "https://file.carisyou.com/upload/2018/04/12/20180412101340476_w.jpg" // White Kona Electric similar to receipt
     },
     accommodations: [
         // Placeholder for now as user hasn't provided details yet in images
