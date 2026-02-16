@@ -73,12 +73,14 @@ const ScheduleMap: React.FC = () => {
                         key={day.day}
                         onClick={() => setSelectedDay(day.day)}
                         className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${selectedDay === day.day
-                                ? 'bg-blue-600 text-white shadow-md'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            ? 'bg-blue-600 text-white shadow-md'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                     >
                         Day {day.day}
-                        <span className="block text-[10px] opacity-80">{day.date.slice(5)}</span>
+                        <span className="block text-[10px] opacity-80">
+                            {day.date.slice(5)} ({new Date(day.date).toLocaleDateString('ko-KR', { weekday: 'short' })})
+                        </span>
                     </button>
                 ))}
             </div>
@@ -93,7 +95,7 @@ const ScheduleMap: React.FC = () => {
                     {activeRoute?.activities.map((activity: Activity) => (
                         <div key={activity.id} className="relative">
                             <div className={`absolute -left-[21px] top-0 w-3 h-3 rounded-full ${activity.type === 'flight' ? 'bg-blue-500' :
-                                    activity.type === 'food' ? 'bg-orange-500' : 'bg-green-500'
+                                activity.type === 'food' ? 'bg-orange-500' : 'bg-green-500'
                                 }`}></div>
                             <div className="flex justify-between items-start">
                                 <div>

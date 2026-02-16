@@ -10,10 +10,10 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd1-1',
                     day: 1,
-                    time: "18:30",
-                    title: "김포공항 출발 (OZ8983)",
+                    time: "17:00",
+                    title: "동수원호텔캐슬 공항리무진 탑승(4인)",
                     type: "flight",
-                    location: { lat: 10, lng: 50, name: "김포" } // Outside map usually, but for flow
+                    location: { lat: 10, lng: 50, name: "리무진탑승" }
                 },
                 {
                     id: 'd1-2',
