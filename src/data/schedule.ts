@@ -46,6 +46,14 @@ export const SCHEDULE: ScheduleData = {
                     title: "숙소 체크인 (신화월드)",
                     type: "checkin",
                     location: { lat: 65, lng: 25, name: "신화월드" }
+                },
+                {
+                    id: 'd1-5',
+                    day: 1,
+                    time: "22:00",
+                    title: "객실내 치맥으로 마무리",
+                    type: "food",
+                    location: { lat: 65, lng: 25, name: "치맥" }
                 }
             ]
         },

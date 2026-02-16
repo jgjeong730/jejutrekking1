@@ -32,14 +32,14 @@ const ScheduleMap: React.FC = () => {
                         style={{ top: `${activity.location.lat}%`, left: `${activity.location.lng}%` }}
                     >
                         <div className={`
-                            w-8 h-8 rounded-full flex items-center justify-center shadow-md text-white font-bold text-xs z-10
+                            w-4 h-4 rounded-full flex items-center justify-center shadow-md text-white font-bold text-[8px] z-10
                             ${activity.type === 'flight' ? 'bg-blue-500' :
                                 activity.type === 'food' ? 'bg-orange-500' :
                                     activity.type === 'checkin' ? 'bg-purple-500' : 'bg-green-500'}
                         `}>
                             {idx + 1}
                         </div>
-                        <div className="bg-white px-2 py-0.5 rounded shadow text-[10px] font-bold mt-1 whitespace-nowrap z-20">
+                        <div className="bg-white px-1.5 py-0.5 rounded shadow text-[8px] font-bold mt-1 whitespace-nowrap z-20">
                             {activity.location.name}
                         </div>
                     </motion.div>

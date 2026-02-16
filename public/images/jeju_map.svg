@@ -1,13 +1,33 @@
 <svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Jeju Island Outline -->
-    <path d="M120 300 C 120 200, 300 100, 400 100 C 550 100, 750 200, 750 300 C 750 400, 600 500, 400 500 C 200 500, 120 400, 120 300 Z" fill="#E6EEF5" stroke="#CBD5E1" stroke-width="2"/>
+    <!-- Ocean Background -->
+    <rect width="800" height="600" fill="#F0F9FF"/>
     
-    <!-- Hallasan Mountain -->
-    <path d="M380 320 L 400 280 L 420 320 Z" fill="#94A3B8" opacity="0.5"/>
+    <!-- Jeju Island Shape (More Detailed) -->
+    <path d="M220 300 
+             C 220 280, 250 250, 300 230 
+             C 350 210, 450 200, 500 210
+             C 580 220, 650 240, 700 280
+             C 720 300, 730 320, 720 340
+             C 700 380, 600 420, 500 430
+             C 400 440, 300 420, 250 380
+             C 220 350, 210 320, 220 300 Z" 
+          fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" filter="url(#shadow)"/>
+
+    <!-- Hallasan Mountain Terrain -->
+    <path d="M380 320 L 480 280 L 520 330 Z" fill="#E2E8F0" opacity="0.6"/>
+    <circle cx="480" cy="300" r="10" fill="#CBD5E1" opacity="0.5"/>
     
-    <!-- Udo Island (East) -->
-    <circle cx="770" cy="290" r="15" fill="#E6EEF5" stroke="#CBD5E1" stroke-width="2"/>
-    
-    <!-- Text Label -->
-    <text x="400" y="550" text-anchor="middle" fill="#94A3B8" font-family="sans-serif" font-size="24" font-weight="bold" opacity="0.3">JEJU ISLAND</text>
+    <!-- Udo Island -->
+    <path d="M740 270 C 740 260, 760 260, 760 270 C 760 280, 740 280, 740 270 Z" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+
+    <!-- Shadow Definition -->
+    <defs>
+        <filter id="shadow" x="0" y="0" width="800" height="600" filterUnits="userSpaceOnUse">
+            <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.1"/>
+        </filter>
+    </defs>
+
+    <!-- Grid Lines (Optional for technical look) -->
+    <path d="M100 0 V 600 M200 0 V 600 M300 0 V 600 M400 0 V 600 M500 0 V 600 M600 0 V 600 M700 0 V 600" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="5 5" opacity="0.5"/>
+    <path d="M0 100 H 800 M0 200 H 800 M0 300 H 800 M0 400 H 800 M0 500 H 800" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="5 5" opacity="0.5"/>
 </svg>
