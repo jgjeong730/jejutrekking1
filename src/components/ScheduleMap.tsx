@@ -40,7 +40,7 @@ const ScheduleMap: React.FC = () => {
             {/* Map Container - Adjusted aspect ratio */}
             <div className="relative w-full aspect-[2/1] bg-[#F8FAFC] rounded-xl overflow-hidden border border-slate-200 shadow-inner">
                 {/* SVG Map Layer */}
-                <svg className="absolute inset-0 w-full h-full p-6" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+                <svg className="absolute inset-0 w-full h-full p-6" viewBox="0 0 350 200" preserveAspectRatio="xMidYMid meet">
                     <defs>
                         <filter id="shadow">
                             <feDropShadow dx="2" dy="2" stdDeviation="3" floodColor="#000000" floodOpacity="0.1" />
@@ -51,25 +51,25 @@ const ScheduleMap: React.FC = () => {
 
                     {/* Jeju Island Shape */}
                     <path
-                        d="M160,200 C160,180 200,140 300,130 C400,120 550,130 650,160 C730,190 750,230 740,260 C720,310 600,350 450,350 C300,350 180,300 160,250 C150,225 155,210 160,200 Z"
+                        d="M 52.8,68.5 C 60.1,64.7 75.2,60.3 88.5,58.9 C 105.1,57.1 145.5,53.5 170.8,55.2 C 196.1,56.9 220.5,62.5 245.8,72.5 C 265.1,80.1 278.5,88.8 285.5,95.2 C 290.1,99.5 292.5,102.1 292.5,105.5 C 292.5,108.8 285.0,115.1 275.5,120.5 C 255.1,132.1 215.1,142.5 175.5,145.5 C 135.8,148.5 95.1,142.1 75.5,132.5 C 60.1,125.0 50.5,118.1 45.5,112.5 C 38.1,104.1 40.5,95.1 42.5,88.5 C 44.5,81.8 45.5,72.3 52.8,68.5 Z"
                         fill="white"
                         stroke="#94A3B8"
-                        strokeWidth="2"
+                        strokeWidth="1"
                         filter="url(#shadow)"
                     />
 
                     {/* Detail: Hallasan */}
-                    <path d="M420,240 L450,200 L480,240 Z" fill="#E2E8F0" opacity="0.5" />
+                    <path d="M165,95 L175,80 L185,95 Z" fill="#E2E8F0" opacity="0.5" />
 
                     {/* Detail: Udo */}
-                    <circle cx="760" cy="180" r="8" fill="white" stroke="#94A3B8" strokeWidth="2" />
+                    <circle cx="280" cy="85" r="3" fill="white" stroke="#94A3B8" strokeWidth="1" />
 
                     {/* Connection Line */}
                     <motion.path
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 1 }}
                         transition={{ duration: 1.5, ease: "easeInOut" }}
-                        d={`M ${jejuActivities.map(a => `${a.location.lng * 8} ${a.location.lat * 4}`).join(' L ')}`}
+                        d={`M ${jejuActivities.map(a => `${a.location.lng * 2.8} ${a.location.lat * 1.4}`).join(' L ')}`}
                         stroke="#3B82F6"
                         strokeWidth="3"
                         strokeDasharray="6 6"
