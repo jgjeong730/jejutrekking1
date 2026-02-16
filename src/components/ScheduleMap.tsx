@@ -31,6 +31,10 @@ const ScheduleMap: React.FC = () => {
 
     const activeRoute = SCHEDULE.days.find((d) => d.day === selectedDay);
 
+    // Find previous day's last activity for connection
+    const prevDayRoute = SCHEDULE.days.find((d) => d.day === selectedDay - 1);
+    const prevDayLastActivity = prevDayRoute?.activities[prevDayRoute.activities.length - 1];
+
     // Filter activities that have valid coordinates
     const mapActivities = useMemo(() => {
         return activeRoute?.activities.filter(a => a.location.lat !== 0) || [];
@@ -40,29 +44,46 @@ const ScheduleMap: React.FC = () => {
         return mapActivities.map(a => ({ lat: a.location.lat, lng: a.location.lng }));
     }, [mapActivities]);
 
+    // Connection path from previous day
+    const connectionPath = useMemo(() => {
+        if (prevDayLastActivity && prevDayLastActivity.location.lat !== 0 && mapActivities.length > 0) {
+            return [
+                { lat: prevDayLastActivity.location.lat, lng: prevDayLastActivity.location.lng },
+                { lat: mapActivities[0].location.lat, lng: mapActivities[0].location.lng }
+            ];
+        }
+        return [];
+    }, [prevDayLastActivity, mapActivities]);
+
     const onLoad = React.useCallback(function callback(map: google.maps.Map) {
         setMap(map);
     }, []);
 
     // Effect to update bounds and zoom when activities change
     useEffect(() => {
-        if (map && mapActivities.length > 0) {
+        if (map && (mapActivities.length > 0 || connectionPath.length > 0)) {
             const bounds = new window.google.maps.LatLngBounds();
+
+            // Add current activities
             mapActivities.forEach(a => {
                 bounds.extend({ lat: a.location.lat, lng: a.location.lng });
             });
+
+            // Add previous day start point if exists
+            if (connectionPath.length > 0) {
+                bounds.extend(connectionPath[0]);
+            }
+
             map.fitBounds(bounds);
 
             // Add listener to adjust zoom after fitBounds
-            // For Day 1 (Mainland included), we rely on fitBounds as it naturally zooms out.
-            // For Jeju-only days, we might want to zoom out slightly for padding.
             const listener = google.maps.event.addListener(map, "idle", () => {
                 const currentZoom = map.getZoom();
 
                 // Heuristic: If zoom is very low (e.g. < 9, meaning broad view like Korea), don't reduce it further.
                 // If zoom is high (Jeju detailed view), zoom out slightly for context.
                 if (currentZoom && currentZoom > 9) {
-                    map.setZoom(currentZoom - 1); // Reduced from -2 to -1 for better balance
+                    map.setZoom(currentZoom - 1);
                 }
                 google.maps.event.removeListener(listener);
             });
@@ -70,7 +91,7 @@ const ScheduleMap: React.FC = () => {
             map.setCenter(center);
             map.setZoom(9);
         }
-    }, [map, mapActivities]);
+    }, [map, mapActivities, connectionPath]);
 
     return (
         <div className="bg-white rounded-2xl shadow-sm p-4 mb-6">
@@ -89,6 +110,44 @@ const ScheduleMap: React.FC = () => {
                         onLoad={onLoad}
                         options={options}
                     >
+                        {/* Previous Day Connection (Dashed Line) */}
+                        {connectionPath.length > 0 && (
+                            <>
+                                <MarkerF
+                                    position={connectionPath[0]}
+                                    label={{
+                                        text: "Start",
+                                        color: "#6B7280",
+                                        fontWeight: "bold",
+                                        fontSize: "12px",
+                                        className: "bg-white px-1 rounded border border-gray-300"
+                                    }}
+                                    icon={{
+                                        path: "M -2,0 0,-2 2,0 0,2 z", // Small diamond shape
+                                        fillColor: "#9CA3AF",
+                                        fillOpacity: 1,
+                                        strokeWeight: 1,
+                                        strokeColor: "white",
+                                        scale: 3
+                                    }}
+                                    opacity={0.7}
+                                />
+                                <PolylineF
+                                    path={connectionPath}
+                                    options={{
+                                        strokeColor: "#9CA3AF", // Gray
+                                        strokeOpacity: 0.6,
+                                        strokeWeight: 3,
+                                        icons: [{
+                                            icon: { path: "M 0,-1 0,1", strokeOpacity: 1, scale: 2 },
+                                            offset: "0",
+                                            repeat: "15px" // Dashed
+                                        }],
+                                    }}
+                                />
+                            </>
+                        )}
+
                         {/* Render Markers for All Activities */}
                         {mapActivities.map((activity, idx) => (
                             <MarkerF
@@ -133,8 +192,8 @@ const ScheduleMap: React.FC = () => {
                         key={day.day}
                         onClick={() => setSelectedDay(day.day)}
                         className={`flex-shrink-0 px-4 py-2 rounded-2xl text-sm font-medium transition-all ${selectedDay === day.day
-                                ? 'bg-gray-800 text-white shadow-lg scale-105'
-                                : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50'
+                            ? 'bg-gray-800 text-white shadow-lg scale-105'
+                            : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50'
                             }`}
                     >
                         <div className="text-[10px] opacity-60 font-light mb-0.5">{day.date.slice(5)}</div>
