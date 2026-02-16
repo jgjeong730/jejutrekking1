@@ -1,33 +1,17 @@
-<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="12 183 30 18" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Ocean Background -->
-    <rect width="800" height="600" fill="#F0F9FF"/>
+    <rect x="0" y="0" width="100%" height="100%" fill="#F0F9FF"/>
     
-    <!-- Jeju Island Shape (More Detailed) -->
-    <path d="M220 300 
-             C 220 280, 250 250, 300 230 
-             C 350 210, 450 200, 500 210
-             C 580 220, 650 240, 700 280
-             C 720 300, 730 320, 720 340
-             C 700 380, 600 420, 500 430
-             C 400 440, 300 420, 250 380
-             C 220 350, 210 320, 220 300 Z" 
-          fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" filter="url(#shadow)"/>
-
-    <!-- Hallasan Mountain Terrain -->
-    <path d="M380 320 L 480 280 L 520 330 Z" fill="#E2E8F0" opacity="0.6"/>
-    <circle cx="480" cy="300" r="10" fill="#CBD5E1" opacity="0.5"/>
+    <!-- Jeju Island -->
+    <path d="M21.5,189.2c0,0-2.2,3.3-6.1,3.9c-3.9,0.6-2.5,5.8-0.3,7.2c2.2,1.4,3,3.7,6.1,1.6c1.6-1.1,4.8,0.1,8.8-0.3c1.6-0.1,11.5-4.8,10.8-8.9c-0.8-4.1-2.7-6.6-7-5.3c-4.3,1.3-7.5,1.1-8.7,1.1C23.8,188.6,22.8,188.3,21.5,189.2z" 
+          fill="#FFFFFF" stroke="#CBD5E1" stroke-width="0.2" vector-effect="non-scaling-stroke">
+        <dropShadow dx="0.5" dy="0.5" stdDeviation="0.5" flood-color="#000" flood-opacity="0.1"/>
+    </path>
     
-    <!-- Udo Island -->
-    <path d="M740 270 C 740 260, 760 260, 760 270 C 760 280, 740 280, 740 270 Z" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+    <!-- Hallasan Approximation (Center) -->
+    <circle cx="27" cy="193" r="1.5" fill="#E2E8F0" opacity="0.5"/>
 
-    <!-- Shadow Definition -->
-    <defs>
-        <filter id="shadow" x="0" y="0" width="800" height="600" filterUnits="userSpaceOnUse">
-            <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.1"/>
-        </filter>
-    </defs>
+    <!-- Udo Island (Approximate - Manually added based on location relative to main path) -->
+    <circle cx="41.5" cy="188.5" r="0.8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="0.2"/>
 
-    <!-- Grid Lines (Optional for technical look) -->
-    <path d="M100 0 V 600 M200 0 V 600 M300 0 V 600 M400 0 V 600 M500 0 V 600 M600 0 V 600 M700 0 V 600" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="5 5" opacity="0.5"/>
-    <path d="M0 100 H 800 M0 200 H 800 M0 300 H 800 M0 400 H 800 M0 500 H 800" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="5 5" opacity="0.5"/>
 </svg>

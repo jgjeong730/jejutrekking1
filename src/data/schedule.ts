@@ -13,7 +13,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "16:00",
                     title: "동수원호텔캐슬 공항리무진 탑승(4인)",
                     type: "checkin",
-                    location: { lat: 5, lng: 55, name: "리무진" }
+                    location: { lat: 5, lng: 10, name: "수원" }
                 },
                 {
                     id: 'd1-1',
@@ -21,7 +21,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "18:30",
                     title: "김포공항 출발 (OZ8983)",
                     type: "flight",
-                    location: { lat: 10, lng: 50, name: "김포" } // Outside map usually, but for flow
+                    location: { lat: 8, lng: 30, name: "김포" } // Outside map usually, but for flow
                 },
                 {
                     id: 'd1-2',
@@ -29,7 +29,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "19:45",
                     title: "제주공항 도착",
                     type: "flight",
-                    location: { lat: 15, lng: 48, name: "제주공항" }
+                    location: { lat: 20, lng: 50, name: "제주공항" }
                 },
                 {
                     id: 'd1-3',
@@ -37,7 +37,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "20:30",
                     title: "렌트카 인수 (제주속으로)",
                     type: "checkin",
-                    location: { lat: 16, lng: 49, name: "렌트카하우스" }
+                    location: { lat: 22, lng: 54, name: "렌트카" }
                 },
                 {
                     id: 'd1-4',
@@ -53,7 +53,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "22:00",
                     title: "객실내 치맥으로 마무리",
                     type: "food",
-                    location: { lat: 65, lng: 25, name: "치맥" }
+                    location: { lat: 67, lng: 27, name: "치맥" }
                 }
             ]
         },
@@ -68,7 +68,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "10:00",
                     title: "아르떼뮤지엄 제주",
                     type: "tour",
-                    location: { lat: 45, lng: 20, name: "아르떼뮤지엄" }
+                    location: { lat: 40, lng: 30, name: "아르떼" }
                 },
                 {
                     id: 'd2-2',
@@ -76,7 +76,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "13:00",
                     title: "점심 (협재 해수욕장 근처)",
                     type: "food",
-                    location: { lat: 40, lng: 18, name: "협재" }
+                    location: { lat: 35, lng: 20, name: "협재" }
                 },
                 {
                     id: 'd2-3',
@@ -84,7 +84,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "15:00",
                     title: "오설록 티 뮤지엄",
                     type: "cafe",
-                    location: { lat: 60, lng: 22, name: "오설록" }
+                    location: { lat: 60, lng: 25, name: "오설록" }
                 }
             ]
         },
