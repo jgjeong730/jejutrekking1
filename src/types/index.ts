@@ -5,6 +5,10 @@ export interface Flight {
     arrivalTime: string;
     departureAirport: string;
     arrivalAirport: string;
+    duration?: string;
+    logo?: string;
+    aircraft?: string;
+    seatClass?: string;
 }
 
 export interface RentalCar {
@@ -30,13 +34,21 @@ export interface Accommodation {
     notes?: string;
 }
 
+export interface Passenger {
+    name: string;
+    type: '성인' | '소아';
+    ticketNumber: string;
+    memberId?: string; // OZ number
+}
+
 export interface ReservationData {
     flights: {
+        reservationNumber: string; // e.g. E22T42
         outgoing: Flight;
         incoming: Flight;
-        passengers: string[];
+        passengers: Passenger[];
+        paymentDate: string;
         totalCost: number;
-        paymentMethod: string;
     };
     car: RentalCar;
     accommodations: Accommodation[];

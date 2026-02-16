@@ -2,25 +2,37 @@ import type { ReservationData } from '../types';
 
 export const RESERVATIONS: ReservationData = {
     flights: {
+        reservationNumber: "E22T42",
+        paymentDate: "2026-02-16",
+        totalCost: 85600,
+        passengers: [
+            { name: "이/희근", type: "성인", ticketNumber: "9882436031458", memberId: "OZ 473 510 981" },
+            { name: "이/건경", type: "성인", ticketNumber: "9882436031459", memberId: "OZ 351 178 841" },
+            { name: "이/다원", type: "소아", ticketNumber: "9882436031460", memberId: "OZ 663 501 554" },
+            { name: "이/세찬", type: "소아", ticketNumber: "9882436031461", memberId: "OZ 663 502 950" }
+        ],
         outgoing: {
-            airline: "T'way Air",
-            flightNumber: "TW731",
+            airline: "Asiana Airlines",
+            flightNumber: "OZ8983",
             departureTime: "2026-02-21T18:30:00",
-            arrivalTime: "2026-02-21T19:40:00",
-            departureAirport: "GMP (Gimpo)",
-            arrivalAirport: "CJU (Jeju)",
+            arrivalTime: "2026-02-21T19:45:00",
+            departureAirport: "GMP Seoul/Gimpo",
+            arrivalAirport: "CJU Jeju",
+            duration: "1h 15m",
+            aircraft: "A330",
+            seatClass: "비즈니스(마일리지)(I)"
         },
         incoming: {
-            airline: "T'way Air",
-            flightNumber: "TW734",
-            departureTime: "2026-02-25T20:30:00",
+            airline: "Asiana Airlines",
+            flightNumber: "OZ8986",
+            departureTime: "2026-02-25T20:50:00",
             arrivalTime: "2026-02-25T22:05:00",
-            departureAirport: "CJU (Jeju)",
-            arrivalAirport: "GMP (Gimpo)",
-        },
-        passengers: ["Lee Hee-keun", "Adult 2", "Child 1", "Child 2"],
-        totalCost: 81600,
-        paymentMethod: "Mileage + Tax/Fuel Surcharge",
+            departureAirport: "CJU Jeju",
+            arrivalAirport: "GMP Seoul/Gimpo",
+            duration: "1h 15m",
+            aircraft: "A330",
+            seatClass: "비즈니스(마일리지)(I)"
+        }
     },
     car: {
         company: "제주속으로",

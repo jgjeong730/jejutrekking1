@@ -102,39 +102,120 @@ const Reservations: React.FC = () => {
     };
 
     const FlightView = () => (
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
-            <div className="bg-white rounded-xl shadow-sm p-6">
-                <div className="flex items-center mb-6">
-                    <Plane className="w-6 h-6 text-blue-500 mr-2" />
-                    <h2 className="text-xl font-bold text-gray-800">항공권 예매 내역</h2>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
+
+            {/* Reservation Header Card */}
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div className="bg-[#DC032D] p-4 flex justify-between items-center text-white">
+                    <span className="font-bold">예약번호</span>
+                    <span className="font-bold text-lg">{flights.reservationNumber}</span>
+                </div>
+                <div className="divide-y divide-gray-100">
+                    {flights.passengers.map((p, idx) => (
+                        <div key={idx} className="p-4 bg-gray-50/50">
+                            <div className="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 className="font-bold text-gray-900">{p.name}</h3>
+                                    <span className="text-xs text-gray-500">{p.type}</span>
+                                </div>
+                                {p.memberId && <div className="text-xs text-gray-400">{p.memberId}</div>}
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                                <span className="text-gray-500">항공권 번호</span>
+                                <span className="font-medium text-red-500 truncate">{p.ticketNumber}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Outgoing Itinerary */}
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden p-6">
+                <div className="flex justify-between items-end mb-6 border-b border-gray-100 pb-4">
+                    <div className="font-bold text-gray-900">가는 여정</div>
+                    <div className="text-sm text-gray-500">{formatFullDate(new Date(flights.outgoing.departureTime))}</div>
                 </div>
 
-                <div className="space-y-8">
-                    {/* Outgoing */}
-                    <div className="relative pl-4 border-l-2 border-blue-200">
-                        <div className="absolute -left-1.5 top-0 w-3 h-3 bg-blue-500 rounded-full"></div>
-                        <div className="text-sm text-gray-500 mb-1">가는 편 (김포 &rarr; 제주)</div>
-                        <div className="text-lg font-bold text-gray-800 mb-1">{flights.outgoing.airline} {flights.outgoing.flightNumber}</div>
-                        <div className="text-gray-600">
-                            {new Date(flights.outgoing.departureTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
-                            {" - "}
-                            {new Date(flights.outgoing.arrivalTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
+                <div className="flex justify-between items-center mb-6 text-center">
+                    <div>
+                        <div className="text-sm text-gray-500 mb-1">서울/김포</div>
+                        <div className="text-2xl font-bold text-gray-900">
+                            {new Date(flights.outgoing.departureTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
                         </div>
                     </div>
-
-                    {/* Incoming */}
-                    <div className="relative pl-4 border-l-2 border-green-200">
-                        <div className="absolute -left-1.5 top-0 w-3 h-3 bg-green-500 rounded-full"></div>
-                        <div className="text-sm text-gray-500 mb-1">오는 편 (제주 &rarr; 김포)</div>
-                        <div className="text-lg font-bold text-gray-800 mb-1">{flights.incoming.airline} {flights.incoming.flightNumber}</div>
-                        <div className="text-gray-600">
-                            {new Date(flights.incoming.departureTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
-                            {" - "}
-                            {new Date(flights.incoming.arrivalTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
+                    <div className="flex-1 px-4 relative">
+                        <div className="h-px bg-gray-300 w-full absolute top-1/2 left-0"></div>
+                        <span className="relative bg-white px-2 text-xs text-gray-400">직항</span>
+                    </div>
+                    <div>
+                        <div className="text-sm text-gray-500 mb-1">제주</div>
+                        <div className="text-2xl font-bold text-gray-900">
+                            {new Date(flights.outgoing.arrivalTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
                         </div>
+                    </div>
+                </div>
+
+                <div className="space-y-2 text-sm">
+                    <div className="flex justify-between py-2 border-b border-gray-50 border-dashed">
+                        <span className="text-gray-500">편명</span>
+                        <span className="font-medium text-gray-900 underline decoration-gray-300">{flights.outgoing.flightNumber} <span className="text-gray-400 no-underline text-xs bg-gray-100 px-1 rounded">{flights.outgoing.aircraft}</span></span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                        <span className="text-gray-500">클래스</span>
+                        <span className="font-medium text-gray-900">{flights.outgoing.seatClass}</span>
                     </div>
                 </div>
             </div>
+
+            {/* Incoming Itinerary */}
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden p-6">
+                <div className="flex justify-between items-end mb-6 border-b border-gray-100 pb-4">
+                    <div className="font-bold text-gray-900">오는 여정</div>
+                    <div className="text-sm text-gray-500">{formatFullDate(new Date(flights.incoming.departureTime))}</div>
+                </div>
+
+                <div className="flex justify-between items-center mb-6 text-center">
+                    <div>
+                        <div className="text-sm text-gray-500 mb-1">제주</div>
+                        <div className="text-2xl font-bold text-gray-900">
+                            {new Date(flights.incoming.departureTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                        </div>
+                    </div>
+                    <div className="flex-1 px-4 relative">
+                        <div className="h-px bg-gray-300 w-full absolute top-1/2 left-0"></div>
+                        <span className="relative bg-white px-2 text-xs text-gray-400">직항</span>
+                    </div>
+                    <div>
+                        <div className="text-sm text-gray-500 mb-1">서울/김포</div>
+                        <div className="text-2xl font-bold text-gray-900">
+                            {new Date(flights.incoming.arrivalTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-2 text-sm">
+                    <div className="flex justify-between py-2 border-b border-gray-50 border-dashed">
+                        <span className="text-gray-500">편명</span>
+                        <span className="font-medium text-gray-900 underline decoration-gray-300">{flights.incoming.flightNumber} <span className="text-gray-400 no-underline text-xs bg-gray-100 px-1 rounded">{flights.incoming.aircraft}</span></span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                        <span className="text-gray-500">클래스</span>
+                        <span className="font-medium text-gray-900">{flights.incoming.seatClass}</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Payment Info */}
+            <div className="bg-gray-100 p-4 rounded-xl text-sm">
+                <div className="flex justify-between mb-1">
+                    <span className="text-gray-600">총 결제금액</span>
+                    <span className="font-bold text-lg text-red-600">KRW {flights.totalCost.toLocaleString()}</span>
+                </div>
+                <div className="text-xs text-gray-400 text-right">
+                    {flights.paymentDate} 카드결제 완료
+                </div>
+            </div>
+
         </motion.div>
     );
 
