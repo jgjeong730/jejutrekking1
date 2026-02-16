@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, MarkerF, PolylineF } from '@react-google-maps/api';
 import { SCHEDULE } from '../data/schedule';
-import { Clock, ArrowRight } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 const containerStyle = {
     width: '100%',
@@ -31,17 +31,14 @@ const ScheduleMap: React.FC = () => {
 
     const activeRoute = SCHEDULE.days.find((d) => d.day === selectedDay);
 
-    const mainlandActivities = useMemo(() => {
-        return activeRoute?.activities.filter(a => a.location.lat > 35) || []; // Filter for Suwon/Gimpo
-    }, [activeRoute]);
-
-    const jejuActivities = useMemo(() => {
-        return activeRoute?.activities.filter(a => a.location.lat < 34) || []; // Filter for Jeju
+    // Filter activities that have valid coordinates
+    const mapActivities = useMemo(() => {
+        return activeRoute?.activities.filter(a => a.location.lat !== 0) || [];
     }, [activeRoute]);
 
     const pathCoordinates = useMemo(() => {
-        return jejuActivities.map(a => ({ lat: a.location.lat, lng: a.location.lng }));
-    }, [jejuActivities]);
+        return mapActivities.map(a => ({ lat: a.location.lat, lng: a.location.lng }));
+    }, [mapActivities]);
 
     const onLoad = React.useCallback(function callback(map: google.maps.Map) {
         setMap(map);
@@ -49,48 +46,38 @@ const ScheduleMap: React.FC = () => {
 
     // Effect to update bounds and zoom when activities change
     useEffect(() => {
-        if (map && jejuActivities.length > 0) {
+        if (map && mapActivities.length > 0) {
             const bounds = new window.google.maps.LatLngBounds();
-            jejuActivities.forEach(a => {
+            mapActivities.forEach(a => {
                 bounds.extend({ lat: a.location.lat, lng: a.location.lng });
             });
             map.fitBounds(bounds);
 
-            // Zoom out further (simulate pressing - twice)
+            // Add listener to adjust zoom after fitBounds
+            // For Day 1 (Mainland included), we rely on fitBounds as it naturally zooms out.
+            // For Jeju-only days, we might want to zoom out slightly for padding.
             const listener = google.maps.event.addListener(map, "idle", () => {
                 const currentZoom = map.getZoom();
-                if (currentZoom) {
-                    map.setZoom(currentZoom - 2);
+
+                // Heuristic: If zoom is very low (e.g. < 9, meaning broad view like Korea), don't reduce it further.
+                // If zoom is high (Jeju detailed view), zoom out slightly for context.
+                if (currentZoom && currentZoom > 9) {
+                    map.setZoom(currentZoom - 1); // Reduced from -2 to -1 for better balance
                 }
                 google.maps.event.removeListener(listener);
             });
         } else if (map) {
             map.setCenter(center);
-            map.setZoom(9); // Default looser zoom
+            map.setZoom(9);
         }
-    }, [map, jejuActivities]);
+    }, [map, mapActivities]);
 
     return (
         <div className="bg-white rounded-2xl shadow-sm p-4 mb-6">
             <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
                 <span className="mr-2 text-2xl">🗺️</span>
-                제주 여행 지도 (Google Maps)
+                여행 동선 지도
             </h2>
-
-            {/* Mainland/Transfer Section */}
-            {mainlandActivities.length > 0 && selectedDay === 1 && (
-                <div className="mb-4 bg-gray-50 p-3 rounded-lg border border-gray-100 flex items-center gap-3 overflow-x-auto">
-                    <span className="text-xs font-bold text-gray-500 whitespace-nowrap">출발</span>
-                    {mainlandActivities.map((a, i) => (
-                        <div key={a.id} className="flex items-center text-xs text-gray-600 whitespace-nowrap">
-                            {i > 0 && <ArrowRight className="w-3 h-3 mx-2 text-gray-300" />}
-                            <span className="bg-white px-2 py-1 rounded shadow-sm border border-gray-200">{a.title.split(' ')[0]}</span>
-                        </div>
-                    ))}
-                    <ArrowRight className="w-3 h-3 mx-2 text-blue-300" />
-                    <span className="text-xs font-bold text-blue-600">제주 도착</span>
-                </div>
-            )}
 
             {/* Map Container */}
             <div className="relative w-full h-[400px] bg-gray-100 rounded-2xl overflow-hidden border border-slate-200 shadow-inner">
@@ -102,16 +89,16 @@ const ScheduleMap: React.FC = () => {
                         onLoad={onLoad}
                         options={options}
                     >
-                        {/* Render Markers for Jeju Activities */}
-                        {jejuActivities.map((activity, idx) => (
+                        {/* Render Markers for All Activities */}
+                        {mapActivities.map((activity, idx) => (
                             <MarkerF
                                 key={activity.id}
                                 position={{ lat: activity.location.lat, lng: activity.location.lng }}
                                 label={{
-                                    text: String(mainlandActivities.length + idx + 1),
+                                    text: String(idx + 1), // Simple index, 1-based
                                     color: "white",
                                     fontWeight: "bold",
-                                    fontSize: "12px"
+                                    fontSize: "14px"
                                 }}
                             />
                         ))}
@@ -135,7 +122,6 @@ const ScheduleMap: React.FC = () => {
                     <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 bg-gray-50">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-2"></div>
                         <p className="text-sm">지도 로딩중...</p>
-                        <p className="text-xs text-gray-400 mt-2">API Key가 없으면 지도가 로드되지 않습니다.</p>
                     </div>
                 )}
             </div>
@@ -147,8 +133,8 @@ const ScheduleMap: React.FC = () => {
                         key={day.day}
                         onClick={() => setSelectedDay(day.day)}
                         className={`flex-shrink-0 px-4 py-2 rounded-2xl text-sm font-medium transition-all ${selectedDay === day.day
-                            ? 'bg-gray-800 text-white shadow-lg scale-105'
-                            : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50'
+                                ? 'bg-gray-800 text-white shadow-lg scale-105'
+                                : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50'
                             }`}
                     >
                         <div className="text-[10px] opacity-60 font-light mb-0.5">{day.date.slice(5)}</div>
@@ -163,34 +149,22 @@ const ScheduleMap: React.FC = () => {
                     {activeRoute?.title}
                 </h3>
                 <div className="space-y-0">
-                    {/* Render Mainland items first if Day 1 */}
-                    {mainlandActivities.length > 0 && selectedDay === 1 && mainlandActivities.map((activity) => (
-                        <div key={activity.id} className="flex gap-4 relative pb-6 last:pb-0 group opacity-70">
-                            <div className="absolute left-[9px] top-6 bottom-0 w-[2px] bg-gray-100"></div>
-                            <div className="relative z-10 flex-shrink-0 w-5 h-5 rounded-full border-4 border-gray-50 bg-gray-400 shadow-sm mt-1"></div>
-                            <div className="flex-1 -mt-1">
-                                <span className="inline-flex items-center text-xs font-semibold text-gray-400 mb-1 bg-gray-50 px-1.5 py-0.5 rounded">
-                                    <Clock className="w-3 h-3 mr-1" />
-                                    {activity.time}
-                                </span>
-                                <h4 className="text-sm font-bold text-gray-500 leading-tight mb-1">{activity.title}</h4>
-                                <p className="text-xs text-gray-400">{activity.location.name}</p>
-                            </div>
-                        </div>
-                    ))}
-
-                    {/* Jeju Items */}
-                    {jejuActivities.map((activity, idx) => (
+                    {mapActivities.map((activity, idx) => (
                         <div key={activity.id} className="flex gap-4 relative pb-6 last:pb-0 group">
-                            {idx !== jejuActivities.length - 1 && (
+                            {idx !== mapActivities.length - 1 && (
                                 <div className="absolute left-[9px] top-6 bottom-0 w-[2px] bg-gray-100 group-hover:bg-blue-50 transition-colors"></div>
                             )}
+
+                            {/* Numbered Marker Circle */}
                             <div className={`
-                                relative z-10 flex-shrink-0 w-5 h-5 rounded-full border-4 border-white shadow-md mt-1
+                                relative z-10 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center shadow-md mt-1 text-white font-bold text-[10px]
                                 ${activity.type === 'flight' ? 'bg-blue-500' :
                                     activity.type === 'food' ? 'bg-orange-500' :
                                         activity.type === 'checkin' ? 'bg-purple-600' : 'bg-green-500'}
-                            `}></div>
+                            `}>
+                                {idx + 1}
+                            </div>
+
                             <div className="flex-1 -mt-1">
                                 <span className="inline-flex items-center text-xs font-semibold text-gray-500 mb-1 bg-gray-50 px-1.5 py-0.5 rounded">
                                     <Clock className="w-3 h-3 mr-1" />
