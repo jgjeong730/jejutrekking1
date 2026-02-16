@@ -36,18 +36,32 @@ export const RESERVATIONS: ReservationData = {
         imgUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Hyundai_Kona_Electric_Classic_Chalk_White_%281%29.jpg/640px-Hyundai_Kona_Electric_Classic_Chalk_White_%281%29.jpg"
     },
     accommodations: [
-        // Placeholder for now as user hasn't provided details yet in images
         {
-            name: "West Side Resort (TBD)",
-            address: "Aewol-eup, Jeju",
+            name: "제주 신화월드 (예시)",
             checkIn: "2026-02-21T15:00:00",
             checkOut: "2026-02-23T11:00:00",
-        },
+            address: "제주특별자치도 서귀포시 안덕면 신화역사로 304번길 38",
+            cost: 0
+        }
+    ],
+    tickets: [
         {
-            name: "Seogwipo Hotel (TBD)",
-            address: "Seogwipo-si, Jeju",
-            checkIn: "2026-02-23T15:00:00",
-            checkOut: "2026-02-25T11:00:00",
+            id: 't1',
+            title: '아르떼뮤지엄 제주',
+            date: '2026-02-22T14:00:00',
+            count: 4,
+            price: 68000,
+            status: 'confirmed'
+        }
+    ],
+    others: [
+        {
+            id: 'o1',
+            category: '여행자 보험',
+            title: '마이뱅크 여행자 보험',
+            period: '2026-02-21 ~ 2026-02-25',
+            details: '든든플랜 (성인 2, 소아 2)',
+            status: 'confirmed'
         }
     ]
 };

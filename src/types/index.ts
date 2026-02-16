@@ -26,6 +26,7 @@ export interface Accommodation {
     address: string;
     checkIn: string;
     checkOut: string;
+    cost?: number; // Added
     notes?: string;
 }
 
@@ -39,4 +40,26 @@ export interface ReservationData {
     };
     car: RentalCar;
     accommodations: Accommodation[];
+    tickets: Ticket[]; // New
+    others: OtherItem[]; // New
+}
+
+export interface Ticket {
+    id: string;
+    title: string;
+    date: string;
+    count: number;
+    price: number;
+    status: 'confirmed' | 'pending';
+    imgUrl?: string; // Optional thumbnail
+}
+
+export interface OtherItem {
+    id: string;
+    category: string; // e.g., "숙소" (Accommodation), "보험" (Insurance), etc.
+    title: string;
+    period?: string;
+    details: string;
+    cost?: number;
+    status: 'confirmed' | 'pending';
 }
