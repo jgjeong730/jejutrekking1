@@ -5,15 +5,15 @@ export const SCHEDULE: ScheduleData = {
         {
             day: 1,
             date: "2026-02-21",
-            title: "제주 도착 (공항 인근 숙박)",
+            title: "제주 도착 & 렌트카 인수",
             activities: [
                 {
                     id: 'd1-1',
                     day: 1,
                     time: "16:00",
-                    title: "동수원호텔캐슬 공항리무진 탑승(4인)",
+                    title: "동수원호텔캐슬 공항리무진 탑승",
                     type: "checkin",
-                    location: { lat: -10, lng: -10, name: "수원" }
+                    location: { lat: 37.2755, lng: 127.0307, name: "수원" } // Dongsuwon Hotel Castle
                 },
                 {
                     id: 'd1-2',
@@ -21,7 +21,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "18:30",
                     title: "김포공항 출발 (OZ8983)",
                     type: "flight",
-                    location: { lat: -5, lng: 50, name: "김포" }
+                    location: { lat: 37.5587, lng: 126.7945, name: "김포" }
                 },
                 {
                     id: 'd1-3',
@@ -29,7 +29,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "19:45",
                     title: "제주공항 도착",
                     type: "flight",
-                    location: { lat: 25, lng: 52, name: "제주공항" }
+                    location: { lat: 33.5104, lng: 126.4914, name: "제주공항" }
                 },
                 {
                     id: 'd1-4',
@@ -37,7 +37,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "20:30",
                     title: "렌트카 인수 (제주속으로)",
                     type: "checkin",
-                    location: { lat: 28, lng: 55, name: "렌트카" }
+                    location: { lat: 33.5043, lng: 126.4945, name: "렌트카" } // Approx location near airport
                 },
                 {
                     id: 'd1-5',
@@ -45,7 +45,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "21:30",
                     title: "숙소 체크인 (에어씨티 제주호텔)",
                     type: "checkin",
-                    location: { lat: 27, lng: 52, name: "에어씨티" } // Jeju City Center
+                    location: { lat: 33.4996, lng: 126.5065, name: "에어씨티" } // Jeju City
                 },
                 {
                     id: 'd1-6',
@@ -53,7 +53,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "22:00",
                     title: "객실내 치맥으로 마무리",
                     type: "food",
-                    location: { lat: 27, lng: 52, name: "치맥" }
+                    location: { lat: 33.4996, lng: 126.5065, name: "치맥" }
                 }
             ]
         },
@@ -68,7 +68,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "09:30",
                     title: "호텔 체크아웃 & 출발",
                     type: "checkin",
-                    location: { lat: 27, lng: 52, name: "출발" }
+                    location: { lat: 33.4996, lng: 126.5065, name: "출발" }
                 },
                 {
                     id: 'd2-2',
@@ -76,7 +76,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "10:30",
                     title: "협재 해안도로 카페 휴식",
                     type: "cafe",
-                    location: { lat: 38, lng: 12, name: "협재" } // West Coast
+                    location: { lat: 33.3938, lng: 126.2396, name: "협재" }
                 },
                 {
                     id: 'd2-3',
@@ -84,7 +84,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "12:30",
                     title: "점심 식사 (협재/금능 인근)",
                     type: "food",
-                    location: { lat: 40, lng: 12, name: "점심" }
+                    location: { lat: 33.3890, lng: 126.2300, name: "금능" }
                 },
                 {
                     id: 'd2-4',
@@ -92,7 +92,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "14:30",
                     title: "카멜리아 힐 (동백꽃 관람)",
                     type: "tour",
-                    location: { lat: 68, lng: 28, name: "카멜리아" } // South-West Inland
+                    location: { lat: 33.2905, lng: 126.3683, name: "카멜리아" }
                 },
                 {
                     id: 'd2-5',
@@ -100,7 +100,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "17:00",
                     title: "숙소 체크인 (신화월드)",
                     type: "checkin",
-                    location: { lat: 65, lng: 22, name: "신화월드" } // South-West Base
+                    location: { lat: 33.3050, lng: 126.3150, name: "신화월드" }
                 },
                 {
                     id: 'd2-6',
@@ -108,7 +108,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "18:30",
                     title: "저녁 식사 (신화월드 다이닝)",
                     type: "food",
-                    location: { lat: 65, lng: 22, name: "저녁" }
+                    location: { lat: 33.3050, lng: 126.3150, name: "저녁" }
                 }
             ]
         },
@@ -123,15 +123,15 @@ export const SCHEDULE: ScheduleData = {
                     time: "09:00",
                     title: "체크아웃 & 운진항 이동",
                     type: "checkin",
-                    location: { lat: 75, lng: 20, name: "운진항" } // Moseulpo Area
+                    location: { lat: 33.2185, lng: 126.2515, name: "운진항" }
                 },
                 {
                     id: 'd3-2',
                     day: 3,
                     time: "10:00",
-                    title: "가파도 반나절 여행 (청보리/자전거)",
+                    title: "가파도 반나절 여행",
                     type: "tour",
-                    location: { lat: 88, lng: 20, name: "가파도" } // South-West Island
+                    location: { lat: 33.1700, lng: 126.2650, name: "가파도" }
                 },
                 {
                     id: 'd3-3',
@@ -139,7 +139,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "13:00",
                     title: "점심 (모슬포 방어/해산물)",
                     type: "food",
-                    location: { lat: 78, lng: 20, name: "모슬포" }
+                    location: { lat: 33.2180, lng: 126.2510, name: "모슬포" }
                 },
                 {
                     id: 'd3-4',
@@ -147,15 +147,15 @@ export const SCHEDULE: ScheduleData = {
                     time: "15:30",
                     title: "쇠소깍 카약 체험",
                     type: "tour",
-                    location: { lat: 72, lng: 55, name: "쇠소깍" } // South Center
+                    location: { lat: 33.2520, lng: 126.6230, name: "쇠소깍" }
                 },
                 {
                     id: 'd3-5',
                     day: 3,
                     time: "17:30",
-                    title: "동쪽으로 이동 (성산)",
+                    title: "동쪽으로 이동",
                     type: "checkin",
-                    location: { lat: 50, lng: 90, name: "이동" }
+                    location: { lat: 33.4285, lng: 126.9240, name: "이동" }
                 },
                 {
                     id: 'd3-6',
@@ -163,7 +163,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "19:00",
                     title: "숙소 체크인 (휘닉스 섭지코지)",
                     type: "checkin",
-                    location: { lat: 48, lng: 92, name: "섭지코지" } // East Base
+                    location: { lat: 33.4285, lng: 126.9240, name: "섭지코지" }
                 }
             ]
         },
@@ -178,7 +178,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "09:30",
                     title: "성산포항 이동 & 승선",
                     type: "checkin",
-                    location: { lat: 45, lng: 90, name: "성산항" }
+                    location: { lat: 33.4725, lng: 126.9335, name: "성산항" }
                 },
                 {
                     id: 'd4-2',
@@ -186,7 +186,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "10:30",
                     title: "우도 도착 & 전기차 대여",
                     type: "tour",
-                    location: { lat: 40, lng: 96, name: "우도" } // East Island
+                    location: { lat: 33.5050, lng: 126.9530, name: "우도" }
                 },
                 {
                     id: 'd4-3',
@@ -194,7 +194,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "12:00",
                     title: "점심 (우도 땅콩아이스크림 등)",
                     type: "food",
-                    location: { lat: 40, lng: 96, name: "우도맛집" }
+                    location: { lat: 33.5050, lng: 126.9530, name: "우도맛집" }
                 },
                 {
                     id: 'd4-4',
@@ -202,7 +202,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "14:00",
                     title: "우도 해안일주 & 검멀레 해변",
                     type: "tour",
-                    location: { lat: 42, lng: 97, name: "검멀레" }
+                    location: { lat: 33.4965, lng: 126.9650, name: "검멀레" }
                 },
                 {
                     id: 'd4-5',
@@ -210,7 +210,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "16:00",
                     title: "성산항 복귀 & 숙소 휴식",
                     type: "checkin",
-                    location: { lat: 48, lng: 92, name: "숙소" }
+                    location: { lat: 33.4285, lng: 126.9240, name: "휴식" }
                 },
                 {
                     id: 'd4-6',
@@ -218,7 +218,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "18:30",
                     title: "저녁 식사 (성산 흑돼지)",
                     type: "food",
-                    location: { lat: 46, lng: 90, name: "저녁" }
+                    location: { lat: 33.4500, lng: 126.9150, name: "성산" }
                 }
             ]
         },
@@ -233,7 +233,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "10:00",
                     title: "체크아웃 & 아쿠아플라넷",
                     type: "tour",
-                    location: { lat: 48, lng: 92, name: "아쿠아" }
+                    location: { lat: 33.4245, lng: 126.9310, name: "아쿠아" }
                 },
                 {
                     id: 'd5-2',
@@ -241,7 +241,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "13:00",
                     title: "점심 (성산/구좌 해맞이해안로)",
                     type: "food",
-                    location: { lat: 35, lng: 85, name: "구좌" } // North-East
+                    location: { lat: 33.5300, lng: 126.8500, name: "구좌" }
                 },
                 {
                     id: 'd5-3',
@@ -249,7 +249,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "15:00",
                     title: "함덕/김녕 해변 카페",
                     type: "cafe",
-                    location: { lat: 30, lng: 70, name: "함덕" } // North
+                    location: { lat: 33.5430, lng: 126.6690, name: "함덕" }
                 },
                 {
                     id: 'd5-4',
@@ -257,7 +257,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "17:00",
                     title: "공항 이동 & 렌트카 반납",
                     type: "checkin",
-                    location: { lat: 28, lng: 55, name: "반납" } // Airport Area
+                    location: { lat: 33.5043, lng: 126.4945, name: "반납" }
                 },
                 {
                     id: 'd5-5',
@@ -265,7 +265,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "18:00",
                     title: "제주공항 수속 & 면세점",
                     type: "checkin",
-                    location: { lat: 25, lng: 52, name: "공항" }
+                    location: { lat: 33.5104, lng: 126.4914, name: "공항" }
                 },
                 {
                     id: 'd5-6',
@@ -273,7 +273,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "20:30",
                     title: "제주 출발 (TW734)",
                     type: "flight",
-                    location: { lat: 25, lng: 52, name: "출발" }
+                    location: { lat: 33.5104, lng: 126.4914, name: "출발" }
                 }
             ]
         }
