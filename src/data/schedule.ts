@@ -10,7 +10,7 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd1-0',
                     day: 1,
-                    time: "17:00",
+                    time: "16:00",
                     title: "동수원호텔캐슬 공항리무진 탑승(4인)",
                     type: "checkin",
                     location: { lat: 5, lng: 55, name: "리무진" }
