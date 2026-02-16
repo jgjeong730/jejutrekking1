@@ -10,10 +10,10 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd1-1',
                     day: 1,
-                    time: "16:00",
-                    title: "동수원호텔캐슬 공항리무진 탑승",
+                    time: "14:45",
+                    title: "망포역 7번출구 공항리무진 탑승",
                     type: "checkin",
-                    location: { lat: 37.2755, lng: 127.0307, name: "수원" } // Dongsuwon Hotel Castle
+                    location: { lat: 37.2455, lng: 127.0572, name: "망포역" } // Mangpo Station Exit 7
                 },
                 {
                     id: 'd1-2',
