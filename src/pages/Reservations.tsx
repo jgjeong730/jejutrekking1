@@ -1,30 +1,31 @@
+```
 import React from 'react';
 import { RESERVATIONS } from '../data/reservations';
-import { Plane, Car, ArrowRight, CreditCard } from 'lucide-react';
+import { Plane, Car, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Reservations: React.FC = () => {
     const { flights, car } = RESERVATIONS;
 
-    const formatDate = (dateStr: string) => {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' });
+    // Dates for Car
+    const pickupDate = new Date(car.pickupDate);
+    const returnDate = new Date(car.returnDate);
+
+    // Formatter
+    const formatFullDate = (date: Date) => {
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        // Weekday in Korean
+        const weeks = ['일', '월', '화', '수', '목', '금', '토'];
+        const week = weeks[date.getDay()];
+        const time = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
+        return `${ yyyy } -${ mm } -${ dd } (${ week }) ${ time } `;
     };
 
-    const formatTime = (dateStr: string) => {
-        const date = new Date(dateStr);
-        return date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
-    };
-
-    // Card Animation Variants
     const container = {
         hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
+        show: { opacity: 1, transition: { staggerChildren: 0.1 } }
     };
 
     const item = {
@@ -33,128 +34,123 @@ const Reservations: React.FC = () => {
     };
 
     return (
-        <div className="p-6 pt-12">
-            <h1 className="text-3xl font-bold mb-2">My Trip</h1>
-            <p className="text-gray-500 mb-8">Jeju Island • Feb 21 - Feb 25</p>
+        <div className="bg-gray-100 min-h-screen pb-safe">
+            {/* Header Area */}
+            <div className="bg-white p-6 sticky top-0 z-10 shadow-sm">
+                <h1 className="text-xl font-bold text-center">예약 완료</h1>
+            </div>
 
-            <motion.div
+            <motion.div 
+                className="p-4 space-y-6"
                 variants={container}
                 initial="hidden"
                 animate="show"
-                className="space-y-6"
             >
-                {/* Flight Section */}
-                <motion.div variants={item}>
-                    <div className="flex items-center mb-3">
-                        <div className="p-2 bg-blue-100 rounded-full mr-3">
-                            <Plane className="w-5 h-5 text-blue-600" />
+                {/* Car Reservation Card - Matching the Image Style */}
+                <motion.div variants={item} className="bg-white rounded-xl shadow-sm overflow-hidden">
+                    {/* Header */}
+                    <div className="p-4 border-b border-gray-100">
+                        <div className="flex items-center space-x-2 mb-4">
+                            <span className="text-red-500 font-bold text-lg">J</span>
+                            <span className="font-bold text-lg text-gray-800">{car.company}</span>
                         </div>
-                        <h2 className="text-xl font-bold text-gray-800">Flights</h2>
-                    </div>
-
-                    <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-5">
-                            <Plane className="w-32 h-32" />
-                        </div>
-
-                        {/* Outgoing */}
-                        <div className="mb-6 relative z-10">
-                            <div className="flex justify-between items-center text-sm text-gray-500 mb-1">
-                                <span>Outgoing</span>
-                                <span className="font-semibold text-blue-600">{formatDate(flights.outgoing.departureTime)}</span>
-                            </div>
-                            <div className="flex justify-between items-center mb-2">
-                                <div className="text-2xl font-bold">{flights.outgoing.departureAirport.split(' ')[0]}</div>
-                                <ArrowRight className="text-gray-300" />
-                                <div className="text-2xl font-bold">{flights.outgoing.arrivalAirport.split(' ')[0]}</div>
-                            </div>
-                            <div className="flex justify-between text-gray-600 text-sm">
-                                <span>{formatTime(flights.outgoing.departureTime)}</span>
-                                <span>{formatTime(flights.outgoing.arrivalTime)}</span>
-                            </div>
-                            <div className="mt-2 text-xs text-gray-400 bg-gray-50 inline-block px-2 py-1 rounded-lg">
-                                {flights.outgoing.airline} • {flights.outgoing.flightNumber}
-                            </div>
-                        </div>
-
-                        {/* Divider */}
-                        <div className="border-t border-dashed border-gray-200 my-4 relative">
-                            <div className="absolute -left-8 -top-3 w-6 h-6 bg-gray-50 rounded-full"></div>
-                            <div className="absolute -right-8 -top-3 w-6 h-6 bg-gray-50 rounded-full"></div>
-                        </div>
-
-                        {/* Incoming */}
-                        <div className="mb-4 relative z-10">
-                            <div className="flex justify-between items-center text-sm text-gray-500 mb-1">
-                                <span>Incoming</span>
-                                <span className="font-semibold text-blue-600">{formatDate(flights.incoming.departureTime)}</span>
-                            </div>
-                            <div className="flex justify-between items-center mb-2">
-                                <div className="text-2xl font-bold">{flights.incoming.departureAirport.split(' ')[0]}</div>
-                                <ArrowRight className="text-gray-300" />
-                                <div className="text-2xl font-bold">{flights.incoming.arrivalAirport.split(' ')[0]}</div>
-                            </div>
-                            <div className="flex justify-between text-gray-600 text-sm">
-                                <span>{formatTime(flights.incoming.departureTime)}</span>
-                                <span>{formatTime(flights.incoming.arrivalTime)}</span>
-                            </div>
-                            <div className="mt-2 text-xs text-gray-400 bg-gray-50 inline-block px-2 py-1 rounded-lg">
-                                {flights.incoming.airline} • {flights.incoming.flightNumber}
-                            </div>
+                        
+                        <div className="text-center py-4">
+                            <CheckCircle className="w-12 h-12 text-red-500 mx-auto mb-2" />
+                            <h2 className="text-xl font-bold text-red-500 mb-1">결제완료/예약확정 되었습니다.</h2>
+                            <p className="text-sm text-gray-500">인수 1일전 셔틀버스안내 메세지가 발송됩니다.</p>
                         </div>
                     </div>
-                </motion.div>
 
-                {/* Rental Car Section */}
-                <motion.div variants={item}>
-                    <div className="flex items-center mb-3 mt-8">
-                        <div className="p-2 bg-green-100 rounded-full mr-3">
-                            <Car className="w-5 h-5 text-green-600" />
-                        </div>
-                        <h2 className="text-xl font-bold text-gray-800">Rental Car</h2>
-                    </div>
-
-                    <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-5">
-                            <Car className="w-32 h-32" />
+                    {/* Car Image & Info */}
+                    <div className="p-6">
+                        <div className="flex flex-col items-center mb-6">
+                            {car.imgUrl && (
+                                <img src={car.imgUrl} alt={car.model} className="w-full max-w-[200px] object-contain mb-4" />
+                            )}
+                            <div className="text-right w-full">
+                                <div className="text-sm text-gray-500">2020년형</div>
+                                <div className="text-lg font-bold text-gray-800">{car.model}</div>
+                                <div className="text-sm text-gray-500">{car.specs}</div>
+                            </div>
                         </div>
 
-                        <div className="relative z-10">
-                            <h3 className="text-lg font-bold mb-1">{car.model}</h3>
-                            <p className="text-sm text-gray-500 mb-4">{car.company}</p>
-
-                            <div className="bg-gray-50 rounded-xl p-4 mb-4">
-                                <div className="flex justify-between items-start mb-3">
-                                    <div>
-                                        <div className="text-xs text-gray-400 mb-1">Pickup</div>
-                                        <div className="font-semibold text-gray-800">{formatDate(car.pickupDate)}</div>
-                                        <div className="text-sm text-gray-600">{formatTime(car.pickupDate)}</div>
-                                    </div>
-                                    <div className="h-10 w-px bg-gray-200 mx-2"></div>
-                                    <div className="text-right">
-                                        <div className="text-xs text-gray-400 mb-1">Return</div>
-                                        <div className="font-semibold text-gray-800">{formatDate(car.returnDate)}</div>
-                                        <div className="text-sm text-gray-600">{formatTime(car.returnDate)}</div>
+                        {/* Details Table */}
+                        <div className="border-t border-gray-100">
+                            <div className="flex justify-between py-3 border-b border-gray-100">
+                                <span className="text-gray-600 font-medium">인수일</span>
+                                <span className="text-gray-800">{formatFullDate(pickupDate)}</span>
+                            </div>
+                            <div className="flex justify-between py-3 border-b border-gray-100">
+                                <span className="text-gray-600 font-medium">반납일</span>
+                                <span className="text-gray-800">{formatFullDate(returnDate)}</span>
+                            </div>
+                            <div className="flex justify-between py-3 border-b border-gray-100">
+                                <span className="text-gray-600 font-medium">자차선택</span>
+                                <span className="text-gray-800">{car.insurance}</span>
+                            </div>
+                            <div className="flex justify-between py-3 border-b border-gray-100">
+                                <span className="text-gray-600 font-medium">차량대수</span>
+                                <span className="text-gray-800">1 대</span>
+                            </div>
+                            
+                            {/* Total Cost */}
+                            <div className="flex justify-between items-center py-4">
+                                <span className="text-gray-600 font-medium">총 대여료</span>
+                                <div className="text-right">
+                                    <div className="text-xs text-red-400 mb-0.5">{car.rentalDuration}</div>
+                                    <div className="text-xl font-bold text-red-500">
+                                        {car.cost.toLocaleString()}원
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div className="flex items-center gap-2 mb-2">
-                                <span className="px-2 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-md">
-                                    Included
-                                </span>
-                                <span className="text-sm text-gray-600">{car.insurance}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <CreditCard className="w-4 h-4 text-gray-400" />
-                                <span className="text-sm text-gray-600">{car.cost.toLocaleString()} KRW</span>
+                        {/* Reservation Info */}
+                        <div className="mt-4 bg-gray-50 p-4 rounded-lg">
+                            <div className="flex justify-between items-center">
+                                <span className="font-bold text-gray-800">예약자 정보</span>
+                                <span className="text-sm text-gray-500">접수번호 : <span className="text-red-500">{car.reservationNumber}</span></span>
                             </div>
                         </div>
                     </div>
                 </motion.div>
+
+                {/* Flight Card (Simplified) */}
+                <motion.div variants={item} className="bg-white rounded-xl shadow-sm p-5">
+                    <div className="flex items-center mb-4">
+                        <div className="p-2 bg-blue-100 rounded-full mr-3">
+                            <Plane className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <h2 className="text-lg font-bold text-gray-800">항공권 정보</h2>
+                    </div>
+                    {/* ... (Flight details kept simple for now or updated if needed, focused on Car per request) ... */}
+                    <div className="space-y-4">
+                        <div className="relative pl-4 border-l-2 border-blue-200">
+                            <div className="text-sm text-gray-500 mb-1">가는 편 (김포 -> 제주)</div>
+                            <div className="font-bold text-gray-800">{flights.outgoing.airline} {flights.outgoing.logo}</div>
+                            <div className="text-sm">
+                                {new Date(flights.outgoing.departureTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute:'2-digit'})} 
+                                {" - "}
+                                {new Date(flights.outgoing.arrivalTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute:'2-digit'})}
+                            </div>
+                        </div>
+                         <div className="relative pl-4 border-l-2 border-blue-200">
+                            <div className="text-sm text-gray-500 mb-1">오는 편 (제주 -> 김포)</div>
+                            <div className="font-bold text-gray-800">{flights.incoming.airline}</div>
+                            <div className="text-sm">
+                                {new Date(flights.incoming.departureTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute:'2-digit'})} 
+                                {" - "}
+                                {new Date(flights.incoming.arrivalTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute:'2-digit'})}
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+
             </motion.div>
         </div>
     );
 };
 
 export default Reservations;
+```

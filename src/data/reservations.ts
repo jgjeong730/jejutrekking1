@@ -23,12 +23,17 @@ export const RESERVATIONS: ReservationData = {
         paymentMethod: "Mileage + Tax/Fuel Surcharge",
     },
     car: {
-        company: "Jeju Into (Jeju Sok-euro)",
-        model: "2020 Kona Electric (White)",
+        company: "제주속으로",
+        model: "2020 코나 일렉트릭",
+        manualModelName: "2020년형 2020 코나 일렉트릭",
+        specs: "5인승 | 전기",
         pickupDate: "2026-02-21T20:30:00",
         returnDate: "2026-02-25T19:30:00",
-        insurance: "Full Coverage (완전자차)",
+        insurance: "완전자차",
         cost: 80700,
+        reservationNumber: "2602165717",
+        rentalDuration: "95시간 대여",
+        imgUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Hyundai_Kona_Electric_Classic_Chalk_White_%281%29.jpg/640px-Hyundai_Kona_Electric_Classic_Chalk_White_%281%29.jpg" // Using a generic placeholder for now
     },
     accommodations: [
         // Placeholder for now as user hasn't provided details yet in images

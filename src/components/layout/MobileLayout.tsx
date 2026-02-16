@@ -7,11 +7,11 @@ const MobileLayout: React.FC = () => {
     const location = useLocation();
 
     const navItems = [
-        { path: '/', icon: Home, label: 'Home' },
-        { path: '/schedule', icon: Map, label: 'Schedule' },
-        { path: '/reservations', icon: Ticket, label: 'Reservations' },
-        { path: '/guide', icon: BookOpen, label: 'Guide' },
-        { path: '/records', icon: Camera, label: 'Records' },
+        { path: '/', icon: Home, label: '홈' },
+        { path: '/schedule', icon: Map, label: '일정' },
+        { path: '/reservations', icon: Ticket, label: '예약' },
+        { path: '/guide', icon: BookOpen, label: '가이드' },
+        { path: '/records', icon: Camera, label: '기록' },
     ];
 
     return (
