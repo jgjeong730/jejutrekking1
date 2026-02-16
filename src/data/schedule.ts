@@ -51,7 +51,7 @@ export const SCHEDULE: ScheduleData = {
                     id: 'd1-6',
                     day: 1,
                     time: "22:00",
-                    title: "객실내 치맥으로 마무리",
+                    title: "호텔 객실에서 치맥 (선택)",
                     type: "food",
                     location: { lat: 33.4996, lng: 126.5065, name: "치맥" }
                 }
