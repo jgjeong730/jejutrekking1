@@ -42,6 +42,24 @@ export interface Passenger {
     seat?: string; // Added seat
 }
 
+export interface Activity {
+    id: string;
+    day: number; // 1 (Day 1), 2 (Day 2), etc.
+    time: string;
+    title: string;
+    type: 'flight' | 'food' | 'tour' | 'cafe' | 'checkin' | 'checkout';
+    location: { lat: number; lng: number; name: string }; // Approximate relative coordinates for map (0-100%)
+}
+
+export interface ScheduleData {
+    days: {
+        day: number;
+        date: string;
+        title: string;
+        activities: Activity[];
+    }[];
+}
+
 export interface ReservationData {
     flights: {
         reservationNumber: string; // e.g. E22T42
