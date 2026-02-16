@@ -8,12 +8,9 @@ const ScheduleMap: React.FC = () => {
     const activeRoute = SCHEDULE.days.find((d) => d.day === selectedDay);
 
     // Filter for Jeju activities only (coordinates > 0)
+    // We treat lat/lng as percentages: lat = top%, lng = left%
     const jejuActivities = activeRoute?.activities.filter(a => a.location.lat > 0 && a.location.lng > 0) || [];
     const mainlandActivities = activeRoute?.activities.filter(a => a.location.lat < 0) || [];
-
-    // Need to map 0-100% coordinates to the SVG viewbox (approx 40-290 x, 100-200 y)
-    // Actually, let's stick to % placement on top of the SVG.
-    // Ensure aspect ratio of container matches the SVG roughly (300x120 roughly -> 2.5:1)
 
     return (
         <div className="bg-white rounded-2xl shadow-sm p-4 mb-6">
@@ -22,7 +19,7 @@ const ScheduleMap: React.FC = () => {
                 제주 여행 지도
             </h2>
 
-            {/* Mainland/Transfer Section (if any) */}
+            {/* Mainland/Transfer Section */}
             {mainlandActivities.length > 0 && (
                 <div className="mb-4 bg-gray-50 p-3 rounded-lg border border-gray-100 flex items-center gap-3 overflow-x-auto">
                     <span className="text-xs font-bold text-gray-500 whitespace-nowrap">출발/이동</span>
@@ -37,48 +34,57 @@ const ScheduleMap: React.FC = () => {
                 </div>
             )}
 
-            {/* Map Container - Adjusted aspect ratio */}
+            {/* Map Container - Locked Aspect Ratio to match SVG 800x400 (2:1) */}
             <div className="relative w-full aspect-[2/1] bg-[#F8FAFC] rounded-xl overflow-hidden border border-slate-200 shadow-inner">
-                {/* SVG Map Layer */}
-                <svg className="absolute inset-0 w-full h-full p-6" viewBox="0 0 350 200" preserveAspectRatio="xMidYMid meet">
-                    <defs>
-                        <filter id="shadow">
-                            <feDropShadow dx="2" dy="2" stdDeviation="3" floodColor="#000000" floodOpacity="0.1" />
-                        </filter>
-                    </defs>
 
-                    {/* Ocean Texture Overlay (Optional) */}
+                {/* SVG Layer */}
+                <div className="absolute inset-0 p-4 flex items-center justify-center">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 800 400"
+                        preserveAspectRatio="none"
+                        className="overflow-visible"
+                    >
+                        <defs>
+                            <filter id="shadow">
+                                <feDropShadow dx="2" dy="2" stdDeviation="3" floodColor="#000000" floodOpacity="0.1" />
+                            </filter>
+                        </defs>
 
-                    {/* Jeju Island Shape */}
-                    <path
-                        d="M 52.8,68.5 C 60.1,64.7 75.2,60.3 88.5,58.9 C 105.1,57.1 145.5,53.5 170.8,55.2 C 196.1,56.9 220.5,62.5 245.8,72.5 C 265.1,80.1 278.5,88.8 285.5,95.2 C 290.1,99.5 292.5,102.1 292.5,105.5 C 292.5,108.8 285.0,115.1 275.5,120.5 C 255.1,132.1 215.1,142.5 175.5,145.5 C 135.8,148.5 95.1,142.1 75.5,132.5 C 60.1,125.0 50.5,118.1 45.5,112.5 C 38.1,104.1 40.5,95.1 42.5,88.5 C 44.5,81.8 45.5,72.3 52.8,68.5 Z"
-                        fill="white"
-                        stroke="#94A3B8"
-                        strokeWidth="1"
-                        filter="url(#shadow)"
-                    />
+                        {/* Realistic Jeju Island Path */}
+                        <path
+                            d="M107.5,160.5 C120,150 160,140 250,135 C350,130 500,140 600,165 C680,185 710,215 700,245 C680,295 560,335 410,335 C260,335 140,285 120,235 C110,210 105,180 107.5,160.5 Z"
+                            fill="white"
+                            stroke="#94A3B8"
+                            strokeWidth="2"
+                            filter="url(#shadow)"
+                            className="drop-shadow-sm"
+                        />
+                        {/* More detailed approximation overlay if needed, but smooth curve is better for UI */}
 
-                    {/* Detail: Hallasan */}
-                    <path d="M165,95 L175,80 L185,95 Z" fill="#E2E8F0" opacity="0.5" />
+                        {/* Hallasan Center */}
+                        <path d="M380,230 L410,190 L440,230 Z" fill="#E2E8F0" opacity="0.6" />
 
-                    {/* Detail: Udo */}
-                    <circle cx="280" cy="85" r="3" fill="white" stroke="#94A3B8" strokeWidth="1" />
+                        {/* Udo Island */}
+                        <circle cx="720" cy="180" r="10" fill="white" stroke="#94A3B8" strokeWidth="2" />
 
-                    {/* Connection Line */}
-                    <motion.path
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 1 }}
-                        transition={{ duration: 1.5, ease: "easeInOut" }}
-                        d={`M ${jejuActivities.map(a => `${a.location.lng * 2.8} ${a.location.lat * 1.4}`).join(' L ')}`}
-                        stroke="#3B82F6"
-                        strokeWidth="3"
-                        strokeDasharray="6 6"
-                        fill="none"
-                        strokeLinecap="round"
-                    />
-                </svg>
+                        {/* Connected Path Line */}
+                        <motion.path
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: 1, opacity: 1 }}
+                            transition={{ duration: 1.5, ease: "easeInOut" }}
+                            d={`M ${jejuActivities.map(a => `${a.location.lng * 8} ${a.location.lat * 4}`).join(' L ')}`}
+                            stroke="#3B82F6"
+                            strokeWidth="3"
+                            strokeDasharray="6 6"
+                            fill="none"
+                            strokeLinecap="round"
+                        />
+                    </svg>
+                </div>
 
-                {/* Markers Layer (HTML for easier tooltip/interaction) */}
+                {/* Marker Layer - Absolute Positioned using Percentages */}
                 {jejuActivities.map((activity, idx) => (
                     <motion.div
                         key={activity.id}
@@ -89,7 +95,7 @@ const ScheduleMap: React.FC = () => {
                         style={{ top: `${activity.location.lat}%`, left: `${activity.location.lng}%` }}
                     >
                         <div className={`
-                            w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-white text-white font-bold text-[10px] transition-transform group-hover:scale-110
+                            w-5 h-5 rounded-full flex items-center justify-center shadow-lg border-[1.5px] border-white text-white font-bold text-[9px] transition-transform group-hover:scale-110
                             ${activity.type === 'flight' ? 'bg-blue-500' :
                                 activity.type === 'food' ? 'bg-orange-500' :
                                     activity.type === 'checkin' ? 'bg-purple-600' : 'bg-green-500'}
@@ -97,7 +103,7 @@ const ScheduleMap: React.FC = () => {
                             {mainlandActivities.length + idx + 1}
                         </div>
 
-                        <div className="absolute top-7 bg-white/95 backdrop-blur px-2 py-1 rounded-md shadow-md text-[10px] font-bold whitespace-nowrap border border-gray-100 text-gray-700">
+                        <div className="absolute top-6 bg-white/95 backdrop-blur px-1.5 py-0.5 rounded shadow-sm text-[9px] font-bold whitespace-nowrap border border-gray-100 text-gray-700 z-20">
                             {activity.location.name}
                         </div>
                     </motion.div>
@@ -111,8 +117,8 @@ const ScheduleMap: React.FC = () => {
                         key={day.day}
                         onClick={() => setSelectedDay(day.day)}
                         className={`flex-shrink-0 px-4 py-2 rounded-2xl text-sm font-medium transition-all ${selectedDay === day.day
-                            ? 'bg-gray-800 text-white shadow-lg scale-105'
-                            : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50'
+                                ? 'bg-gray-800 text-white shadow-lg scale-105'
+                                : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50'
                             }`}
                     >
                         <div className="text-[10px] opacity-60 font-light mb-0.5">{day.date.slice(5)}</div>
