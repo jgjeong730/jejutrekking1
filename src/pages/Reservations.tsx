@@ -1,7 +1,6 @@
-```
 import React from 'react';
 import { RESERVATIONS } from '../data/reservations';
-import { Plane, Car, CheckCircle } from 'lucide-react';
+import { Plane, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Reservations: React.FC = () => {
@@ -20,7 +19,7 @@ const Reservations: React.FC = () => {
         const weeks = ['일', '월', '화', '수', '목', '금', '토'];
         const week = weeks[date.getDay()];
         const time = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
-        return `${ yyyy } -${ mm } -${ dd } (${ week }) ${ time } `;
+        return `${yyyy}-${mm}-${dd}(${week}) ${time}`;
     };
 
     const container = {
@@ -40,7 +39,7 @@ const Reservations: React.FC = () => {
                 <h1 className="text-xl font-bold text-center">예약 완료</h1>
             </div>
 
-            <motion.div 
+            <motion.div
                 className="p-4 space-y-6"
                 variants={container}
                 initial="hidden"
@@ -54,7 +53,7 @@ const Reservations: React.FC = () => {
                             <span className="text-red-500 font-bold text-lg">J</span>
                             <span className="font-bold text-lg text-gray-800">{car.company}</span>
                         </div>
-                        
+
                         <div className="text-center py-4">
                             <CheckCircle className="w-12 h-12 text-red-500 mx-auto mb-2" />
                             <h2 className="text-xl font-bold text-red-500 mb-1">결제완료/예약확정 되었습니다.</h2>
@@ -93,7 +92,7 @@ const Reservations: React.FC = () => {
                                 <span className="text-gray-600 font-medium">차량대수</span>
                                 <span className="text-gray-800">1 대</span>
                             </div>
-                            
+
                             {/* Total Cost */}
                             <div className="flex justify-between items-center py-4">
                                 <span className="text-gray-600 font-medium">총 대여료</span>
@@ -124,24 +123,24 @@ const Reservations: React.FC = () => {
                         </div>
                         <h2 className="text-lg font-bold text-gray-800">항공권 정보</h2>
                     </div>
-                    {/* ... (Flight details kept simple for now or updated if needed, focused on Car per request) ... */}
+
                     <div className="space-y-4">
                         <div className="relative pl-4 border-l-2 border-blue-200">
-                            <div className="text-sm text-gray-500 mb-1">가는 편 (김포 -> 제주)</div>
-                            <div className="font-bold text-gray-800">{flights.outgoing.airline} {flights.outgoing.logo}</div>
+                            <div className="text-sm text-gray-500 mb-1">가는 편 (김포 &rarr; 제주)</div>
+                            <div className="font-bold text-gray-800">{flights.outgoing.airline} {flights.outgoing.flightNumber}</div>
                             <div className="text-sm">
-                                {new Date(flights.outgoing.departureTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute:'2-digit'})} 
+                                {new Date(flights.outgoing.departureTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
                                 {" - "}
-                                {new Date(flights.outgoing.arrivalTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute:'2-digit'})}
+                                {new Date(flights.outgoing.arrivalTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
                             </div>
                         </div>
-                         <div className="relative pl-4 border-l-2 border-blue-200">
-                            <div className="text-sm text-gray-500 mb-1">오는 편 (제주 -> 김포)</div>
-                            <div className="font-bold text-gray-800">{flights.incoming.airline}</div>
+                        <div className="relative pl-4 border-l-2 border-blue-200">
+                            <div className="text-sm text-gray-500 mb-1">오는 편 (제주 &rarr; 김포)</div>
+                            <div className="font-bold text-gray-800">{flights.incoming.airline} {flights.incoming.flightNumber}</div>
                             <div className="text-sm">
-                                {new Date(flights.incoming.departureTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute:'2-digit'})} 
+                                {new Date(flights.incoming.departureTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
                                 {" - "}
-                                {new Date(flights.incoming.arrivalTime).toLocaleTimeString('ko-KR', {hour: '2-digit', minute:'2-digit'})}
+                                {new Date(flights.incoming.arrivalTime).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
                             </div>
                         </div>
                     </div>
@@ -153,4 +152,3 @@ const Reservations: React.FC = () => {
 };
 
 export default Reservations;
-```
