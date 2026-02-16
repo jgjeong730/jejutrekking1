@@ -61,13 +61,18 @@ const ScheduleMap: React.FC = () => {
                             filter="url(#shadow)"
                             className="drop-shadow-sm"
                         />
-                        {/* More detailed approximation overlay if needed, but smooth curve is better for UI */}
 
                         {/* Hallasan Center */}
                         <path d="M380,230 L410,190 L440,230 Z" fill="#E2E8F0" opacity="0.6" />
+                        <text x="410" y="250" fontSize="10" textAnchor="middle" fill="#94A3B8" fontWeight="bold">한라산</text>
 
-                        {/* Udo Island */}
-                        <circle cx="720" cy="180" r="10" fill="white" stroke="#94A3B8" strokeWidth="2" />
+                        {/* Udo Island (East) */}
+                        <circle cx="730" cy="170" r="12" fill="white" stroke="#94A3B8" strokeWidth="2" />
+                        <text x="730" y="200" fontSize="10" textAnchor="middle" fill="#64748B" fontWeight="bold">우도</text>
+
+                        {/* Gapado Island (South-West) */}
+                        <circle cx="180" cy="360" r="8" fill="white" stroke="#94A3B8" strokeWidth="2" filter="url(#shadow)" />
+                        <text x="180" y="385" fontSize="10" textAnchor="middle" fill="#64748B" fontWeight="bold">가파도</text>
 
                         {/* Connected Path Line */}
                         <motion.path
