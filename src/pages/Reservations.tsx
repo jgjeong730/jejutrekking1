@@ -51,7 +51,7 @@ const Reservations: React.FC = () => {
                     <div className="p-4 border-b border-gray-100">
                         <div className="flex items-center space-x-2 mb-4">
                             <span className="text-red-500 font-bold text-lg">J</span>
-                            <span className="font-bold text-lg text-gray-800">{car.company}</span>
+                            <span className="font-bold text-lg text-gray-800">렌트카 : {car.company}</span>
                         </div>
 
                         <div className="text-center py-4">
