@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, MarkerF, PolylineF } from '@react-google-maps/api';
 import { SCHEDULE } from '../data/schedule';
 import { Clock, ArrowRight } from 'lucide-react';
@@ -21,6 +21,7 @@ const options = {
 
 const ScheduleMap: React.FC = () => {
     const [selectedDay, setSelectedDay] = useState(1);
+    const [map, setMap] = useState<google.maps.Map | null>(null);
 
     // API Key from environment variable
     const { isLoaded } = useJsApiLoader({
@@ -43,19 +44,31 @@ const ScheduleMap: React.FC = () => {
     }, [jejuActivities]);
 
     const onLoad = React.useCallback(function callback(map: google.maps.Map) {
-        // Fit bounds to show all markers
-        const bounds = new window.google.maps.LatLngBounds();
-        jejuActivities.forEach(a => {
-            bounds.extend({ lat: a.location.lat, lng: a.location.lng });
-        });
-        // If there are points, fit bounds, otherwise center Jeju
-        if (jejuActivities.length > 0) {
+        setMap(map);
+    }, []);
+
+    // Effect to update bounds and zoom when activities change
+    useEffect(() => {
+        if (map && jejuActivities.length > 0) {
+            const bounds = new window.google.maps.LatLngBounds();
+            jejuActivities.forEach(a => {
+                bounds.extend({ lat: a.location.lat, lng: a.location.lng });
+            });
             map.fitBounds(bounds);
-        } else {
+
+            // Zoom out further (simulate pressing - twice)
+            const listener = google.maps.event.addListener(map, "idle", () => {
+                const currentZoom = map.getZoom();
+                if (currentZoom) {
+                    map.setZoom(currentZoom - 2);
+                }
+                google.maps.event.removeListener(listener);
+            });
+        } else if (map) {
             map.setCenter(center);
-            map.setZoom(10);
+            map.setZoom(9); // Default looser zoom
         }
-    }, [jejuActivities]);
+    }, [map, jejuActivities]);
 
     return (
         <div className="bg-white rounded-2xl shadow-sm p-4 mb-6">
