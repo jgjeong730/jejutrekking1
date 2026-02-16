@@ -43,9 +43,9 @@ export const SCHEDULE: ScheduleData = {
                     id: 'd1-4',
                     day: 1,
                     time: "21:30",
-                    title: "숙소 체크인 (신화월드)",
+                    title: "숙소 체크인 (에어씨티 제주호텔)",
                     type: "checkin",
-                    location: { lat: 65, lng: 25, name: "신화월드" }
+                    location: { lat: 28, lng: 52, name: "에어씨티" } // Jeju City (North)
                 },
                 {
                     id: 'd1-5',
@@ -53,7 +53,7 @@ export const SCHEDULE: ScheduleData = {
                     time: "22:00",
                     title: "객실내 치맥으로 마무리",
                     type: "food",
-                    location: { lat: 70, lng: 27, name: "치맥" }
+                    location: { lat: 28, lng: 52, name: "치맥" }
                 }
             ]
         },
