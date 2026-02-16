@@ -38,7 +38,8 @@ export interface Passenger {
     name: string;
     type: '성인' | '소아';
     ticketNumber: string;
-    memberId?: string; // OZ number
+    memberId?: string;
+    seat?: string; // Added seat
 }
 
 export interface ReservationData {

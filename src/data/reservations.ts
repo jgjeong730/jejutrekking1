@@ -6,10 +6,10 @@ export const RESERVATIONS: ReservationData = {
         paymentDate: "2026-02-16",
         totalCost: 85600,
         passengers: [
-            { name: "이/희근", type: "성인", ticketNumber: "9882436031458", memberId: "OZ 473 510 981" },
-            { name: "이/건경", type: "성인", ticketNumber: "9882436031459", memberId: "OZ 351 178 841" },
-            { name: "이/다원", type: "소아", ticketNumber: "9882436031460", memberId: "OZ 663 501 554" },
-            { name: "이/세찬", type: "소아", ticketNumber: "9882436031461", memberId: "OZ 663 502 950" }
+            { name: "이/희근", type: "성인", ticketNumber: "9882436031458", memberId: "OZ 473 510 981", seat: "3A" },
+            { name: "이/건경", type: "성인", ticketNumber: "9882436031459", memberId: "OZ 351 178 841", seat: "3C" },
+            { name: "이/다원", type: "소아", ticketNumber: "9882436031460", memberId: "OZ 663 501 554", seat: "4A" },
+            { name: "이/세찬", type: "소아", ticketNumber: "9882436031461", memberId: "OZ 663 502 950", seat: "4C" }
         ],
         outgoing: {
             airline: "Asiana Airlines",

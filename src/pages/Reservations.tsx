@@ -205,6 +205,27 @@ const Reservations: React.FC = () => {
                 </div>
             </div>
 
+            {/* Seat Check-in Section */}
+            <div className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-lg font-bold text-gray-800 mb-4">좌석 체크인</h2>
+                <div className="mb-6 relative">
+                    {/* Seat Map Image */}
+                    <div className="relative rounded-lg overflow-hidden border border-gray-200">
+                        <img src="./images/seat_map.jpg" alt="Seat Map" className="w-full object-cover" />
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2 text-center">* 실제 탑승 기종에 따라 좌석 배치는 상이할 수 있습니다.</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                    {flights.passengers.map((p, idx) => (
+                        <div key={idx} className="bg-gray-50 p-3 rounded-lg flex justify-between items-center">
+                            <span className="text-sm font-medium text-gray-700">{p.name}</span>
+                            <span className="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{p.seat}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
             {/* Payment Info */}
             <div className="bg-gray-100 p-4 rounded-xl text-sm">
                 <div className="flex justify-between mb-1">
