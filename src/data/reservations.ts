@@ -51,25 +51,25 @@ export const RESERVATIONS: ReservationData = {
         {
             name: "라마다제주시티호텔",
             checkIn: "2026-02-21T15:00:00",
-            checkOut: "2026-02-22T11:00:00",
+            checkOut: "2026-02-23T11:00:00",
             address: "제주특별자치도 제주시 중앙로 304",
-            cost: 61000,
+            cost: 114000,
             roomType: "스탠다드 더블"
         },
         {
             name: "코업시티호텔 하버뷰",
-            checkIn: "2026-02-22T15:00:00",
-            checkOut: "2026-02-23T11:00:00",
+            checkIn: "2026-02-23T15:00:00",
+            checkOut: "2026-02-24T11:00:00",
             address: "제주특별자치도 서귀포시 남원읍 남원리 130",
             cost: 37222,
             roomType: "스탠다드 트윈 (산전망)"
         },
         {
             name: "에어시티호텔 제주",
-            checkIn: "2026-02-23T15:00:00",
+            checkIn: "2026-02-24T15:00:00",
             checkOut: "2026-02-25T11:00:00",
             address: "제주특별자치도 제주시 삼무로 56",
-            cost: 81962,
+            cost: 40981,
             roomType: "스탠다드 트윈"
         }
     ],
