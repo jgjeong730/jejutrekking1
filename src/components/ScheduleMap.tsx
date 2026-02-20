@@ -70,37 +70,43 @@ const ScheduleMap: React.FC<ScheduleMapProps> = ({ customActivities, hideTimelin
 
     // Effect to update bounds and zoom when activities change
     useEffect(() => {
-        if (map && (mapActivities.length > 0 || connectionPath.length > 0)) {
-            const bounds = new window.google.maps.LatLngBounds();
+        if (map) {
+            if (hideTimeline) {
+                // If it's the accommodations map, simply center the whole Jeju island
+                map.setCenter(center);
+                map.setZoom(10);
+            } else if (mapActivities.length > 0 || connectionPath.length > 0) {
+                const bounds = new window.google.maps.LatLngBounds();
 
-            // Add current activities
-            mapActivities.forEach(a => {
-                bounds.extend({ lat: a.location.lat, lng: a.location.lng });
-            });
+                // Add current activities
+                mapActivities.forEach(a => {
+                    bounds.extend({ lat: a.location.lat, lng: a.location.lng });
+                });
 
-            // Add previous day start point if exists
-            if (connectionPath.length > 0) {
-                bounds.extend(connectionPath[0]);
-            }
-
-            map.fitBounds(bounds);
-
-            // Add listener to adjust zoom after fitBounds
-            const listener = google.maps.event.addListener(map, "idle", () => {
-                const currentZoom = map.getZoom();
-
-                // Heuristic: If zoom is very low (e.g. < 9, meaning broad view like Korea), don't reduce it further.
-                // If zoom is high (Jeju detailed view), zoom out slightly for context.
-                if (currentZoom && currentZoom > 9) {
-                    map.setZoom(currentZoom - 1);
+                // Add previous day start point if exists
+                if (connectionPath.length > 0) {
+                    bounds.extend(connectionPath[0]);
                 }
-                google.maps.event.removeListener(listener);
-            });
-        } else if (map) {
-            map.setCenter(center);
-            map.setZoom(9);
+
+                map.fitBounds(bounds);
+
+                // Add listener to adjust zoom after fitBounds
+                const listener = google.maps.event.addListener(map, "idle", () => {
+                    const currentZoom = map.getZoom();
+
+                    // Heuristic: If zoom is very low (e.g. < 9, meaning broad view like Korea), don't reduce it further.
+                    // If zoom is high (Jeju detailed view), zoom out slightly for context.
+                    if (currentZoom && currentZoom > 9) {
+                        map.setZoom(currentZoom - 1);
+                    }
+                    google.maps.event.removeListener(listener);
+                });
+            } else {
+                map.setCenter(center);
+                map.setZoom(9);
+            }
         }
-    }, [map, mapActivities, connectionPath]);
+    }, [map, mapActivities, connectionPath, hideTimeline]);
 
     return (
         <div className={`bg-white rounded-2xl shadow-sm ${hideTimeline ? '' : 'p-4 mb-6'}`}>
