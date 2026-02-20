@@ -49,28 +49,28 @@ export const RESERVATIONS: ReservationData = {
     },
     accommodations: [
         {
-            name: "라마다제주시티호텔",
+            name: "신신호텔 (shinshin 호텔)",
             checkIn: "2026-02-21T15:00:00",
+            checkOut: "2026-02-22T11:00:00",
+            address: "제주 서귀포시 지정 지점",
+            cost: 0,
+            roomType: "스탠다드"
+        },
+        {
+            name: "제주항공우주호텔",
+            checkIn: "2026-02-22T15:00:00",
             checkOut: "2026-02-23T11:00:00",
-            address: "제주특별자치도 제주시 중앙로 304",
-            cost: 114000,
-            roomType: "스탠다드 더블"
+            address: "제주특별자치도 서귀포시 안덕면 녹차분재로 218",
+            cost: 0,
+            roomType: "스탠다드"
         },
         {
-            name: "코업시티호텔 하버뷰",
+            name: "켄싱턴리조트 서귀포",
             checkIn: "2026-02-23T15:00:00",
-            checkOut: "2026-02-24T11:00:00",
-            address: "제주특별자치도 서귀포시 남원읍 남원리 130",
-            cost: 37222,
-            roomType: "스탠다드 트윈 (산전망)"
-        },
-        {
-            name: "에어시티호텔 제주",
-            checkIn: "2026-02-24T15:00:00",
             checkOut: "2026-02-25T11:00:00",
-            address: "제주특별자치도 제주시 삼무로 56",
-            cost: 40981,
-            roomType: "스탠다드 트윈"
+            address: "제주특별자치도 서귀포시 이어도로 684",
+            cost: 0,
+            roomType: "스탠다드"
         }
     ],
     tickets: [
