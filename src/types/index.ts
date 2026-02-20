@@ -32,6 +32,7 @@ export interface Accommodation {
     checkOut: string;
     cost?: number; // Added
     notes?: string;
+    roomType?: string; // Added
 }
 
 export interface Passenger {
@@ -71,8 +72,9 @@ export interface ReservationData {
     };
     car: RentalCar;
     accommodations: Accommodation[];
-    tickets: Ticket[]; // New
-    others: OtherItem[]; // New
+    tickets: Ticket[];
+    busTickets: BusTicket[];
+    others: OtherItem[];
 }
 
 export interface Ticket {
@@ -85,6 +87,24 @@ export interface Ticket {
     imgUrl?: string; // Optional thumbnail
 }
 
+export interface BusSeat {
+    seatNumber: string; // e.g. "09번"
+    type: '일반' | '아동';
+    busType: string; // e.g. "일반버스", "심야고속버스"
+    tagless?: boolean;
+}
+
+export interface BusTicket {
+    id: string;
+    bookingDate: string; // e.g. "2026.02.16 (월)"
+    departureLocation: string; // e.g. "[경기]망포역"
+    arrivalLocation: string; // e.g. "[서울]김포공항"
+    departureTime: string; // e.g. "2026-02-21 14:45"
+    seats: BusSeat[];
+    status: 'confirmed' | 'pending';
+    qrCodeUrl?: string; // For "Mobile Ticket" placeholder
+}
+
 export interface OtherItem {
     id: string;
     category: string; // e.g., "숙소" (Accommodation), "보험" (Insurance), etc.
@@ -93,4 +113,20 @@ export interface OtherItem {
     details: string;
     cost?: number;
     status: 'confirmed' | 'pending';
+}
+
+export interface ReservationData {
+    flights: {
+        reservationNumber: string; // e.g. E22T42
+        outgoing: Flight;
+        incoming: Flight;
+        passengers: Passenger[];
+        paymentDate: string;
+        totalCost: number;
+    };
+    car: RentalCar;
+    accommodations: Accommodation[];
+    tickets: Ticket[];
+    busTickets: BusTicket[]; // New
+    others: OtherItem[];
 }

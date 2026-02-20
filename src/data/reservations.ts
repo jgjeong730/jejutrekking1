@@ -49,11 +49,28 @@ export const RESERVATIONS: ReservationData = {
     },
     accommodations: [
         {
-            name: "제주 신화월드 (예시)",
+            name: "라마다제주시티호텔",
             checkIn: "2026-02-21T15:00:00",
+            checkOut: "2026-02-22T11:00:00",
+            address: "제주특별자치도 제주시 중앙로 304",
+            cost: 61000,
+            roomType: "스탠다드 더블"
+        },
+        {
+            name: "코업시티호텔 하버뷰",
+            checkIn: "2026-02-22T15:00:00",
             checkOut: "2026-02-23T11:00:00",
-            address: "제주특별자치도 서귀포시 안덕면 신화역사로 304번길 38",
-            cost: 0
+            address: "제주특별자치도 서귀포시 남원읍 남원리 130",
+            cost: 37222,
+            roomType: "스탠다드 트윈 (산전망)"
+        },
+        {
+            name: "에어시티호텔 제주",
+            checkIn: "2026-02-23T15:00:00",
+            checkOut: "2026-02-25T11:00:00",
+            address: "제주특별자치도 제주시 삼무로 56",
+            cost: 81962,
+            roomType: "스탠다드 트윈"
         }
     ],
     tickets: [
@@ -63,6 +80,36 @@ export const RESERVATIONS: ReservationData = {
             date: '2026-02-22T14:00:00',
             count: 4,
             price: 68000,
+            status: 'confirmed'
+        }
+    ],
+    busTickets: [
+        {
+            id: 'b1',
+            bookingDate: '2026.02.16 (월)',
+            departureLocation: '[경기]망포역',
+            arrivalLocation: '[서울]김포공항',
+            departureTime: '2026-02-21 14:45',
+            seats: [
+                { seatNumber: '09번', type: '일반', busType: '일반버스' },
+                { seatNumber: '10번', type: '아동', busType: '일반버스' },
+                { seatNumber: '11번', type: '일반', busType: '일반버스' },
+                { seatNumber: '12번', type: '아동', busType: '일반버스' }
+            ],
+            status: 'confirmed'
+        },
+        {
+            id: 'b2',
+            bookingDate: '2026.02.19 (목)',
+            departureLocation: '[서울]김포공항',
+            arrivalLocation: '[경기]수원(동수원)',
+            departureTime: '2026-02-25 23:00',
+            seats: [
+                { seatNumber: '04번', type: '일반', busType: '심야고속버스', tagless: true },
+                { seatNumber: '05번', type: '아동', busType: '심야고속버스', tagless: true },
+                { seatNumber: '07번', type: '일반', busType: '심야고속버스', tagless: true },
+                { seatNumber: '08번', type: '아동', busType: '심야고속버스', tagless: true }
+            ],
             status: 'confirmed'
         }
     ],

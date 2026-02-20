@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { RESERVATIONS } from '../data/reservations';
-import { Plane, Car, Ticket as TicketIcon, MoreHorizontal, CheckCircle, Calendar, MapPin } from 'lucide-react';
+import { Plane, Car, MoreHorizontal, CheckCircle, MapPin, Bus, ArrowRight, QrCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type Tab = 'car' | 'flight' | 'ticket' | 'etc';
+type Tab = 'flight' | 'car' | 'accommodation' | 'bus' | 'etc';
 
 const Reservations: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<Tab>('car');
-    const { flights, car, tickets, others } = RESERVATIONS;
+    const [activeTab, setActiveTab] = useState<Tab>('flight'); // Default to flight
+    const [selectedTicket, setSelectedTicket] = useState<any>(null);
+    const [showQRModal, setShowQRModal] = useState(false);
+    const { flights, car, accommodations, busTickets, others } = RESERVATIONS;
 
     const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
-        { id: 'car', label: '렌트카', icon: Car },
         { id: 'flight', label: '항공권', icon: Plane },
-        { id: 'ticket', label: '입장권', icon: TicketIcon },
+        { id: 'car', label: '렌트카', icon: Car },
+        { id: 'accommodation', label: '숙박', icon: MapPin },
+        { id: 'bus', label: '승차권', icon: Bus },
         { id: 'etc', label: '기타', icon: MoreHorizontal },
     ];
 
@@ -25,6 +28,151 @@ const Reservations: React.FC = () => {
         const week = weeks[date.getDay()];
         const time = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
         return `${yyyy}-${mm}-${dd}(${week}) ${time}`;
+    };
+
+    // --- Mobile Ticket Modal ---
+    const MobileTicketModal = ({ ticket, onClose }: { ticket: any; onClose: () => void }) => {
+        const BASE_URL = import.meta.env.BASE_URL;
+
+        let galleryItems: { type: string; src: string; label: string }[] = [];
+
+        if (ticket.id === 'b1') {
+            // Mangpo -> Gimpo (Existing)
+            galleryItems = [
+                { type: 'ticket', src: `${BASE_URL}images/ticket_09.jpeg`, label: '좌석 09 (아동)' },
+                { type: 'qr', src: `${BASE_URL}images/QR_09.jpeg`, label: 'QR코드 09' },
+                { type: 'ticket', src: `${BASE_URL}images/ticket_10.jpeg`, label: '좌석 10 (아동)' },
+                { type: 'qr', src: `${BASE_URL}images/QR_10.jpeg`, label: 'QR코드 10' },
+                { type: 'ticket', src: `${BASE_URL}images/ticket_11.jpeg`, label: '좌석 11 (일반)' },
+                { type: 'qr', src: `${BASE_URL}images/QR_11.jpeg`, label: 'QR코드 11' },
+                { type: 'ticket', src: `${BASE_URL}images/ticket_12.jpeg`, label: '좌석 12 (아동)' },
+                { type: 'qr', src: `${BASE_URL}images/QR_12.jpeg`, label: 'QR코드 12' },
+            ];
+        } else if (ticket.id === 'b2') {
+            // Gimpo -> Suwon (New)
+            galleryItems = [
+                { type: 'ticket', src: `${BASE_URL}images/ticket_04.jpeg`, label: '좌석 04 (일반)' },
+                { type: 'qr', src: `${BASE_URL}images/QR_04.jpeg`, label: 'QR코드 04' },
+                { type: 'ticket', src: `${BASE_URL}images/ticket_05.jpeg`, label: '좌석 05 (아동)' },
+                { type: 'qr', src: `${BASE_URL}images/QR_05.jpeg`, label: 'QR코드 05' },
+                { type: 'ticket', src: `${BASE_URL}images/ticket_07.jpeg`, label: '좌석 07 (일반)' },
+                { type: 'qr', src: `${BASE_URL}images/QR_07.jpeg`, label: 'QR코드 07' },
+                { type: 'ticket', src: `${BASE_URL}images/ticket_08.jpeg`, label: '좌석 08 (아동)' },
+                { type: 'qr', src: `${BASE_URL}images/QR_08.jpeg`, label: 'QR코드 08' },
+            ];
+        }
+
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" onClick={onClose}>
+                <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.9, opacity: 0 }}
+                    className="bg-white rounded-2xl w-full max-w-sm overflow-hidden flex flex-col max-h-[90vh]"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="p-4 bg-gray-900 text-white flex justify-between items-center shrink-0">
+                        <div>
+                            <h3 className="font-bold text-lg">모바일 승차권</h3>
+                            <p className="text-xs text-gray-400">{ticket.departureLocation} <ArrowRight className="inline w-3 h-3" /> {ticket.arrivalLocation}</p>
+                        </div>
+                        <button onClick={onClose} className="text-gray-400 hover:text-white">닫기</button>
+                    </div>
+
+                    {/* Carousel Area */}
+                    <div className="overflow-x-auto whitespace-nowrap scroll-smooth p-4 bg-gray-100 no-scrollbar flex items-center flex-1" style={{ scrollSnapType: 'x mandatory' }}>
+                        {galleryItems.map((item, idx) => (
+                            <div key={idx} className="inline-block w-full flex-shrink-0 px-2 h-full flex items-center justify-center" style={{ scrollSnapAlign: 'center' }}>
+                                <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden relative group w-full max-w-[320px] flex flex-col">
+                                    <div className="aspect-[9/16] bg-gray-200 relative flex items-center justify-center overflow-hidden">
+                                        <img
+                                            src={item.src}
+                                            alt={item.label}
+                                            className="w-full h-full object-contain"
+                                            onError={(e) => {
+                                                (e.target as HTMLImageElement).src = 'https://placehold.co/300x500?text=Image+Not+Found';
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="p-3 text-center bg-white border-t border-gray-100">
+                                        <div className="flex justify-center items-center space-x-2 text-sm text-gray-600 mb-1">
+                                            {item.type === 'qr' ? <QrCode className="w-5 h-5 text-blue-500" /> : <Bus className="w-5 h-5 text-red-500" />}
+                                            <span className="font-medium">{item.label}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="p-4 text-center text-sm text-gray-500 bg-white border-t border-gray-100 shrink-0">
+                        좌우로 슬라이드하여 승차권과 QR코드를 확인하세요
+                    </div>
+                </motion.div>
+            </div>
+        );
+    };
+
+    // --- QR Code Modal (Keeping for reference, but main flow uses MobileTicketModal) ---
+    const QRCodeModal = ({ onClose }: { onClose: () => void }) => {
+        const BASE_URL = import.meta.env.BASE_URL;
+        const qrImages = [
+            { src: `${BASE_URL}images/QR_09.jpeg`, number: '20260216-1545-51-00143-12', sub: '20260221-1445-09-00-1', type: '(일반)' },
+            { src: `${BASE_URL}images/QR_10.jpeg`, number: '20260216-1545-51-00145-41', sub: '20260221-1445-10-32-1', type: '(아동)' },
+            { src: `${BASE_URL}images/QR_11.jpeg`, number: '20260216-1545-51-00144-28', sub: '20260221-1445-11-00-1', type: '(일반)' },
+            { src: `${BASE_URL}images/QR_12.jpeg`, number: '20260216-1545-51-00143-12', sub: '20260221-1445-12-32-1', type: '(아동)' }
+        ];
+
+        return (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4" onClick={onClose}>
+                <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.9, opacity: 0 }}
+                    className="bg-white rounded-lg w-full max-w-2xl overflow-hidden relative"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <div className="p-6 pb-2">
+                        <h3 className="text-3xl font-bold text-gray-900 border-b-2 border-red-500 inline-block pb-1">QR코드</h3>
+                    </div>
+
+                    {/* Carousel Area */}
+                    <div className="overflow-x-auto whitespace-nowrap scroll-smooth p-4 no-scrollbar flex items-center" style={{ scrollSnapType: 'x mandatory' }}>
+                        {qrImages.map((item, idx) => (
+                            <div key={idx} className="inline-block w-full flex-shrink-0 px-4 flex flex-col items-center justify-center" style={{ scrollSnapAlign: 'center' }}>
+                                <div className="aspect-square w-full max-w-[600px] bg-white flex items-center justify-center mb-6">
+                                    <img
+                                        src={item.src}
+                                        alt={`QR Code ${idx + 1}`}
+                                        className="w-full h-full object-contain"
+                                    />
+                                </div>
+                                <div className="text-center space-y-2">
+                                    <div className="text-lg font-medium text-gray-800 tracking-tight">{item.number}</div>
+                                    <div className="text-lg font-medium text-gray-800 tracking-tight">{item.sub}</div>
+                                    <div className="text-2xl font-bold text-gray-900 mt-2">{item.type}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="text-center pb-6">
+                        <div className="flex justify-center space-x-1">
+                            {qrImages.map((_, i) => (
+                                <div key={i} className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
+                            ))}
+                        </div>
+                    </div>
+
+                </motion.div>
+            </div>
+        );
     };
 
     // --- Tab Views ---
@@ -240,40 +388,167 @@ const Reservations: React.FC = () => {
         </motion.div>
     );
 
-    const TicketView = () => (
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
-            {tickets && tickets.length > 0 ? (
-                tickets.map((ticket) => (
-                    <div key={ticket.id} className="bg-white rounded-xl shadow-sm p-5 border border-dashed border-gray-300 relative">
-                        {/* Ticket Notch */}
-                        <div className="absolute -left-3 top-1/2 w-6 h-6 bg-gray-100 rounded-full"></div>
-                        <div className="absolute -right-3 top-1/2 w-6 h-6 bg-gray-100 rounded-full"></div>
+    const AccommodationView = () => {
+        // Sort accommodations by check-in date
+        const sortedAccs = accommodations ? [...accommodations].sort((a, b) => new Date(a.checkIn).getTime() - new Date(b.checkIn).getTime()) : [];
 
-                        <div className="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-800">{ticket.title}</h3>
-                                <div className="text-sm text-gray-500 flex items-center mt-1">
-                                    <Calendar className="w-3 h-3 mr-1" />
-                                    {new Date(ticket.date).toLocaleDateString()}
+        return (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6 relative">
+                {/* Timeline Line */}
+                <div className="absolute left-[23px] top-6 bottom-6 w-0.5 bg-purple-100/80 z-0"></div>
+
+                {sortedAccs.map((acc, idx) => {
+                    const checkInDate = new Date(acc.checkIn);
+                    const checkOutDate = new Date(acc.checkOut);
+                    const nights = (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24);
+
+                    return (
+                        <div key={idx} className="relative z-10 flex">
+                            {/* Timeline Node */}
+                            <div className="flex-none flex flex-col items-center mr-4 w-12">
+                                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center border-4 border-gray-100 shadow-sm z-10">
+                                    <MapPin className="w-5 h-5 text-purple-600" />
+                                </div>
+                                <div className="mt-2 text-xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full whitespace-nowrap">
+                                    {nights}박 {nights + 1}일
                                 </div>
                             </div>
-                            <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">예약확정</span>
+
+                            {/* Card Content */}
+                            <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+                                <div className="p-4 bg-gradient-to-r from-purple-50 to-white border-b border-gray-100">
+                                    <div className="flex justify-between items-start mb-1">
+                                        <h3 className="text-lg font-bold text-gray-900 leading-tight">{acc.name}</h3>
+                                    </div>
+                                    <p className="text-xs text-gray-500 mt-1 line-clamp-1">{acc.address}</p>
+                                    {acc.roomType && (
+                                        <div className="inline-block mt-2 text-xs font-medium text-purple-700 bg-white border border-purple-200 px-2 py-1 rounded-md shadow-sm">
+                                            {acc.roomType}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="p-4">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="text-center flex-1">
+                                            <div className="text-[10px] text-gray-400 font-medium mb-1 bg-gray-50 rounded-full px-2 py-0.5 inline-block">체크인</div>
+                                            <div className="font-bold text-gray-800 text-sm mt-1">
+                                                {formatFullDate(checkInDate).split(' ')[0]}
+                                            </div>
+                                            <div className="text-lg font-black text-gray-900 mt-1">
+                                                {formatFullDate(checkInDate).split(' ')[1]}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-col items-center px-1">
+                                            <div className="w-full flex items-center justify-center">
+                                                <div className="w-1 h-1 rounded-full bg-gray-300"></div>
+                                                <div className="w-6 h-px bg-gray-300 dashed"></div>
+                                                <div className="w-1 h-1 rounded-full bg-gray-300"></div>
+                                            </div>
+                                            <span className="text-[10px] text-gray-400 mt-1 font-medium">{nights}박</span>
+                                        </div>
+
+                                        <div className="text-center flex-1">
+                                            <div className="text-[10px] text-gray-400 font-medium mb-1 bg-gray-50 rounded-full px-2 py-0.5 inline-block">체크아웃</div>
+                                            <div className="font-bold text-gray-800 text-sm mt-1">
+                                                {formatFullDate(checkOutDate).split(' ')[0]}
+                                            </div>
+                                            <div className="text-lg font-black text-gray-900 mt-1">
+                                                {formatFullDate(checkOutDate).split(' ')[1]}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {acc.cost !== undefined && (
+                                        <div className="flex justify-between items-center pt-4 border-t border-gray-50">
+                                            <span className="text-gray-500 text-xs font-medium">결제금액</span>
+                                            <span className="font-bold text-lg text-red-500 tracking-tight">{acc.cost.toLocaleString()}원</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex justify-between items-end">
-                            <span className="text-gray-600">{ticket.count}명</span>
-                            <span className="text-lg font-bold">{ticket.price.toLocaleString()}원</span>
+                    );
+                })}
+            </motion.div>
+        );
+    };
+
+    const BusTicketView = () => (
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
+            {busTickets && busTickets.map((ticket) => (
+                <div key={ticket.id} className="space-y-2">
+                    <div className="text-sm font-bold text-gray-600 ml-1">예매일 : {ticket.bookingDate}</div>
+                    <div
+                        className={`bg-white rounded-xl shadow-md overflow-hidden transition-transform active:scale-95 cursor-pointer ring-2 ring-transparent hover:ring-sky-200`}
+                        onClick={() => setSelectedTicket(ticket)}
+                    >
+                        {/* Header - Sky Blue */}
+                        <div className="bg-sky-400 p-4 text-white">
+                            <div className="flex justify-between items-center px-2">
+                                <span className="text-lg font-bold">{ticket.departureLocation}</span>
+                                <ArrowRight className="w-6 h-6 text-white/80" />
+                                <span className="text-lg font-bold">{ticket.arrivalLocation}</span>
+                            </div>
+                        </div>
+
+                        {/* Body */}
+                        <div className="p-5 flex justify-between">
+                            <div className="flex-1">
+                                <div className="mb-3">
+                                    <span className="text-red-500 font-bold text-sm bg-red-50 px-1 rounded">출발일자</span>
+                                    <span className="text-red-500 font-bold ml-1 text-lg">
+                                        {ticket.departureTime} 출발
+                                    </span>
+                                </div>
+
+                                <div className="space-y-1 text-gray-600 text-sm">
+                                    {ticket.seats.map((seat, idx) => (
+                                        <div key={idx} className="flex items-center space-x-1">
+                                            <span>좌석 {seat.seatNumber}</span>
+                                            <span className="text-gray-300">/</span>
+                                            <span>{seat.type}</span>
+                                            <span className="text-gray-300">/</span>
+                                            <span>{seat.busType}</span>
+                                            {seat.tagless && (
+                                                <span className="ml-1 px-1.5 py-0.5 bg-yellow-400 text-yellow-900 text-[10px] font-bold rounded">Tagless</span>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-4 flex space-x-3 text-sm font-medium text-gray-500">
+                                    <span>발권완료</span>
+                                    <span className="text-gray-300">|</span>
+                                    <span>상세보기</span>
+                                </div>
+                            </div>
+
+                            {/* Mobile Ticket Button (Triggers Interleaved Modal) */}
+                            <div
+                                className="flex flex-col items-center justify-center border-l border-gray-100 pl-4 ml-2 min-w-[80px] cursor-pointer"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedTicket(ticket);
+                                }}
+                            >
+                                <QrCode className="w-16 h-16 text-gray-800 mb-1" />
+                                <span className="text-xs text-gray-500">모바일 발권</span>
+                            </div>
                         </div>
                     </div>
-                ))
-            ) : (
-                <div className="text-center py-10 text-gray-400">예약된 입장권이 없습니다.</div>
+                </div>
+            ))}
+            {(!busTickets || busTickets.length === 0) && (
+                <div className="text-center py-10 text-gray-400">예약된 승차권이 없습니다.</div>
             )}
         </motion.div>
     );
 
+
     const EtcView = () => (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
-            {/* Accommodation (from Others or Accommodations array) */}
             {others && others.map((item) => (
                 <div key={item.id} className="bg-white rounded-xl shadow-sm p-5">
                     <div className="flex justify-between items-start mb-2">
@@ -285,19 +560,7 @@ const Reservations: React.FC = () => {
                     {item.period && <div className="text-xs text-gray-400">{item.period}</div>}
                 </div>
             ))}
-            {/* Fallback layout for Accommodations if separate */}
-            {RESERVATIONS.accommodations.map((acc, idx) => (
-                <div key={idx} className="bg-white rounded-xl shadow-sm p-5">
-                    <div className="flex items-center mb-3">
-                        <div className="p-2 bg-purple-100 rounded-full mr-2">
-                            <MapPin className="w-4 h-4 text-purple-600" />
-                        </div>
-                        <h3 className="text-lg font-bold text-gray-800">숙소</h3>
-                    </div>
-                    <h4 className="font-bold text-gray-900 mb-1">{acc.name}</h4>
-                    <p className="text-sm text-gray-500">{acc.address}</p>
-                </div>
-            ))}
+            {/* If there are generic tickets (like Entry Tickets) they can be shown here if needed, or moved to 'others' data */}
         </motion.div>
     );
 
@@ -337,12 +600,28 @@ const Reservations: React.FC = () => {
             </div>
 
             {/* Content Area */}
-            <div className="p-4 pb-24">
+            <div className="p-4 pb-24 relative">
                 <AnimatePresence mode="wait">
-                    {activeTab === 'car' && <CarView key="car" />}
                     {activeTab === 'flight' && <FlightView key="flight" />}
-                    {activeTab === 'ticket' && <TicketView key="ticket" />}
+                    {activeTab === 'car' && <CarView key="car" />}
+                    {activeTab === 'accommodation' && <AccommodationView key="accommodation" />}
+                    {activeTab === 'bus' && <BusTicketView key="bus" />}
                     {activeTab === 'etc' && <EtcView key="etc" />}
+                </AnimatePresence>
+
+                {/* Modal Overlay */}
+                <AnimatePresence>
+                    {selectedTicket && (
+                        <MobileTicketModal
+                            ticket={selectedTicket}
+                            onClose={() => setSelectedTicket(null)}
+                        />
+                    )}
+                    {showQRModal && (
+                        <QRCodeModal
+                            onClose={() => setShowQRModal(false)}
+                        />
+                    )}
                 </AnimatePresence>
             </div>
         </div>
