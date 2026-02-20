@@ -395,18 +395,19 @@ const Reservations: React.FC = () => {
 
         // Prepare items for ScheduleMap
         const mapItems = sortedAccs.map((acc, index) => {
-            // Rough hardcoded coordinates for the 3 specific hotels to fit on the custom map image
-            let lat = 50;
-            let lng = 50;
+            // Real coordinates for the hotels in Jeju
+            let lat = 33.3617;
+            let lng = 126.5292;
+
             if (acc.name.includes("신신호텔")) {
-                lat = 85; // South
-                lng = 50; // Center
+                lat = 33.2475;
+                lng = 126.5615;
             } else if (acc.name.includes("항공우주")) {
-                lat = 75; // South
-                lng = 25; // West
+                lat = 33.3039;
+                lng = 126.2995;
             } else if (acc.name.includes("켄싱턴")) {
-                lat = 82; // South
-                lng = 55; // Center-East
+                lat = 33.2388;
+                lng = 126.5055;
             }
 
             return {
