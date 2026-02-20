@@ -53,24 +53,24 @@ export const RESERVATIONS: ReservationData = {
             checkIn: "2026-02-21T15:00:00",
             checkOut: "2026-02-22T11:00:00",
             address: "제주 서귀포시 서귀동 332",
-            cost: 65000,
-            roomType: "스탠다드"
+            cost: 68635,
+            roomType: "패밀리 더블룸"
         },
         {
             name: "제주항공우주호텔",
             checkIn: "2026-02-22T15:00:00",
             checkOut: "2026-02-23T11:00:00",
             address: "제주특별자치도 서귀포시 안덕면 녹차분재로 218",
-            cost: 83000,
-            roomType: "스탠다드"
+            cost: 87140,
+            roomType: "스탠다드 패밀리 트윈룸"
         },
         {
             name: "켄싱턴리조트 서귀포",
             checkIn: "2026-02-23T15:00:00",
             checkOut: "2026-02-25T11:00:00",
             address: "제주특별자치도 서귀포시 이어도로 684",
-            cost: 168000,
-            roomType: "스탠다드"
+            cost: 311868,
+            roomType: "프리미어 노멀 오션뷰 룸"
         }
     ],
     tickets: [
