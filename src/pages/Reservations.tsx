@@ -400,8 +400,8 @@ const Reservations: React.FC = () => {
             let lng = 126.5292;
 
             if (acc.name.includes("신신호텔")) {
-                lat = 33.2475;
-                lng = 126.5615;
+                lat = 33.4842;
+                lng = 126.4862;
             } else if (acc.name.includes("항공우주")) {
                 lat = 33.3039;
                 lng = 126.2995;

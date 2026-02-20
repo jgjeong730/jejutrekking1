@@ -49,10 +49,10 @@ export const RESERVATIONS: ReservationData = {
     },
     accommodations: [
         {
-            name: "신신호텔 (shinshin 호텔)",
+            name: "신신호텔 제주시티 (Shinshin Hotel Jeju City)",
             checkIn: "2026-02-21T15:00:00",
             checkOut: "2026-02-22T11:00:00",
-            address: "제주 서귀포시 서귀동 332",
+            address: "제주 제주시 해안마을북길 6-14",
             cost: 68635,
             roomType: "패밀리 더블룸"
         },
