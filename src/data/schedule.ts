@@ -225,26 +225,18 @@ export const SCHEDULE: ScheduleData = {
         {
             day: 5,
             date: "2026-02-25",
-            title: "조기 기상 & 우도 종일 투어",
+            title: "우도 반나절 투어 & 찜질방 휴식",
             activities: [
                 {
                     id: 'd5-1',
                     day: 5,
-                    time: "07:30",
-                    title: "이른 체크아웃 (성산항 출발)",
-                    type: "checkin",
-                    location: { lat: 33.2388, lng: 126.5055, name: "켄싱턴" }
-                },
-                {
-                    id: 'd5-2',
-                    day: 5,
                     time: "08:30",
-                    title: "성산항 도착 & 여객선 탑승",
+                    title: "성산항 도착 & 우도 여객선 탑승",
                     type: "tour",
                     location: { lat: 33.4725, lng: 126.9335, name: "성산항" }
                 },
                 {
-                    id: 'd5-3',
+                    id: 'd5-2',
                     day: 5,
                     time: "09:30",
                     title: "우도 전기자전거 환상 투어",
@@ -252,26 +244,34 @@ export const SCHEDULE: ScheduleData = {
                     location: { lat: 33.5050, lng: 126.9530, name: "우도" }
                 },
                 {
-                    id: 'd5-4',
+                    id: 'd5-3',
                     day: 5,
                     time: "12:00",
-                    title: "우도 땅콩아이스크림 및 점심",
+                    title: "우도 해물라면 & 땅콩아이스크림 점심",
                     type: "food",
                     location: { lat: 33.5050, lng: 126.9530, name: "우도맛집" }
                 },
                 {
-                    id: 'd5-5',
+                    id: 'd5-4',
                     day: 5,
-                    time: "15:30",
-                    title: "본섬(성산) 복귀 & 공항 출발",
+                    time: "13:30",
+                    title: "우도 조기 탈출 & 제주시 방향 이동",
                     type: "checkin",
                     location: { lat: 33.4725, lng: 126.9335, name: "성산항" }
                 },
                 {
+                    id: 'd5-5',
+                    day: 5,
+                    time: "15:00",
+                    title: "도두해수파크 입성 (찜질방 & 통창 오션뷰 낮잠)",
+                    type: "cafe", // can use 'cafe' or 'checkin'
+                    location: { lat: 33.5117, lng: 126.4719, name: "도두해수파크" }
+                },
+                {
                     id: 'd5-6',
                     day: 5,
-                    time: "17:30",
-                    title: "렌터카 반납 & 김포행 대기",
+                    time: "18:00",
+                    title: "개운하게 렌터카 반납 & 김포행 비행기 대기",
                     type: "flight",
                     location: { lat: 33.5043, lng: 126.4945, name: "제주공항" }
                 }
