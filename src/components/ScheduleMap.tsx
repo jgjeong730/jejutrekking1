@@ -73,8 +73,8 @@ const ScheduleMap: React.FC<ScheduleMapProps> = ({ customActivities, hideTimelin
         if (map) {
             if (hideTimeline) {
                 // If it's the accommodations map, simply center the whole Jeju island
-                map.setCenter(center);
-                map.setZoom(10);
+                map.setCenter({ lat: 33.3617, lng: 126.5292 }); // Center of Jeju
+                map.setZoom(9);
             } else if (mapActivities.length > 0 || connectionPath.length > 0) {
                 const bounds = new window.google.maps.LatLngBounds();
 
@@ -102,7 +102,7 @@ const ScheduleMap: React.FC<ScheduleMapProps> = ({ customActivities, hideTimelin
                     google.maps.event.removeListener(listener);
                 });
             } else {
-                map.setCenter(center);
+                map.setCenter({ lat: 33.3617, lng: 126.5292 });
                 map.setZoom(9);
             }
         }
