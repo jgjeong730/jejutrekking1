@@ -174,19 +174,21 @@ const ScheduleMap: React.FC<ScheduleMapProps> = ({ customActivities, hideTimelin
                         ))}
 
                         {/* Draw Polyline connecting markers */}
-                        <PolylineF
-                            path={pathCoordinates}
-                            options={{
-                                strokeColor: "#3B82F6",
-                                strokeOpacity: 0.8,
-                                strokeWeight: 4,
-                                icons: [{
-                                    icon: { path: "M 0,-1 0,1", strokeOpacity: 1, scale: 2 },
-                                    offset: "0",
-                                    repeat: "20px"
-                                }],
-                            }}
-                        />
+                        {!hideTimeline && (
+                            <PolylineF
+                                path={pathCoordinates}
+                                options={{
+                                    strokeColor: "#3B82F6",
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 4,
+                                    icons: [{
+                                        icon: { path: "M 0,-1 0,1", strokeOpacity: 1, scale: 2 },
+                                        offset: "0",
+                                        repeat: "20px"
+                                    }],
+                                }}
+                            />
+                        )}
                     </GoogleMap>
                 ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 bg-gray-50">
