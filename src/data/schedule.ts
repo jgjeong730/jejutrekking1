@@ -10,24 +10,48 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd1-1',
                     day: 1,
-                    time: "19:00",
-                    title: "제주공항 도착 & 렌트카 인수",
-                    type: "flight",
-                    location: { lat: 33.5043, lng: 126.4945, name: "제주공항/렌터카" }
+                    time: "14:45",
+                    title: "망포역 7번출구 공항리무진 탑승",
+                    type: "checkin",
+                    location: { lat: 37.2455, lng: 127.0572, name: "망포역" }
                 },
                 {
                     id: 'd1-2',
                     day: 1,
-                    time: "20:00",
+                    time: "18:30",
+                    title: "김포공항 출발 (OZ8983)",
+                    type: "flight",
+                    location: { lat: 37.5587, lng: 126.7945, name: "김포" }
+                },
+                {
+                    id: 'd1-3',
+                    day: 1,
+                    time: "19:45",
+                    title: "제주공항 도착",
+                    type: "flight",
+                    location: { lat: 33.5104, lng: 126.4914, name: "제주공항" }
+                },
+                {
+                    id: 'd1-4',
+                    day: 1,
+                    time: "20:30",
+                    title: "렌트카 인수 (제주속으로)",
+                    type: "checkin",
+                    location: { lat: 33.5043, lng: 126.4945, name: "렌트카" }
+                },
+                {
+                    id: 'd1-5',
+                    day: 1,
+                    time: "21:30",
                     title: "신신호텔 제주시티 체크인",
                     type: "checkin",
                     location: { lat: 33.4842, lng: 126.4862, name: "신신호텔" }
                 },
                 {
-                    id: 'd1-3',
+                    id: 'd1-6',
                     day: 1,
-                    time: "20:30",
-                    title: "흑돼지 저녁 식사 & 숙소 산책",
+                    time: "22:00",
+                    title: "호텔 근처 흑돼지 저녁 식사",
                     type: "food",
                     location: { lat: 33.4850, lng: 126.4900, name: "제주시내" }
                 }
