@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { RESERVATIONS } from '../data/reservations';
 import { Plane, Car, MoreHorizontal, CheckCircle, MapPin, Bus, ArrowRight, QrCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ScheduleMap from '../components/ScheduleMap';
 
 type Tab = 'flight' | 'car' | 'accommodation' | 'bus' | 'etc';
 
@@ -392,85 +393,131 @@ const Reservations: React.FC = () => {
         // Sort accommodations by check-in date
         const sortedAccs = accommodations ? [...accommodations].sort((a, b) => new Date(a.checkIn).getTime() - new Date(b.checkIn).getTime()) : [];
 
+        // Prepare items for ScheduleMap
+        const mapItems = sortedAccs.map((acc, index) => {
+            // Rough hardcoded coordinates for the 3 specific hotels to fit on the custom map image
+            let lat = 50;
+            let lng = 50;
+            if (acc.name.includes("신신호텔")) {
+                lat = 85; // South
+                lng = 50; // Center
+            } else if (acc.name.includes("항공우주")) {
+                lat = 75; // South
+                lng = 25; // West
+            } else if (acc.name.includes("켄싱턴")) {
+                lat = 82; // South
+                lng = 55; // Center-East
+            }
+
+            return {
+                id: `acc-${index}`,
+                title: acc.name,
+                type: 'checkin' as const,
+                location: { name: acc.name, lat, lng }
+            };
+        });
+
+        // Add dummy activity structure needed by ScheduleMap
+        const dummyActivityItems = mapItems.map((item, idx) => ({ ...item, day: idx + 1, time: '' }));
+
+
         return (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6 relative">
-                {/* Timeline Line */}
-                <div className="absolute left-[23px] top-6 bottom-6 w-0.5 bg-purple-100/80 z-0"></div>
 
-                {sortedAccs.map((acc, idx) => {
-                    const checkInDate = new Date(acc.checkIn);
-                    const checkOutDate = new Date(acc.checkOut);
-                    const nights = (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24);
+                {/* Map View */}
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                    <div className="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                        <h3 className="font-bold text-gray-800 flex items-center gap-2">
+                            <MapPin className="w-5 h-5 text-purple-600" />
+                            숙소 위치 안내
+                        </h3>
+                    </div>
+                    <div className="h-[250px] relative">
+                        {/* We import ScheduleMap at the top and use it here */}
+                        <ScheduleMap customActivities={dummyActivityItems} hideTimeline={true} />
+                    </div>
+                </div>
 
-                    return (
-                        <div key={idx} className="relative z-10 flex">
-                            {/* Timeline Node */}
-                            <div className="flex-none flex flex-col items-center mr-4 w-12">
-                                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center border-4 border-gray-100 shadow-sm z-10">
-                                    <MapPin className="w-5 h-5 text-purple-600" />
-                                </div>
-                                <div className="mt-2 text-xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full whitespace-nowrap">
-                                    {nights}박 {nights + 1}일
-                                </div>
-                            </div>
+                <div className="relative">
+                    {/* Timeline Line */}
+                    <div className="absolute left-[23px] top-6 bottom-6 w-0.5 bg-purple-100/80 z-0"></div>
 
-                            {/* Card Content */}
-                            <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
-                                <div className="p-4 bg-gradient-to-r from-purple-50 to-white border-b border-gray-100">
-                                    <div className="flex justify-between items-start mb-1">
-                                        <h3 className="text-lg font-bold text-gray-900 leading-tight">{acc.name}</h3>
+                    {sortedAccs.map((acc, idx) => {
+                        const checkInDate = new Date(acc.checkIn);
+                        const checkOutDate = new Date(acc.checkOut);
+                        // Use Math.round to fix daylight savings or exact hour discrepancies
+                        const nights = Math.round((checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24));
+
+                        return (
+                            <div key={idx} className="relative z-10 flex mb-6 last:mb-0 pt-2">
+                                {/* Timeline Node */}
+                                <div className="flex-none flex flex-col items-center mr-4 w-12">
+                                    <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center border-4 border-gray-100 shadow-sm z-10">
+                                        <span className="text-purple-700 font-bold">{idx + 1}</span>
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1 line-clamp-1">{acc.address}</p>
-                                    {acc.roomType && (
-                                        <div className="inline-block mt-2 text-xs font-medium text-purple-700 bg-white border border-purple-200 px-2 py-1 rounded-md shadow-sm">
-                                            {acc.roomType}
-                                        </div>
-                                    )}
+                                    <div className="mt-2 text-xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full whitespace-nowrap">
+                                        {nights}박 {nights + 1}일
+                                    </div>
                                 </div>
 
-                                <div className="p-4">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="text-center flex-1">
-                                            <div className="text-[10px] text-gray-400 font-medium mb-1 bg-gray-50 rounded-full px-2 py-0.5 inline-block">체크인</div>
-                                            <div className="font-bold text-gray-800 text-sm mt-1">
-                                                {formatFullDate(checkInDate).split(' ')[0]}
-                                            </div>
-                                            <div className="text-lg font-black text-gray-900 mt-1">
-                                                {formatFullDate(checkInDate).split(' ')[1]}
-                                            </div>
+                                {/* Card Content */}
+                                <div className="flex-1 bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+                                    <div className="p-4 bg-gradient-to-r from-purple-50 to-white border-b border-gray-100">
+                                        <div className="flex justify-between items-start mb-1">
+                                            <h3 className="text-lg font-bold text-gray-900 leading-tight">{acc.name}</h3>
                                         </div>
-
-                                        <div className="flex flex-col items-center px-1">
-                                            <div className="w-full flex items-center justify-center">
-                                                <div className="w-1 h-1 rounded-full bg-gray-300"></div>
-                                                <div className="w-6 h-px bg-gray-300 dashed"></div>
-                                                <div className="w-1 h-1 rounded-full bg-gray-300"></div>
+                                        <p className="text-xs text-gray-500 mt-1 line-clamp-1">{acc.address}</p>
+                                        {acc.roomType && (
+                                            <div className="inline-block mt-2 text-xs font-medium text-purple-700 bg-white border border-purple-200 px-2 py-1 rounded-md shadow-sm">
+                                                {acc.roomType}
                                             </div>
-                                            <span className="text-[10px] text-gray-400 mt-1 font-medium">{nights}박</span>
-                                        </div>
-
-                                        <div className="text-center flex-1">
-                                            <div className="text-[10px] text-gray-400 font-medium mb-1 bg-gray-50 rounded-full px-2 py-0.5 inline-block">체크아웃</div>
-                                            <div className="font-bold text-gray-800 text-sm mt-1">
-                                                {formatFullDate(checkOutDate).split(' ')[0]}
-                                            </div>
-                                            <div className="text-lg font-black text-gray-900 mt-1">
-                                                {formatFullDate(checkOutDate).split(' ')[1]}
-                                            </div>
-                                        </div>
+                                        )}
                                     </div>
 
-                                    {acc.cost !== undefined && (
-                                        <div className="flex justify-between items-center pt-4 border-t border-gray-50">
-                                            <span className="text-gray-500 text-xs font-medium">결제금액</span>
-                                            <span className="font-bold text-lg text-red-500 tracking-tight">{acc.cost.toLocaleString()}원</span>
+                                    <div className="p-4">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="text-center flex-1">
+                                                <div className="text-[10px] text-gray-400 font-medium mb-1 bg-gray-50 rounded-full px-2 py-0.5 inline-block">체크인</div>
+                                                <div className="font-bold text-gray-800 text-sm mt-1">
+                                                    {formatFullDate(checkInDate).split(' ')[0]}
+                                                </div>
+                                                <div className="text-lg font-black text-gray-900 mt-1">
+                                                    {formatFullDate(checkInDate).split(' ')[1]}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex flex-col items-center px-1">
+                                                <div className="w-full flex items-center justify-center">
+                                                    <div className="w-1 h-1 rounded-full bg-gray-300"></div>
+                                                    <div className="w-6 h-px bg-gray-300 dashed"></div>
+                                                    <div className="w-1 h-1 rounded-full bg-gray-300"></div>
+                                                </div>
+                                                <span className="text-[10px] text-gray-400 mt-1 font-medium">{nights}박</span>
+                                            </div>
+
+                                            <div className="text-center flex-1">
+                                                <div className="text-[10px] text-gray-400 font-medium mb-1 bg-gray-50 rounded-full px-2 py-0.5 inline-block">체크아웃</div>
+                                                <div className="font-bold text-gray-800 text-sm mt-1">
+                                                    {formatFullDate(checkOutDate).split(' ')[0]}
+                                                </div>
+                                                <div className="text-lg font-black text-gray-900 mt-1">
+                                                    {formatFullDate(checkOutDate).split(' ')[1]}
+                                                </div>
+                                            </div>
                                         </div>
-                                    )}
+
+                                        {acc.cost !== undefined && acc.cost > 0 && (
+                                            <div className="flex justify-between items-center pt-4 border-t border-gray-50">
+                                                <span className="text-gray-500 text-xs font-medium">결제금액</span>
+                                                <span className="font-bold text-lg text-red-500 tracking-tight">{acc.cost.toLocaleString()}원</span>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+                </div>
             </motion.div>
         );
     };
