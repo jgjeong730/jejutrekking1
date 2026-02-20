@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RESERVATIONS } from '../data/reservations';
-import { Plane, Car, MoreHorizontal, CheckCircle, MapPin, Bus, ArrowRight, QrCode } from 'lucide-react';
+import { Plane, Car, MoreHorizontal, CheckCircle, MapPin, Bus, ArrowRight, QrCode, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScheduleMap from '../components/ScheduleMap';
 
@@ -10,6 +10,7 @@ const Reservations: React.FC = () => {
     const [activeTab, setActiveTab] = useState<Tab>('flight'); // Default to flight
     const [selectedTicket, setSelectedTicket] = useState<any>(null);
     const [showQRModal, setShowQRModal] = useState(false);
+    const [showAirTicketModal, setShowAirTicketModal] = useState(false);
     const { flights, car, accommodations, busTickets, others } = RESERVATIONS;
 
     const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
@@ -29,6 +30,176 @@ const Reservations: React.FC = () => {
         const week = weeks[date.getDay()];
         const time = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
         return `${yyyy}-${mm}-${dd}(${week}) ${time}`;
+    };
+
+    // --- Mobile Air Ticket Modal ---
+    const MobileAirTicketModal = ({ onClose }: { onClose: () => void }) => {
+        const airTickets = [
+            { name: '이 건경', seat: '4C', seq: '004', bookNo: 'E22T42', member: 'OZ351178841 Silver', passName: 'LEE/GEONKYUNG MR' },
+            { name: '이 희근', seat: '4A', seq: '023', bookNo: 'E22T42', member: 'OZ473510981 Silver', passName: 'LEE/HEEKEUN MR' },
+            { name: '이 세찬', seat: '3A', seq: '011', bookNo: 'E22T42', member: 'OZ663502950 Magic Miles', passName: 'LEE SECHAN' },
+            { name: '이 다원', seat: '3C', seq: '007', bookNo: 'E22T42', member: 'OZ663501554 Magic Miles', passName: 'LEE DAWON' },
+        ];
+
+        return (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 p-0 sm:p-4" onClick={onClose}>
+                <div
+                    className="w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-md bg-transparent flex flex-col relative"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* Header */}
+                    <div className="flex justify-between items-center p-4 text-white z-10 shrink-0 border-b border-gray-800 bg-[#D90B2C]">
+                        <div className="text-center w-full relative">
+                            <span className="font-bold tracking-wider text-sm">Boarding pass</span>
+                            <div className="text-[10px] text-white/70">digital.flyasiana.com</div>
+                            <button onClick={onClose} className="absolute left-0 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2">
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
+                    </div>
+                    <div className="bg-white text-center font-bold text-gray-900 py-3 text-sm border-b-2 border-red-600">
+                        Seoul to Jeju
+                    </div>
+
+                    {/* Carousel */}
+                    <div className="overflow-x-auto whitespace-nowrap scroll-smooth no-scrollbar flex items-center flex-1 w-full pt-4 pb-2" style={{ scrollSnapType: 'x mandatory' }}>
+                        {airTickets.map((ticket, idx) => (
+                            <div key={idx} className="inline-block w-full h-full sm:h-auto flex-shrink-0 px-4 sm:px-0 flex flex-col items-center justify-start snap-center relative">
+                                {/* Ticket Card UI */}
+                                <div className="w-full max-w-[340px] bg-white rounded-md overflow-hidden shadow-2xl pb-4 font-sans border border-gray-200">
+                                    {/* Top colored bar */}
+                                    <div className="flex h-2">
+                                        <div className="bg-[#002B6D] flex-[4]"></div>
+                                        <div className="bg-[#E20021] flex-[2]"></div>
+                                        <div className="bg-[#FEC300] flex-1"></div>
+                                    </div>
+
+                                    {/* Logo & Titles */}
+                                    <div className="bg-[#f0f1f3] pb-2">
+                                        <div className="flex justify-center pt-4 pb-1">
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-[#002B6D] font-bold tracking-tight text-lg">ASIANA AIRLINES</span>
+                                                <div className="text-red-600 font-extrabold text-xl ml-1 transform rotate-12 origin-bottom-left">7</div>
+                                            </div>
+                                        </div>
+                                        <div className="text-center text-[9px] text-gray-400 font-bold mb-3 uppercase tracking-wider">
+                                            A Star Alliance Member <svg className="inline w-3 h-3 text-gray-600 ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.6-6.3-4.8-6.3 4.8 2.3-7.6-6-4.6h7.6z" /></svg>
+                                        </div>
+                                        <div className="border-t border-gray-300 mx-5 my-2"></div>
+                                        <div className="text-center text-[13px] text-gray-600 my-2">Boarding Pass</div>
+                                        <div className="border-t border-gray-300 mx-5 my-2"></div>
+                                        <div className="text-center text-[15px] font-bold text-gray-800 my-3">{ticket.name}</div>
+                                    </div>
+
+                                    {/* Details Row 1 */}
+                                    <div className="grid grid-cols-3 gap-2 px-6 py-4 border-b border-[#f0f1f3]">
+                                        <div>
+                                            <div className="text-[11px] text-gray-400 mb-0.5">Flight No.</div>
+                                            <div className="text-lg font-medium text-gray-900 tracking-tight">OZ8983</div>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-[11px] text-gray-400 mb-0.5">Departure</div>
+                                            <div className="text-[17px] font-medium text-gray-900">21 Feb</div>
+                                            <div className="text-xs text-gray-700 tracking-widest mt-0.5">2026</div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-[11px] text-gray-400 mb-0.5">Seat</div>
+                                            <div className="text-xl font-medium text-[#c00]">{ticket.seat}</div>
+                                        </div>
+                                    </div>
+
+                                    {/* QR Code & Row 2 */}
+                                    <div className="flex px-5 py-4">
+                                        <div className="flex-1 flex flex-col items-center">
+                                            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=ASIANA_OZ8983_${ticket.name.replace(' ', '')}_${ticket.seat}`} alt="QR" className="w-[110px] h-[110px] object-cover mb-1 border-2 border-white rounded" />
+                                            <div className="text-[11px] text-gray-800 tracking-tighter mt-1 font-medium bg-white px-1">OZ8983 / {ticket.seat} / {ticket.seq}</div>
+                                        </div>
+                                        <div className="flex-1 pl-3 flex flex-col justify-between pt-1 pb-4">
+                                            <div className="text-right">
+                                                <div className="text-[11px] text-gray-400 mb-0.5">Gate</div>
+                                                <div className="text-xl font-medium text-[#c00] leading-none mb-1">17</div>
+                                                <div className="text-[11px] text-gray-800">Terminal D</div>
+                                            </div>
+                                            <div className="flex justify-end gap-3 mt-4">
+                                                <div className="text-center">
+                                                    <div className="text-[10px] text-gray-400 mb-0.5">Zone</div>
+                                                    <div className="text-[17px] font-medium text-[#c00] leading-none">PRI</div>
+                                                </div>
+                                                <div className="text-center">
+                                                    <div className="text-[10px] text-gray-400 mb-0.5">Boarding</div>
+                                                    <div className="text-[17px] font-medium text-[#c00] leading-none">18:05</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* PRIORITY BOARDING Box */}
+                                    <div className="px-5 pb-4">
+                                        <div className="bg-[#E75D14] text-white flex items-center px-2 py-1.5 w-max ml-1 rounded">
+                                            <div className="text-center mr-2">
+                                                <div className="text-[8px] leading-[8px]">★</div>
+                                                <div className="text-[5px] leading-[5px] scale-75 mt-0.5 text-center">STAR ALLIANCE</div>
+                                            </div>
+                                            <div className="text-[8px] font-bold leading-tight">PRIORITY<br />BOARDING</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Footer area */}
+                                    <div className="bg-[#e4e4e4] px-5 py-4 pb-6 mx-0">
+                                        <div className="text-center text-[11px] font-bold text-gray-800 mb-3 tracking-widest">**LOUNGE INVITED**</div>
+                                        <div className="flex items-center justify-between mb-3 px-1">
+                                            <div className="w-[40%] text-left">
+                                                <div className="text-[22px] font-bold text-black tracking-tight leading-none mb-1">GMP</div>
+                                                <div className="text-[9px] text-gray-600 truncate -mr-2 text-left">Seoul/Gimpo Inter...</div>
+                                                <div className="text-[11px] text-gray-800 mt-1 font-medium">18:30</div>
+                                            </div>
+                                            <Plane className="w-5 h-5 text-gray-800 rotate-45 transform" fill="currentColor" />
+                                            <div className="w-[40%] text-right">
+                                                <div className="text-[22px] font-bold text-black tracking-tight leading-none mb-1">CJU</div>
+                                                <div className="text-[9px] text-gray-600 truncate -ml-2 text-right">Jeju/Jeju Internati...</div>
+                                            </div>
+                                        </div>
+                                        <div className="border-t border-gray-400 my-2.5 opacity-30"></div>
+                                        <div className="flex justify-between text-[11px] px-1">
+                                            <div>
+                                                <div className="text-gray-500 mb-0.5">Class</div>
+                                                <div className="font-medium text-black">Business</div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-gray-500 mb-0.5">Booking No.</div>
+                                                <div className="font-medium text-black">{ticket.bookNo}</div>
+                                            </div>
+                                        </div>
+                                        <div className="border-t border-gray-400 my-2.5 opacity-30"></div>
+                                        <div className="text-[11px] px-1">
+                                            <div className="text-gray-500 mb-0.5">Membership</div>
+                                            <div className="font-medium text-black">{ticket.member}</div>
+                                        </div>
+                                    </div>
+                                    <div className="h-0 relative z-20 flex justify-end pr-5 -top-5">
+                                        <div className="w-8 h-8 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500 transform -rotate-45"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Dots indicator */}
+                    <div className="flex justify-center gap-1.5 pb-6">
+                        {airTickets.map((_, i) => (
+                            <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/40" />
+                        ))}
+                    </div>
+
+                    {/* Bottom Action bar (Fake) */}
+                    <div className="bg-white p-4 shrink-0 text-center font-bold text-gray-900 text-sm mt-auto">
+                        Send boarding passes
+                    </div>
+                </div>
+            </div>
+        );
     };
 
     // --- Mobile Ticket Modal ---
@@ -252,6 +423,19 @@ const Reservations: React.FC = () => {
 
     const FlightView = () => (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
+
+            {/* Mobile Air Ticket Button */}
+            <div className="flex justify-center mb-0 mt-4">
+                <button
+                    onClick={() => setShowAirTicketModal(true)}
+                    className="bg-gray-900 border border-gray-700 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-gray-800 active:scale-95 transition-all text-sm flex items-center justify-center gap-2 w-full max-w-[300px]"
+                >
+                    <QrCode className="w-5 h-5 text-yellow-400" />
+                    <span>모바일 티켓 : 김포</span>
+                    <Plane className="w-4 h-4 ml-0.5 mr-0.5 text-gray-400 fill-current rotate-45" />
+                    <span>제주</span>
+                </button>
+            </div>
 
             {/* Reservation Header Card */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -659,6 +843,9 @@ const Reservations: React.FC = () => {
 
                 {/* Modal Overlay */}
                 <AnimatePresence>
+                    {showAirTicketModal && (
+                        <MobileAirTicketModal onClose={() => setShowAirTicketModal(false)} />
+                    )}
                     {selectedTicket && (
                         <MobileTicketModal
                             ticket={selectedTicket}
