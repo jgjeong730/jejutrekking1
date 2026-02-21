@@ -74,9 +74,9 @@ export const SCHEDULE: ScheduleData = {
                     id: 'd2-2-new',
                     day: 2,
                     time: "09:10",
-                    title: "스타벅스 제주금악DT점 (모닝 커피)",
+                    title: "스타벅스 제주협재점 (더마파크 근처 모닝 커피)",
                     type: "cafe",
-                    location: { lat: 33.3533, lng: 126.3314, name: "스타벅스" }
+                    location: { lat: 33.3938, lng: 126.2396, name: "스타벅스" }
                 },
                 {
                     id: 'd2-2',
