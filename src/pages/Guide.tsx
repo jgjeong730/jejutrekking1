@@ -150,7 +150,7 @@ const Guide: React.FC = () => {
                         <Info className="w-4 h-4 text-orange-400 mt-1 flex-shrink-0" />
                         <div>
                             <p className="text-sm font-bold text-gray-800">시간 활성화 시점 꿀팁</p>
-                            <p className="text-xs text-gray-500 mt-0.5">2일차(10:30) 더마파크에서 처음 바코드를 찍고, 4일차(10:30) 아트서커스 입장을 조금만 앞당기면 48시간을 1분도 남김없이 완벽하게 쓸 수 있습니다.</p>
+                            <p className="text-xs text-gray-500 mt-0.5">2일차(09:10) 오션뷰 첫 카페에서 바코드를 찍어도, 4일차(10:30) 아트서커스 입장이 48시간 내에 여유롭게 가능하여 단 1분도 남김없이 투어패스를 완벽하게 뽕뽑을 수 있습니다.</p>
                         </div>
                     </div>
                 </div>

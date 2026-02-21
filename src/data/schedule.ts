@@ -65,10 +65,18 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd2-1',
                     day: 2,
-                    time: "09:30",
-                    title: "제주시내 출발 (서부 이동)",
+                    time: "08:30",
+                    title: "신신호텔 조기 출발 (서부 이동)",
                     type: "checkin",
                     location: { lat: 33.4842, lng: 126.4862, name: "제주시내" }
+                },
+                {
+                    id: 'd2-2-new',
+                    day: 2,
+                    time: "09:10",
+                    title: "투어패스 카페 1 (바다뷰 모닝커피)",
+                    type: "cafe",
+                    location: { lat: 33.4633, lng: 126.3197, name: "애월/한림 카페" }
                 },
                 {
                     id: 'd2-2',
@@ -95,6 +103,14 @@ export const SCHEDULE: ScheduleData = {
                     location: { lat: 33.3938, lng: 126.2396, name: "협재맛집" }
                 },
                 {
+                    id: 'd2-5-new',
+                    day: 2,
+                    time: "13:30",
+                    title: "투어패스 카페 2 (디저트 & 예쁜 공간)",
+                    type: "cafe",
+                    location: { lat: 33.3916, lng: 126.2625, name: "한림/한경 카페" }
+                },
+                {
                     id: 'd2-5',
                     day: 2,
                     time: "14:30",
@@ -105,8 +121,8 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd2-6',
                     day: 2,
-                    time: "17:30",
-                    title: "항공우주호텔 체크인 & 휴식",
+                    time: "16:30",
+                    title: "항공우주호텔 조기 체크인 & 휴식",
                     type: "checkin",
                     location: { lat: 33.3039, lng: 126.2995, name: "우주호텔" }
                 }
