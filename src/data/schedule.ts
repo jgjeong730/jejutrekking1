@@ -74,9 +74,9 @@ export const SCHEDULE: ScheduleData = {
                     id: 'd2-2-new',
                     day: 2,
                     time: "09:10",
-                    title: "투어패스 카페 1 (바다뷰 모닝커피)",
+                    title: "스타벅스 제주금악DT점 (모닝 커피)",
                     type: "cafe",
-                    location: { lat: 33.4633, lng: 126.3197, name: "애월/한림 카페" }
+                    location: { lat: 33.3533, lng: 126.3314, name: "스타벅스" }
                 },
                 {
                     id: 'd2-2',
@@ -98,7 +98,7 @@ export const SCHEDULE: ScheduleData = {
                     id: 'd2-4',
                     day: 2,
                     time: "12:30",
-                    title: "한림/협재 부근 점심 식사",
+                    title: "협재 점심 (수우동, 안동국밥, 협재칼국수, 면뽑는선생, 협재온다정 추천)",
                     type: "food",
                     location: { lat: 33.3938, lng: 126.2396, name: "협재맛집" }
                 },
