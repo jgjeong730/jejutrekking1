@@ -120,23 +120,23 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd3-1',
                     day: 3,
-                    time: "09:30",
-                    title: "우주호텔 체크아웃 및 동쪽 이동",
+                    time: "08:30",
+                    title: "이른 아침 우주호텔 체크아웃 및 동쪽 이동",
                     type: "checkin",
                     location: { lat: 33.3039, lng: 126.2995, name: "우주호텔" }
                 },
                 {
                     id: 'd3-2',
                     day: 3,
-                    time: "11:00",
-                    title: "성산항 도착 & 우도 여객선 탑승",
+                    time: "10:00",
+                    title: "성산항 도착 & 여객선 탑승 (매 정각/30분 운항)",
                     type: "tour",
                     location: { lat: 33.4725, lng: 126.9335, name: "성산항" }
                 },
                 {
                     id: 'd3-3',
                     day: 3,
-                    time: "11:30",
+                    time: "10:30",
                     title: "우도 전기자전거 스마일 투어",
                     type: "tour",
                     location: { lat: 33.5050, lng: 126.9530, name: "우도" }
@@ -144,7 +144,7 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd3-4',
                     day: 3,
-                    time: "13:00",
+                    time: "12:30",
                     title: "우도 해물라면 & 땅콩아이스크림 점심",
                     type: "food",
                     location: { lat: 33.5050, lng: 126.9530, name: "우도맛집" }
@@ -152,15 +152,15 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd3-5',
                     day: 3,
-                    time: "16:00",
-                    title: "우도 탈출 및 서귀포 남쪽으로 이동",
+                    time: "15:30",
+                    title: "여유있게 우도 탈출 및 서귀포 이동",
                     type: "checkin",
                     location: { lat: 33.4725, lng: 126.9335, name: "성산항" }
                 },
                 {
                     id: 'd3-6',
                     day: 3,
-                    time: "17:30",
+                    time: "17:00",
                     title: "켄싱턴 리조트 서귀포 체크인",
                     type: "checkin",
                     location: { lat: 33.2388, lng: 126.5055, name: "켄싱턴서귀포" }
