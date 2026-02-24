@@ -199,48 +199,64 @@ export const SCHEDULE: ScheduleData = {
                 {
                     id: 'd4-1',
                     day: 4,
-                    time: "10:30",
-                    title: "느긋한 기상 후 리조트 출발",
+                    time: "09:30",
+                    title: "켄싱턴 리조트 출발",
                     type: "checkin",
                     location: { lat: 33.2388, lng: 126.5055, name: "켄싱턴서귀포" }
                 },
                 {
                     id: 'd4-2',
                     day: 4,
-                    time: "11:00",
-                    title: "카멜리아힐 (우천 시 운치 있는 온실/산책)",
+                    time: "10:10",
+                    title: "그리스로마신화 박물관 (실내 관람)",
                     type: "tour",
-                    location: { lat: 33.2905, lng: 126.3683, name: "카멜리아힐" }
+                    location: { lat: 33.3486, lng: 126.3541, name: "그리스신화박물관" }
                 },
                 {
                     id: 'd4-3',
                     day: 4,
-                    time: "12:30",
-                    title: "중문 관광단지 부근 따뜻한 국물 점심",
-                    type: "food",
-                    location: { lat: 33.2500, lng: 126.4100, name: "중문맛집" }
+                    time: "11:40",
+                    title: "근처 제주투어패스 카페 (무료 음료 픽업/휴식)",
+                    type: "cafe",
+                    location: { lat: 33.3200, lng: 126.3400, name: "투어패스카페" }
                 },
                 {
                     id: 'd4-4',
                     day: 4,
-                    time: "14:00",
-                    title: "한라봉/레드향 픽업 (비닐하우스 실내)",
-                    type: "tour",
-                    location: { lat: 33.2800, lng: 126.3800, name: "한라봉농장" }
+                    time: "12:30",
+                    title: "안덕/오설록 부근 점심 식사",
+                    type: "food",
+                    location: { lat: 33.3050, lng: 126.2890, name: "안덕맛집" }
                 },
                 {
                     id: 'd4-5',
                     day: 4,
-                    time: "16:30",
-                    title: "제주 아트서커스 (실내 관람)",
+                    time: "13:30",
+                    title: "제주항공우주박물관 (실내 관람)",
                     type: "tour",
-                    location: { lat: 33.2980, lng: 126.3350, name: "아트서커스" }
+                    location: { lat: 33.3045, lng: 126.2995, name: "항공우주박물관" }
                 },
                 {
                     id: 'd4-6',
                     day: 4,
-                    time: "18:30",
-                    title: "숙소 복귀 및 근처 저녁 식사",
+                    time: "16:30",
+                    title: "제주 아트서커스 관람 (16:30 공연)",
+                    type: "tour",
+                    location: { lat: 33.2980, lng: 126.3350, name: "아트서커스" }
+                },
+                {
+                    id: 'd4-7',
+                    day: 4,
+                    time: "18:00",
+                    title: "산방산 탄산온천 (실내 온천욕 및 피로 회복)",
+                    type: "tour",
+                    location: { lat: 33.2386, lng: 126.2981, name: "산방산온천" }
+                },
+                {
+                    id: 'd4-8',
+                    day: 4,
+                    time: "19:30",
+                    title: "저녁 식사 후 숙소(켄싱턴 서귀포) 복귀",
                     type: "checkin",
                     location: { lat: 33.2388, lng: 126.5055, name: "켄싱턴서귀포" }
                 }
