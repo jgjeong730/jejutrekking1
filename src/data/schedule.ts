@@ -268,6 +268,22 @@ export const SCHEDULE: ScheduleData = {
             title: "비오는 아침☔ 휴식 및 제주시 복귀",
             activities: [
                 {
+                    id: 'd5-0-1',
+                    day: 5,
+                    time: "08:40",
+                    title: "켄싱턴 리조트 서귀포 출발",
+                    type: "checkin",
+                    location: { lat: 33.2388, lng: 126.5055, name: "켄싱턴서귀포" }
+                },
+                {
+                    id: 'd5-0-2',
+                    day: 5,
+                    time: "09:40",
+                    title: "더 케이쇼(아리랑) 관람",
+                    type: "tour",
+                    location: { lat: 33.3957, lng: 126.8020, name: "더케이쇼" }
+                },
+                {
                     id: 'd5-1-new',
                     day: 5,
                     time: "11:50",
