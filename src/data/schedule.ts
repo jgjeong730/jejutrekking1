@@ -268,44 +268,60 @@ export const SCHEDULE: ScheduleData = {
             title: "비오는 아침☔ 휴식 및 제주시 복귀",
             activities: [
                 {
-                    id: 'd5-1',
+                    id: 'd5-1-new',
                     day: 5,
-                    time: "10:30",
-                    title: "켄싱턴 리조트 여유로운 체크아웃",
-                    type: "checkin",
-                    location: { lat: 33.2388, lng: 126.5055, name: "켄싱턴서귀포" }
-                },
-                {
-                    id: 'd5-2',
-                    day: 5,
-                    time: "11:00",
-                    title: "서귀포 바다뷰 카페 (실내 커피타임)",
+                    time: "11:50",
+                    title: "스타벅스 송당R점 (충전 및 커피 휴식)",
                     type: "cafe",
-                    location: { lat: 33.2450, lng: 126.4150, name: "뷰카페" }
+                    location: { lat: 33.4395, lng: 126.7725, name: "스타벅스" }
                 },
                 {
-                    id: 'd5-3',
+                    id: 'd5-2-new',
                     day: 5,
-                    time: "12:30",
-                    title: "제주시 방향 이동 및 점심 식사",
+                    time: "13:00",
+                    title: "구좌/조천 제주시 이동 중 점심 식사",
                     type: "food",
-                    location: { lat: 33.3500, lng: 126.5000, name: "제주이동" }
+                    location: { lat: 33.4735, lng: 126.6500, name: "제주이동" }
                 },
                 {
-                    id: 'd5-4',
+                    id: 'd5-3-new',
                     day: 5,
                     time: "14:30",
-                    title: "도두해수파크 입성 (찜질방 & 오션뷰 휴식)",
-                    type: "cafe",
-                    location: { lat: 33.5117, lng: 126.4719, name: "도두해수파크" }
+                    title: "국립제주박물관 (무료 실내 관람 및 미디어아트)",
+                    type: "tour",
+                    location: { lat: 33.5135, lng: 126.5488, name: "제주박물관" }
                 },
                 {
-                    id: 'd5-5',
+                    id: 'd5-4-new',
                     day: 5,
-                    time: "18:00",
-                    title: "개운하게 렌터카 반납 & 김포행 비행기 대기",
+                    time: "17:00",
+                    title: "제주시내 이른 저녁 식사",
+                    type: "food",
+                    location: { lat: 33.5100, lng: 126.5200, name: "제주시저녁" }
+                },
+                {
+                    id: 'd5-5-new',
+                    day: 5,
+                    time: "19:00",
+                    title: "렌터카 반납 및 제주공항 이동",
+                    type: "checkin",
+                    location: { lat: 33.5043, lng: 126.4945, name: "마음아이렌트카" }
+                },
+                {
+                    id: 'd5-6-new',
+                    day: 5,
+                    time: "19:30",
+                    title: "아시아나 라운지 휴식 대기",
+                    type: "cafe",
+                    location: { lat: 33.5065, lng: 126.4925, name: "공항라운지" }
+                },
+                {
+                    id: 'd5-7-new',
+                    day: 5,
+                    time: "20:30",
+                    title: "제주 출발 (김포행 아시아나 탑승)",
                     type: "flight",
-                    location: { lat: 33.5043, lng: 126.4945, name: "제주공항" }
+                    location: { lat: 33.5075, lng: 126.4935, name: "제주공항" }
                 }
             ]
         }
