@@ -1,6 +1,7 @@
 {
   "name": "jeju-trip-2026",
   "private": true,
+  "homepage": "https://jgjeong730.github.io/jejutrekking1/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
