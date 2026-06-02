@@ -1,21 +1,21 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import MobileLayout from './components/layout/MobileLayout';
-import Home from './pages/Home';
-import Schedule from './pages/Schedule';
-import Reservations from './pages/Reservations';
-import Guide from './pages/Guide';
-import Records from './pages/Records';
+import OlleHome from './pages/OlleHome';
+import OlleSchedule from './pages/OlleSchedule';
+import OlleCourses from './pages/OlleCourses';
+import OllePrep from './pages/OllePrep';
+import OlleInfo from './pages/OlleInfo';
 
 function App() {
   return (
     <HashRouter>
       <Routes>
         <Route path="/" element={<MobileLayout />}>
-          <Route index element={<Home />} />
-          <Route path="schedule" element={<Schedule />} />
-          <Route path="reservations" element={<Reservations />} />
-          <Route path="guide" element={<Guide />} />
-          <Route path="records" element={<Records />} />
+          <Route index element={<OlleHome />} />
+          <Route path="schedule" element={<OlleSchedule />} />
+          <Route path="courses" element={<OlleCourses />} />
+          <Route path="prep" element={<OllePrep />} />
+          <Route path="info" element={<OlleInfo />} />
         </Route>
       </Routes>
     </HashRouter>
