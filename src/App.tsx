@@ -5,6 +5,7 @@ import OlleSchedule from './pages/OlleSchedule';
 import OlleCourses from './pages/OlleCourses';
 import OllePrep from './pages/OllePrep';
 import OlleInfo from './pages/OlleInfo';
+import OlleTracker from './pages/OlleTracker';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="courses" element={<OlleCourses />} />
           <Route path="prep" element={<OllePrep />} />
           <Route path="info" element={<OlleInfo />} />
+          <Route path="tracker" element={<OlleTracker />} />
         </Route>
       </Routes>
     </HashRouter>
