@@ -45,51 +45,39 @@ const OlleInfo: React.FC = () => {
 };
 
 const BudgetTab: React.FC = () => {
-  const standardTotal = BUDGET_ITEMS.reduce((s, i) => s + i.standard, 0);
-  const tightTotal = BUDGET_ITEMS.reduce((s, i) => s + i.tight, 0);
+  const total = BUDGET_ITEMS.reduce((s, i) => s + i.cost, 0);
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3 mb-2">
-        <div className="bg-green-600 rounded-2xl p-4 text-white text-center">
-          <p className="text-xs opacity-75">표준 22일</p>
-          <p className="text-2xl font-black mt-1">{(standardTotal / 10000).toFixed(0)}만원</p>
-        </div>
-        <div className="bg-orange-500 rounded-2xl p-4 text-white text-center">
-          <p className="text-xs opacity-75">타이트 17일</p>
-          <p className="text-2xl font-black mt-1">{(tightTotal / 10000).toFixed(0)}만원</p>
-        </div>
+      <div className="bg-green-600 rounded-2xl p-4 text-white text-center mb-2">
+        <p className="text-xs opacity-75">26일 확정 일정 예상 비용</p>
+        <p className="text-3xl font-black mt-1">{(total / 10000).toFixed(0)}만원</p>
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="grid grid-cols-4 bg-gray-50 px-4 py-2 text-xs text-gray-500 font-bold border-b border-gray-100">
+        <div className="grid grid-cols-3 bg-gray-50 px-4 py-2 text-xs text-gray-500 font-bold border-b border-gray-100">
           <span className="col-span-2">항목</span>
-          <span className="text-center text-green-600">표준</span>
-          <span className="text-center text-orange-500">타이트</span>
+          <span className="text-center text-green-600">금액</span>
         </div>
         {BUDGET_ITEMS.map((item) => (
           <div key={item.item} className="px-4 py-3 border-b border-gray-50 last:border-0">
-            <div className="grid grid-cols-4 items-center">
+            <div className="grid grid-cols-3 items-center">
               <span className="col-span-2 text-xs text-gray-800 font-medium leading-snug">{item.item}</span>
               <span className="text-center text-sm font-bold text-green-700">
-                {(item.standard / 10000).toFixed(0)}만
-              </span>
-              <span className="text-center text-sm font-bold text-orange-600">
-                {(item.tight / 10000).toFixed(0)}만
+                {(item.cost / 10000).toFixed(0)}만
               </span>
             </div>
-            <p className="text-xs text-gray-400 mt-1 col-span-4">{item.note}</p>
+            <p className="text-xs text-gray-400 mt-1">{item.note}</p>
           </div>
         ))}
-        <div className="grid grid-cols-4 px-4 py-3 bg-gray-50 border-t border-gray-100">
+        <div className="grid grid-cols-3 px-4 py-3 bg-gray-50 border-t border-gray-100">
           <span className="col-span-2 text-sm font-black text-gray-900">합계</span>
-          <span className="text-center text-sm font-black text-green-700">{(standardTotal / 10000).toFixed(0)}만원</span>
-          <span className="text-center text-sm font-black text-orange-600">{(tightTotal / 10000).toFixed(0)}만원</span>
+          <span className="text-center text-sm font-black text-green-700">{(total / 10000).toFixed(0)}만원</span>
         </div>
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-xs text-blue-700">
-        아침 식비 제외 (생략 기준). 올레패스포트 1.5만원 포함. 캠핑 비중 높을수록 절약 가능.
+        아침 식비 제외 (생략 기준). 올레패스포트 1.5만원 포함. 캠핑 비중 높일수록 절약 가능.
       </div>
     </div>
   );

@@ -197,7 +197,7 @@ const CourseListItem: React.FC<{
       className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-xs font-black text-white"
       style={{ background: isDone ? '#2E9E5B' : course.color }}
     >
-      {course.id > 100 ? `${Math.floor(course.id / 10)}A` : course.id}
+      {course.name.replace('코스', '')}
     </span>
     <div className="flex-1 min-w-0">
       <p className={`font-bold text-sm ${isDone ? 'text-green-700' : 'text-gray-900'}`}>

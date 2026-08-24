@@ -93,9 +93,7 @@ const NaverOlleMap: React.FC<NaverOlleMapProps> = ({ completedCourses, onCourseS
         const bgColor = isDone ? '#2E9E5B' : '#FFFFFF';
         const textColor = isDone ? '#FFFFFF' : '#666666';
         const borderColor = isDone ? '#2E9E5B' : '#CCCCCC';
-        const label = course.id > 100
-          ? `${Math.floor(course.id / 10)}A`
-          : `${course.id}`;
+        const label = course.name.replace('코스', '');
 
         const content = `
           <div style="
@@ -123,12 +121,17 @@ const NaverOlleMap: React.FC<NaverOlleMapProps> = ({ completedCourses, onCourseS
     });
   }, [mapStatus, completedCourses, onCourseSelect]);
 
-  // Cleanup on unmount
+  // Cleanup on unmount — guarded because a failed Naver SDK auth can leave
+  // partially-initialized map objects that throw when torn down.
   useEffect(() => {
     return () => {
-      polylinesRef.current.forEach(pl => pl.setMap(null));
-      markersRef.current.forEach(mk => mk.setMap(null));
-      mapRef.current?.destroy?.();
+      try {
+        polylinesRef.current.forEach(pl => pl.setMap(null));
+        markersRef.current.forEach(mk => mk.setMap(null));
+        mapRef.current?.destroy?.();
+      } catch (e) {
+        console.warn('NaverOlleMap cleanup failed (likely SDK auth error):', e);
+      }
     };
   }, []);
 

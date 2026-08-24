@@ -7,13 +7,14 @@ const HALLASAN_COURSES = [
   { name: '★ 종주 추천', distance: '19km', difficulty: '중~상', desc: '성판악 오름 + 관음사 하산, 두 코스 하이라이트 모두 경험', recommended: true },
 ];
 
-// 공항 출발 기준 순서: 18코스→21코스→1코스→...→17코스
+// 공항 출발 기준 순서: 18코스→21코스→1코스→...→17코스→추자도(18-1·18-2)
 const OLLE_ZONES = [
-  { zone: '북동부권 (D1~D4)', courses: '18~21코스', highlight: '조천·함덕·김녕·한동·종달 → 공항 출발 첫 구간', km: '77km' },
-  { zone: '동부권 (D5~D8)', courses: '1~4코스', highlight: '시흥초교·성산일출봉·섭지코지·표선·남원', km: '79km' },
-  { zone: '서귀포권 (D9~D12)', courses: '5~8코스', highlight: '쇠소깍·천지연폭포·올레시장·박수기정', km: '60km' },
-  { zone: '서부권 (D13~D19)', courses: '9~14코스', highlight: '화순·모슬포·수월봉·용수리·저지·한림', km: '94km' },
-  { zone: '북부·애월권 (D20~D23)', courses: '15~17코스', highlight: '고내·광령·애월해안도로 → 관덕정 귀환', km: '53km' },
+  { zone: '북동부권 (D1~D4)', courses: '18~21코스', highlight: '조천·함덕·김녕·하도·종달 → 첫 구간', km: '67km' },
+  { zone: '동부권 (D5~D8)', courses: '1~4코스 + 1-1(우도)', highlight: '시흥초교·성산일출봉·우도·섭지코지·표선·남원', km: '80km' },
+  { zone: '서귀포권 (D9~D14)', courses: '5~9코스 + 7-1', highlight: '쇠소깍·천지연폭포·올레시장·박수기정', km: '89km' },
+  { zone: '서부권 (D16~D21)', courses: '10~14코스 + 10-1(가파도)·14-1', highlight: '가파도·모슬포·수월봉·용수리·저지·한림', km: '99km' },
+  { zone: '북부·애월권 (D22~D24)', courses: '15~17코스', highlight: '고내·광령·애월해안도로 → 산지천마당 귀환', km: '50km' },
+  { zone: '추자도 (D25~D26)', courses: '18-1~18-2코스', highlight: '제주항 배편, 상·하추자도 일주 → 완주🎉', km: '28km' },
 ];
 
 const OlleCourses: React.FC = () => {
@@ -55,8 +56,8 @@ const OlleCourses: React.FC = () => {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-50">
           {[
             { icon: Clock, label: '정상 입산 마감', value: '12:00 (성판악 기준)' },
-            { icon: MapPin, label: '사전 예약', value: '국립공원 탐방예약시스템 (무료, 필수)' },
-            { icon: MapPin, label: '이동', value: '모슬포 → 제주시버스터미널 → 5.16도로 버스 → 성판악' },
+            { icon: MapPin, label: '사전 예약', value: '한라산탐방예약시스템 visithalla.jeju.go.kr — 10월 첫 영업일 09:00 오픈 (무료, 필수)' },
+            { icon: MapPin, label: '이동', value: 'D14(화순) → 제주시내 이동·숙박 → D15 새벽 성판악 (5.16도로 버스)' },
             { icon: AlertTriangle, label: '점심', value: '진달래밭 대피소(해발 1,500m)에서 도시락 섭취' },
           ].map((item) => (
             <div key={item.label} className="flex gap-3 items-start p-3.5">
@@ -107,7 +108,7 @@ const OlleCourses: React.FC = () => {
           <h2 className="font-black text-gray-900">올레길 코스 권역</h2>
         </div>
         <p className="text-xs text-gray-500 mb-3">
-          출발 기점 : 1코스 시흥초등학교 (성산읍) — 시계 방향 순환
+          출발 기점 : 18코스 산지천마당 (제주공항 인근) — 10/24 출발, 11/7 한라산, 11/18 완주
         </p>
         <div className="space-y-2">
           {OLLE_ZONES.map((z) => (
