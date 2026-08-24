@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarDays, Mountain, ClipboardList, Info, TrendingUp } from 'lucide-react';
-import OlleMap from '../components/OlleMap';
+import OlleIslandMap from '../components/OlleIslandMap';
 
 const OlleHome: React.FC = () => {
   return (
@@ -32,30 +32,13 @@ const OlleHome: React.FC = () => {
         </div>
       </div>
 
-      {/* JG Profile */}
-      <div className="mx-4 -mt-4 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex items-center gap-4">
-        <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-          <span className="text-2xl">🏃</span>
-        </div>
-        <div>
-          <p className="font-bold text-gray-900">JG (Jung Kunu)</p>
-          <p className="text-sm text-gray-500">58세 · 러닝·테니스·트레킹 활동가</p>
-          <p className="text-xs text-green-600 font-medium mt-0.5">수원 망포 출발 | 10/23(금) 저녁 제주 도착</p>
-        </div>
-      </div>
-
       {/* Map overview */}
-      <div className="mx-4 mt-4">
+      <div className="mx-4 -mt-4 relative z-10 bg-white rounded-2xl shadow-sm border border-gray-100 p-3">
         <p className="text-xs font-bold text-gray-500 mb-2 flex items-center gap-1">
           <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
-          올레길 완주 경로 — 제주공항 출발·귀환 (원형 루프)
+          올레길 27개 코스 한눈에 보기
         </p>
-        <OlleMap mode="overview" height="200px" />
-        <div className="flex gap-3 mt-2 text-xs text-gray-400 justify-center flex-wrap">
-          <span className="flex items-center gap-1"><span>✈️</span> 공항 출발/귀환</span>
-          <span className="flex items-center gap-1"><span>🏁</span> 완주 지점</span>
-          <span className="flex items-center gap-1"><span>⛰</span> 한라산</span>
-        </div>
+        <OlleIslandMap />
       </div>
 
       {/* Confirmed dates */}
