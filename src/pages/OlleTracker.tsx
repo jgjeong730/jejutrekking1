@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Trophy, TrendingUp, List } from 'lucide-react';
-import NaverOlleMap from '../components/NaverOlleMap';
+import TrackerMap from '../components/TrackerMap';
 import CourseBottomSheet from '../components/CourseBottomSheet';
 import { useOlleProgress } from '../hooks/useOlleProgress';
 import { OLLE_COURSES } from '../data/olleCoursesData';
@@ -112,7 +112,7 @@ const OlleTracker: React.FC = () => {
               </div>
             </div>
 
-            <NaverOlleMap
+            <TrackerMap
               completedCourses={completedCourses}
               onCourseSelect={handleCourseSelect}
             />
