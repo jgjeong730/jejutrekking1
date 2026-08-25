@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, Clock, MapPin, ChevronUp, Trash2 } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { X, CheckCircle2, Clock, MapPin, ChevronUp, Trash2, Plus, LoaderCircle } from 'lucide-react';
 import type { OlleCourse } from '../data/olleCoursesData';
 import type { CompletionRecord } from '../hooks/useOlleProgress';
+import { getPhotos, addPhoto, removePhoto, MAX_PHOTOS } from '../lib/photoStore';
 
 interface CourseBottomSheetProps {
   course: OlleCourse | null;
@@ -21,6 +22,11 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
   const [memo, setMemo] = useState('');
   const [actualDistance, setActualDistance] = useState('');
   const [actualDuration, setActualDuration] = useState('');
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (course) {
@@ -30,8 +36,38 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
       setMemo(existingRecord?.memo ?? '');
       setActualDistance(existingRecord?.actualDistance != null ? String(existingRecord.actualDistance) : '');
       setActualDuration(existingRecord?.actualDuration ?? '');
+      setPhotoError(null);
+      setLightbox(null);
+      getPhotos(course.id).then(setPhotos).catch(() => setPhotos([]));
     }
   }, [course, existingRecord]);
+
+  const handlePickPhoto = useCallback(async (file: File) => {
+    if (!course) return;
+    setPhotoError(null);
+    setPhotoBusy(true);
+    try {
+      const next = await addPhoto(course.id, file);
+      setPhotos(next);
+    } catch (e) {
+      setPhotoError(e instanceof Error ? e.message : '사진을 저장하지 못했어요');
+    } finally {
+      setPhotoBusy(false);
+    }
+  }, [course]);
+
+  const handleRemovePhoto = useCallback(async (index: number) => {
+    if (!course) return;
+    setPhotoBusy(true);
+    try {
+      const next = await removePhoto(course.id, index);
+      setPhotos(next);
+    } catch {
+      setPhotoError('사진을 지우지 못했어요');
+    } finally {
+      setPhotoBusy(false);
+    }
+  }, [course]);
 
   if (!course) return null;
 
@@ -112,6 +148,58 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
           {course.description && (
             <p className="text-sm text-gray-500 leading-relaxed">{course.description}</p>
           )}
+
+          {/* Photos */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-semibold text-gray-600">사진 ({photos.length}/{MAX_PHOTOS})</label>
+              {photoBusy && <LoaderCircle className="w-3.5 h-3.5 text-sky-500 animate-spin" />}
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {photos.map((src, i) => (
+                <div key={i} className="relative w-16 h-16 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setLightbox(i)}
+                    className="w-16 h-16 rounded-xl overflow-hidden border border-gray-200 block"
+                  >
+                    <img src={src} alt={`사진 ${i + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRemovePhoto(i)}
+                    className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white shadow flex items-center justify-center"
+                    aria-label="사진 삭제"
+                  >
+                    <X className="w-3 h-3 text-red-500" />
+                  </button>
+                </div>
+              ))}
+              {photos.length < MAX_PHOTOS && (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={photoBusy}
+                  className="w-16 h-16 flex-shrink-0 rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50"
+                >
+                  <Plus className="w-5 h-5 text-gray-400" />
+                </button>
+              )}
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handlePickPhoto(file);
+                e.target.value = '';
+              }}
+            />
+            {photoError && <p className="text-xs text-red-500 mt-1">{photoError}</p>}
+          </div>
 
           {/* Completed record */}
           {isCompleted && existingRecord && !showForm && (
@@ -232,6 +320,23 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
           )}
         </div>
       </div>
+
+      {/* Photo lightbox */}
+      {lightbox != null && photos[lightbox] && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setLightbox(null)}
+        >
+          <img src={photos[lightbox]} alt={`사진 ${lightbox + 1}`} className="max-w-full max-h-full rounded-lg object-contain" />
+          <button
+            onClick={() => setLightbox(null)}
+            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/20 flex items-center justify-center"
+            aria-label="닫기"
+          >
+            <X className="w-5 h-5 text-white" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
