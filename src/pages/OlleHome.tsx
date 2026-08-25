@@ -4,6 +4,11 @@ import { CalendarDays, Mountain, ClipboardList, Info, TrendingUp } from 'lucide-
 import OlleIslandMap from '../components/OlleIslandMap';
 import OlleMark from '../components/OlleMark';
 
+// Update this each time a new expedition kicks off — the footer always reads
+// "{CURRENT_EXPEDITION} to JMT", tracking the multi-year arc toward the John
+// Muir Trail: Olle → Baekdu(daegan) → Yarigatake → ... → JMT.
+const CURRENT_EXPEDITION = 'Olle';
+
 const OlleHome: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
@@ -125,10 +130,10 @@ const OlleHome: React.FC = () => {
         </div>
       </div>
 
-      {/* Quote */}
+      {/* Quote — CURRENT_EXPEDITION swaps each time a new trail starts (Olle → Baekdu → Yarigatake → ... → JMT) */}
       <div className="mx-4 mt-4 mb-2 text-center">
-        <p className="text-gray-400 text-sm italic">"걷는 것이 곧 완성이다"</p>
-        <p className="text-gray-300 text-xs mt-1">32년 현업 후, 제주 437km의 선물을 온전히 누리시길 — JG</p>
+        <p className="text-gray-400 text-sm italic">"Not all who wander are lost"</p>
+        <p className="text-gray-300 text-xs mt-1 font-medium tracking-wide">{CURRENT_EXPEDITION} to JMT</p>
       </div>
     </div>
   );
