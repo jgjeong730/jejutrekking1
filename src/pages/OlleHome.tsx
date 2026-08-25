@@ -13,7 +13,7 @@ const OlleHome: React.FC = () => {
         <div className="flex items-center gap-3 mb-1">
           <OlleMark className="w-9 h-9 flex-shrink-0" />
           <h1 className="text-2xl font-black leading-tight whitespace-nowrap">
-            제주올레길 완주플랜
+            JG on Jeju Olle 437
           </h1>
         </div>
         <p className="text-sky-100 text-sm">2026.10.23 ~ 11.19 확정 일정</p>
