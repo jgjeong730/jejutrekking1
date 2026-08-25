@@ -1,3 +1,5 @@
+import { GPX_WAYPOINTS } from './olleWaypoints.generated';
+
 export interface CourseWaypoint {
   lat: number;
   lng: number;
@@ -23,7 +25,7 @@ export interface OlleCourse {
 // 주의: waypoints는 실제 GPX 트랙이 아니라 시작~종점을 잇는 근사 직선 보간입니다.
 // 정확한 트랙이 필요하면 올레패스 앱(ollepass.org) 또는 공공데이터포털의
 // "제주특별자치도_올레코스현황" 파일을 내려받아 교체하세요.
-export const OLLE_COURSES: OlleCourse[] = [
+const RAW_COURSES: OlleCourse[] = [
   {
     id: 1, name: '1코스', fullName: '시흥초등학교 ~ 광치기해변', distance: 15.1, duration: 5, difficulty: '보통',
     startPoint: { lat: 33.4629, lng: 126.9206, name: '시흥초등학교' },
@@ -336,6 +338,13 @@ export const OLLE_COURSES: OlleCourse[] = [
     ],
   },
 ];
+
+// Real GPX-tracked coordinates override the straight-line fallback above for
+// any course whose file has been dropped into public/gpx/ and processed via
+// `node scripts/import-gpx.mjs` — see that script for the file naming rules.
+export const OLLE_COURSES: OlleCourse[] = RAW_COURSES.map((c) =>
+  GPX_WAYPOINTS[c.id] ? { ...c, waypoints: GPX_WAYPOINTS[c.id] } : c
+);
 
 export const TOTAL_COURSES = OLLE_COURSES.filter(c => !c.isAlt).length;
 export const TOTAL_DISTANCE = OLLE_COURSES.filter(c => !c.isAlt).reduce((s, c) => s + c.distance, 0);
