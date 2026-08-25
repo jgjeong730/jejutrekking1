@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { GoogleMap, useJsApiLoader, PolylineF, MarkerF } from '@react-google-maps/api';
+import { LocateFixed, LoaderCircle } from 'lucide-react';
 import { OLLE_COURSES } from '../data/olleCoursesData';
 import type { OlleCourse } from '../data/olleCoursesData';
 
@@ -13,6 +14,9 @@ interface TrackerMapProps {
 
 const TrackerMap: React.FC<TrackerMapProps> = ({ completedCourses, onCourseSelect }) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [myLocation, setMyLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [locateError, setLocateError] = useState<string | null>(null);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -27,6 +31,33 @@ const TrackerMap: React.FC<TrackerMapProps> = ({ completedCourses, onCourseSelec
     OLLE_COURSES.forEach(c => c.waypoints.forEach(p => bounds.extend(p)));
     map.fitBounds(bounds, 16);
   }, [map, isLoaded]);
+
+  const handleLocate = useCallback(() => {
+    if (!navigator.geolocation) {
+      setLocateError('이 브라우저는 위치 확인을 지원하지 않아요');
+      return;
+    }
+    setLocating(true);
+    setLocateError(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        setMyLocation(loc);
+        setLocating(false);
+        map?.panTo(loc);
+        map?.setZoom(15);
+      },
+      (err) => {
+        setLocating(false);
+        setLocateError(
+          err.code === err.PERMISSION_DENIED
+            ? '위치 권한이 꺼져 있어요. 브라우저 설정에서 허용해주세요'
+            : '현재 위치를 가져올 수 없어요'
+        );
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }, [map]);
 
   if (!isLoaded) {
     return (
@@ -86,7 +117,44 @@ const TrackerMap: React.FC<TrackerMapProps> = ({ completedCourses, onCourseSelec
             />
           );
         })}
+
+        {myLocation && (
+          <MarkerF
+            position={myLocation}
+            title="내 위치"
+            zIndex={999}
+            icon={{
+              path: window.google.maps.SymbolPath.CIRCLE,
+              scale: 8,
+              fillColor: '#4285F4',
+              fillOpacity: 1,
+              strokeColor: '#ffffff',
+              strokeWeight: 3,
+            }}
+          />
+        )}
       </GoogleMap>
+
+      {/* Locate-me control */}
+      <div className="absolute bottom-4 right-3 z-10 flex flex-col items-end gap-1.5">
+        {locateError && (
+          <p className="bg-white/95 backdrop-blur text-xs text-red-500 px-3 py-1.5 rounded-xl shadow-sm max-w-[180px] text-right">
+            {locateError}
+          </p>
+        )}
+        <button
+          onClick={handleLocate}
+          disabled={locating}
+          className="w-11 h-11 rounded-full bg-white shadow-md flex items-center justify-center active:scale-95 transition-transform disabled:opacity-60"
+          aria-label="내 위치로 이동"
+        >
+          {locating ? (
+            <LoaderCircle className="w-5 h-5 text-sky-600 animate-spin" />
+          ) : (
+            <LocateFixed className="w-5 h-5 text-sky-600" />
+          )}
+        </button>
+      </div>
     </div>
   );
 };
