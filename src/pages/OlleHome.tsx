@@ -2,32 +2,36 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarDays, Mountain, ClipboardList, Info, TrendingUp } from 'lucide-react';
 import OlleIslandMap from '../components/OlleIslandMap';
+import OlleMark from '../components/OlleMark';
 
 const OlleHome: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-green-700 to-emerald-500 px-6 pt-14 pb-10 text-white">
-        <p className="text-green-200 text-sm font-medium mb-1">Updated · Aug 2026</p>
-        <h1 className="text-3xl font-black leading-tight mb-1">
-          제주 올레길<br />완주 플랜
-        </h1>
-        <p className="text-green-100 text-sm">2026.10.23 ~ 11.19 확정 일정</p>
+      <div className="bg-gradient-to-br from-sky-600 to-cyan-400 px-6 pt-14 pb-10 text-white">
+        <p className="text-sky-100 text-sm font-medium mb-1">Updated · Aug 2026</p>
+        <div className="flex items-center gap-3 mb-1">
+          <OlleMark className="w-11 h-11 flex-shrink-0" />
+          <h1 className="text-3xl font-black leading-tight">
+            제주 올레길<br />완주 플랜
+          </h1>
+        </div>
+        <p className="text-sky-100 text-sm">2026.10.23 ~ 11.19 확정 일정</p>
 
         <div className="mt-6 bg-white/20 backdrop-blur rounded-2xl p-4 flex justify-between text-center">
           <div>
             <p className="text-2xl font-black">437km</p>
-            <p className="text-green-100 text-xs mt-0.5">총 연장</p>
+            <p className="text-sky-100 text-xs mt-0.5">총 연장</p>
           </div>
           <div className="w-px bg-white/30" />
           <div>
             <p className="text-2xl font-black">27개</p>
-            <p className="text-green-100 text-xs mt-0.5">공식 코스</p>
+            <p className="text-sky-100 text-xs mt-0.5">공식 코스</p>
           </div>
           <div className="w-px bg-white/30" />
           <div>
             <p className="text-2xl font-black">26일</p>
-            <p className="text-green-100 text-xs mt-0.5">확정 일정</p>
+            <p className="text-sky-100 text-xs mt-0.5">확정 일정</p>
           </div>
         </div>
       </div>
@@ -35,7 +39,7 @@ const OlleHome: React.FC = () => {
       {/* Map overview */}
       <div className="mx-4 -mt-4 relative z-10 bg-white rounded-2xl shadow-sm border border-gray-100 p-3">
         <p className="text-xs font-bold text-gray-500 mb-2 flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
+          <span className="w-2 h-2 rounded-full bg-sky-500 inline-block" />
           올레길 27개 코스 한눈에 보기
         </p>
         <OlleIslandMap />
@@ -70,8 +74,8 @@ const OlleHome: React.FC = () => {
       {/* Quick nav */}
       <div className="mx-4 mt-4 grid grid-cols-2 gap-3">
         <Link to="/schedule" className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 hover:bg-gray-50 active:scale-95 transition-all">
-          <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-            <CalendarDays className="w-5 h-5 text-green-600" />
+          <div className="w-10 h-10 bg-sky-100 rounded-xl flex items-center justify-center">
+            <CalendarDays className="w-5 h-5 text-sky-600" />
           </div>
           <div>
             <p className="font-bold text-gray-900 text-sm">완주 일정</p>
@@ -88,8 +92,8 @@ const OlleHome: React.FC = () => {
           </div>
         </Link>
         <Link to="/prep" className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center gap-3 hover:bg-gray-50 active:scale-95 transition-all">
-          <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-            <ClipboardList className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">
+            <ClipboardList className="w-5 h-5 text-indigo-600" />
           </div>
           <div>
             <p className="font-bold text-gray-900 text-sm">준비사항</p>
@@ -114,9 +118,9 @@ const OlleHome: React.FC = () => {
           <p className="text-sm font-bold text-gray-700">예상 총 비용</p>
         </div>
         <div className="flex gap-3">
-          <div className="flex-1 bg-green-50 rounded-xl p-3 text-center">
-            <p className="text-xs text-green-600 font-medium">26일 전체</p>
-            <p className="text-xl font-black text-green-700 mt-1">134만원</p>
+          <div className="flex-1 bg-sky-50 rounded-xl p-3 text-center">
+            <p className="text-xs text-sky-600 font-medium">26일 전체</p>
+            <p className="text-xl font-black text-sky-700 mt-1">134만원</p>
           </div>
         </div>
       </div>

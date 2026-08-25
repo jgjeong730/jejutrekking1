@@ -66,9 +66,9 @@ const OllePrep: React.FC = () => {
         </div>
 
         {progress === 100 && (
-          <div className="bg-green-50 border border-green-200 rounded-2xl p-3 mb-3 flex items-center gap-2">
-            <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
-            <p className="text-sm font-bold text-green-700">모든 항목 완료! 출발 준비 완료</p>
+          <div className="bg-sky-50 border border-sky-200 rounded-2xl p-3 mb-3 flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-sky-600 flex-shrink-0" />
+            <p className="text-sm font-bold text-sky-700">모든 항목 완료! 출발 준비 완료</p>
           </div>
         )}
 

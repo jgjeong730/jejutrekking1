@@ -61,7 +61,7 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                 style={{ background: course.color }}
               />
               <span className="font-black text-lg text-gray-900">{course.name}</span>
-              {isCompleted && <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />}
+              {isCompleted && <CheckCircle2 className="w-5 h-5 text-sky-500 flex-shrink-0" />}
             </div>
             <p className="text-sm text-gray-500">{course.fullName}</p>
           </div>
@@ -89,7 +89,7 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
 
           {/* Route */}
           <div className="flex items-center gap-2 text-sm">
-            <MapPin className="w-4 h-4 text-green-500 flex-shrink-0" />
+            <MapPin className="w-4 h-4 text-sky-500 flex-shrink-0" />
             <span className="text-gray-700 font-medium">{course.startPoint.name}</span>
             <span className="text-gray-300 flex-1 border-t border-dashed border-gray-200 mx-1" />
             <span className="text-gray-700 font-medium">{course.endPoint.name}</span>
@@ -103,11 +103,11 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
 
           {/* Completed record */}
           {isCompleted && existingRecord && !showForm && (
-            <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
+            <div className="bg-sky-50 border border-sky-200 rounded-2xl p-4">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-green-600" />
-                  <span className="text-sm font-bold text-green-700">완주 기록</span>
+                  <CheckCircle2 className="w-4 h-4 text-sky-600" />
+                  <span className="text-sm font-bold text-sky-700">완주 기록</span>
                 </div>
                 <button
                   onClick={() => onRemove(course.id)}
@@ -116,19 +116,19 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                   <Trash2 className="w-4 h-4 text-red-400" />
                 </button>
               </div>
-              <p className="text-sm text-green-600">
+              <p className="text-sm text-sky-600">
                 <Clock className="w-3 h-3 inline mr-1" />
                 {existingRecord.date}
               </p>
               {existingRecord.companions && (
-                <p className="text-xs text-green-600 mt-1">함께: {existingRecord.companions}</p>
+                <p className="text-xs text-sky-600 mt-1">함께: {existingRecord.companions}</p>
               )}
               {existingRecord.memo && (
-                <p className="text-xs text-green-600 mt-1 italic">"{existingRecord.memo}"</p>
+                <p className="text-xs text-sky-600 mt-1 italic">"{existingRecord.memo}"</p>
               )}
               <button
                 onClick={() => setShowForm(true)}
-                className="mt-2 text-xs text-green-700 underline"
+                className="mt-2 text-xs text-sky-700 underline"
               >
                 기록 수정
               </button>
@@ -152,7 +152,7 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                   value={date}
                   max={new Date().toISOString().slice(0, 10)}
                   onChange={e => setDate(e.target.value)}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
                 />
               </div>
               <div>
@@ -162,7 +162,7 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                   value={companions}
                   onChange={e => setCompanions(e.target.value)}
                   placeholder="예: 가족, 친구"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
                 />
               </div>
               <div>
@@ -172,12 +172,12 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                   onChange={e => setMemo(e.target.value)}
                   placeholder="오늘 걸으며 느낀 점..."
                   rows={2}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-400"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-sky-400"
                 />
               </div>
               <button
                 onClick={handleSave}
-                className="w-full bg-green-600 text-white font-bold py-3 rounded-2xl text-sm active:scale-95 transition-transform"
+                className="w-full bg-sky-600 text-white font-bold py-3 rounded-2xl text-sm active:scale-95 transition-transform"
               >
                 {isCompleted ? '기록 저장' : '완주 기록하기 ✅'}
               </button>

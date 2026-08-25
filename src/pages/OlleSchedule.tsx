@@ -20,10 +20,10 @@ const OlleSchedule: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-gradient-to-r from-green-700 to-emerald-500 sticky top-0 z-10 shadow-sm">
+      <div className="bg-gradient-to-r from-sky-600 to-cyan-400 sticky top-0 z-10 shadow-sm">
         <div className="px-4 pt-4 pb-3">
           <h1 className="text-lg font-black text-white text-center">완주 일정표</h1>
-          <p className="text-green-100 text-xs text-center mt-0.5">2026.10.24 ~ 11.18 확정 일정</p>
+          <p className="text-sky-100 text-xs text-center mt-0.5">2026.10.24 ~ 11.18 확정 일정</p>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ const OlleSchedule: React.FC = () => {
 
       {/* Summary bar */}
       <div className="px-4 pt-2 pb-2">
-        <div className="rounded-2xl p-4 bg-green-600 text-white flex justify-between">
+        <div className="rounded-2xl p-4 bg-sky-600 text-white flex justify-between">
           <div className="text-center">
             <p className="text-2xl font-black">{TOTAL_DAYS}일</p>
             <p className="text-xs opacity-75 mt-0.5">총 일수</p>
@@ -103,7 +103,7 @@ const DayCard: React.FC<{ day: OlleDay; isSelected: boolean; onSelect: () => voi
   const isHallasan = day.isSpecial === 'hallasan';
   const isComplete = day.isSpecial === 'complete';
 
-  const dayBg = isHallasan ? 'bg-orange-500' : isComplete ? 'bg-yellow-500' : 'bg-green-600';
+  const dayBg = isHallasan ? 'bg-orange-500' : isComplete ? 'bg-yellow-500' : 'bg-sky-600';
   const cardBg = isHallasan
     ? 'bg-orange-50 border-orange-200'
     : isComplete
@@ -116,7 +116,7 @@ const DayCard: React.FC<{ day: OlleDay; isSelected: boolean; onSelect: () => voi
   return (
     <button
       onClick={onSelect}
-      className={`w-full text-left rounded-2xl p-3.5 border shadow-sm transition-all active:scale-98 ${cardBg} ${isSelected ? 'ring-2 ring-green-500 ring-offset-1' : ''}`}
+      className={`w-full text-left rounded-2xl p-3.5 border shadow-sm transition-all active:scale-98 ${cardBg} ${isSelected ? 'ring-2 ring-sky-500 ring-offset-1' : ''}`}
     >
       <div className="flex gap-3 items-start">
         <div className={`min-w-[42px] h-12 rounded-xl flex flex-col items-center justify-center flex-shrink-0 ${dayBg}`}>

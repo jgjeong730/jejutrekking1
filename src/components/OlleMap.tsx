@@ -66,7 +66,7 @@ const OlleMap: React.FC<OlleMapProps> = ({
   if (!isLoaded) {
     return (
       <div style={{ height }} className="flex items-center justify-center bg-gray-100 rounded-2xl">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500" />
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-sky-500" />
       </div>
     );
   }
@@ -80,22 +80,22 @@ const OlleMap: React.FC<OlleMapProps> = ({
         onLoad={onLoad}
         options={interactive ? MAP_OPTIONS_INTERACTIVE : MAP_OPTIONS}
       >
-        {/* Remaining (or full) trail — dashed lighter green */}
+        {/* Remaining (or full) trail — dashed lighter sky blue */}
         <PolylineF
           path={remainingPath}
           options={{
-            strokeColor: '#6EE7B7',
+            strokeColor: '#7DD3FC',
             strokeOpacity: 0.7,
             strokeWeight: 3,
           }}
         />
 
-        {/* Completed portion — solid green */}
+        {/* Completed portion — solid sky blue */}
         {completedPath.length > 1 && (
           <PolylineF
             path={completedPath}
             options={{
-              strokeColor: '#059669',
+              strokeColor: '#0284C7',
               strokeOpacity: 1,
               strokeWeight: 4,
             }}
@@ -111,7 +111,7 @@ const OlleMap: React.FC<OlleMapProps> = ({
             strokeOpacity: 0,
             scale: 0,
           }}
-          label={{ text: '✈', color: '#059669', fontSize: '16px', fontWeight: 'bold' }}
+          label={{ text: '✈', color: '#0284C7', fontSize: '16px', fontWeight: 'bold' }}
         />
 
         {/* Completion marker (same lat/lng as airport — the loop closes here) */}
@@ -146,7 +146,7 @@ const OlleMap: React.FC<OlleMapProps> = ({
             icon={{
               path: window.google.maps.SymbolPath.CIRCLE,
               scale: 10,
-              fillColor: '#059669',
+              fillColor: '#0284C7',
               fillOpacity: 1,
               strokeColor: '#ffffff',
               strokeWeight: 2,

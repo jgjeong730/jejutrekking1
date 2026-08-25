@@ -49,7 +49,7 @@ const BudgetTab: React.FC = () => {
 
   return (
     <div className="space-y-3">
-      <div className="bg-green-600 rounded-2xl p-4 text-white text-center mb-2">
+      <div className="bg-sky-600 rounded-2xl p-4 text-white text-center mb-2">
         <p className="text-xs opacity-75">26일 확정 일정 예상 비용</p>
         <p className="text-3xl font-black mt-1">{(total / 10000).toFixed(0)}만원</p>
       </div>
@@ -57,13 +57,13 @@ const BudgetTab: React.FC = () => {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="grid grid-cols-3 bg-gray-50 px-4 py-2 text-xs text-gray-500 font-bold border-b border-gray-100">
           <span className="col-span-2">항목</span>
-          <span className="text-center text-green-600">금액</span>
+          <span className="text-center text-sky-600">금액</span>
         </div>
         {BUDGET_ITEMS.map((item) => (
           <div key={item.item} className="px-4 py-3 border-b border-gray-50 last:border-0">
             <div className="grid grid-cols-3 items-center">
               <span className="col-span-2 text-xs text-gray-800 font-medium leading-snug">{item.item}</span>
-              <span className="text-center text-sm font-bold text-green-700">
+              <span className="text-center text-sm font-bold text-sky-700">
                 {(item.cost / 10000).toFixed(0)}만
               </span>
             </div>
@@ -72,7 +72,7 @@ const BudgetTab: React.FC = () => {
         ))}
         <div className="grid grid-cols-3 px-4 py-3 bg-gray-50 border-t border-gray-100">
           <span className="col-span-2 text-sm font-black text-gray-900">합계</span>
-          <span className="text-center text-sm font-black text-green-700">{(total / 10000).toFixed(0)}만원</span>
+          <span className="text-center text-sm font-black text-sky-700">{(total / 10000).toFixed(0)}만원</span>
         </div>
       </div>
 
@@ -142,10 +142,10 @@ const StayTab: React.FC = () => {
 
 const CertTab: React.FC = () => (
   <div className="space-y-3">
-    <div className="bg-green-600 rounded-2xl p-5 text-white text-center">
+    <div className="bg-sky-600 rounded-2xl p-5 text-white text-center">
       <Award className="w-10 h-10 mx-auto mb-2 opacity-90" />
       <p className="font-black text-xl">완주 인증</p>
-      <p className="text-green-100 text-sm mt-1">제주올레 완주자 클럽</p>
+      <p className="text-sky-100 text-sm mt-1">제주올레 완주자 클럽</p>
     </div>
 
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-50">

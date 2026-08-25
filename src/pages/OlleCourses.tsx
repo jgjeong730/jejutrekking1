@@ -104,7 +104,7 @@ const OlleCourses: React.FC = () => {
       {/* Olle course zones */}
       <div className="mx-4 mt-6">
         <div className="flex items-center gap-2 mb-3">
-          <CheckCircle2 className="w-5 h-5 text-green-600" />
+          <CheckCircle2 className="w-5 h-5 text-sky-600" />
           <h2 className="font-black text-gray-900">올레길 코스 권역</h2>
         </div>
         <p className="text-xs text-gray-500 mb-3">
@@ -113,7 +113,7 @@ const OlleCourses: React.FC = () => {
         <div className="space-y-2">
           {OLLE_ZONES.map((z) => (
             <div key={z.zone} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-3">
-              <div className="min-w-[44px] h-12 bg-green-600 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+              <div className="min-w-[44px] h-12 bg-sky-600 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                 <p className="text-white text-[10px] font-semibold">{z.courses}</p>
                 <p className="text-white text-xs font-black">{z.km}</p>
               </div>
@@ -126,12 +126,12 @@ const OlleCourses: React.FC = () => {
         </div>
 
         {/* Certification info */}
-        <div className="mt-4 bg-green-50 border border-green-200 rounded-2xl p-4">
-          <p className="text-xs font-bold text-green-700 mb-1">완주 인증 기준</p>
-          <p className="text-xs text-green-600 leading-relaxed">
+        <div className="mt-4 bg-sky-50 border border-sky-200 rounded-2xl p-4">
+          <p className="text-xs font-bold text-sky-700 mb-1">완주 인증 기준</p>
+          <p className="text-xs text-sky-600 leading-relaxed">
             본섬 21개 정규 코스 + 지선 포함 26코스 스탬프 완료 → 올레패스포트에 전 코스 스탬프 후 제주올레 여행자센터 방문
           </p>
-          <p className="text-xs text-green-600 mt-1">
+          <p className="text-xs text-sky-600 mt-1">
             📍 서귀포시 중앙로 55 · 수령 : 완주인증서 + 간세(조랑말) 뱃지
           </p>
         </div>

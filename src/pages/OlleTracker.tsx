@@ -46,13 +46,13 @@ const OlleTracker: React.FC = () => {
           <div className="flex gap-1">
             <button
               onClick={() => setViewMode('map')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${viewMode === 'map' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-500'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${viewMode === 'map' ? 'bg-sky-600 text-white' : 'bg-gray-100 text-gray-500'}`}
             >
               지도
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${viewMode === 'list' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-500'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${viewMode === 'list' ? 'bg-sky-600 text-white' : 'bg-gray-100 text-gray-500'}`}
             >
               목록
             </button>
@@ -63,11 +63,11 @@ const OlleTracker: React.FC = () => {
         <div className="mt-2">
           <div className="flex justify-between text-xs text-gray-500 mb-1">
             <span>{completedMainCount} / {totalCourseCount} 코스 완주</span>
-            <span className="font-bold text-green-600">{progressRate}%</span>
+            <span className="font-bold text-sky-600">{progressRate}%</span>
           </div>
           <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
             <div
-              className="h-full bg-green-500 rounded-full transition-all duration-500"
+              className="h-full bg-sky-500 rounded-full transition-all duration-500"
               style={{ width: `${progressRate}%` }}
             />
           </div>
@@ -87,14 +87,14 @@ const OlleTracker: React.FC = () => {
                 </span>
               </div>
               <div className="text-xs text-gray-500">
-                <span className="text-green-600 font-bold">{totalDistance.toFixed(1)}km</span> 완주
+                <span className="text-sky-600 font-bold">{totalDistance.toFixed(1)}km</span> 완주
               </div>
               <div className="text-xs text-gray-400">
                 {totalRemainingDistance.toFixed(1)}km 남음
               </div>
               <div className="mt-1.5 h-1 bg-gray-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-green-500 rounded-full"
+                  className="h-full bg-sky-500 rounded-full"
                   style={{ width: `${progressRate}%` }}
                 />
               </div>
@@ -104,7 +104,7 @@ const OlleTracker: React.FC = () => {
             <div className="absolute bottom-4 left-3 z-10 bg-white/90 backdrop-blur rounded-xl px-3 py-2 shadow-sm">
               <div className="flex gap-3 text-xs">
                 <span className="flex items-center gap-1">
-                  <span className="w-4 h-1 bg-green-600 rounded inline-block" /> 완주
+                  <span className="w-4 h-1 bg-sky-600 rounded inline-block" /> 완주
                 </span>
                 <span className="flex items-center gap-1">
                   <span className="w-4 h-1 bg-gray-300 rounded inline-block" /> 미완주
@@ -151,7 +151,7 @@ const CourseListView: React.FC<{
     <div className="h-full overflow-y-auto pb-6">
       <div className="px-4 pt-3">
         <div className="flex items-center gap-2 mb-3">
-          <List className="w-4 h-4 text-green-600" />
+          <List className="w-4 h-4 text-sky-600" />
           <p className="text-sm font-bold text-gray-700">정규 코스 ({mainCourses.length})</p>
         </div>
         <div className="space-y-2">
@@ -191,16 +191,16 @@ const CourseListItem: React.FC<{
 }> = ({ course, isDone, onSelect }) => (
   <button
     onClick={() => onSelect(course)}
-    className={`w-full text-left rounded-2xl p-4 border shadow-sm flex items-center gap-3 transition-all active:scale-98 ${isDone ? 'bg-green-50 border-green-200' : 'bg-white border-gray-100'}`}
+    className={`w-full text-left rounded-2xl p-4 border shadow-sm flex items-center gap-3 transition-all active:scale-98 ${isDone ? 'bg-sky-50 border-sky-200' : 'bg-white border-gray-100'}`}
   >
     <span
       className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-xs font-black text-white"
-      style={{ background: isDone ? '#2E9E5B' : course.color }}
+      style={{ background: isDone ? '#0284C7' : course.color }}
     >
       {course.name.replace('코스', '')}
     </span>
     <div className="flex-1 min-w-0">
-      <p className={`font-bold text-sm ${isDone ? 'text-green-700' : 'text-gray-900'}`}>
+      <p className={`font-bold text-sm ${isDone ? 'text-sky-700' : 'text-gray-900'}`}>
         {course.name}
         {isDone && ' ✅'}
       </p>

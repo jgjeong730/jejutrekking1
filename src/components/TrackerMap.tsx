@@ -31,7 +31,7 @@ const TrackerMap: React.FC<TrackerMapProps> = ({ completedCourses, onCourseSelec
   if (!isLoaded) {
     return (
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-100">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-500 mb-3" />
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-500 mb-3" />
         <p className="text-sm text-gray-500">지도 로딩 중...</p>
       </div>
     );
@@ -54,7 +54,7 @@ const TrackerMap: React.FC<TrackerMapProps> = ({ completedCourses, onCourseSelec
               key={course.id}
               path={path}
               options={{
-                strokeColor: isDone ? '#2E9E5B' : course.isAlt ? '#AAAAAA' : '#CCCCCC',
+                strokeColor: isDone ? '#0284C7' : course.isAlt ? '#AAAAAA' : '#CCCCCC',
                 strokeWeight: isDone ? 4 : 3,
                 strokeOpacity: isDone ? 1 : course.isAlt ? 0.4 : 0.6,
                 clickable: true,
@@ -77,9 +77,9 @@ const TrackerMap: React.FC<TrackerMapProps> = ({ completedCourses, onCourseSelec
               icon={{
                 path: window.google.maps.SymbolPath.CIRCLE,
                 scale: 14,
-                fillColor: isDone ? '#2E9E5B' : '#FFFFFF',
+                fillColor: isDone ? '#0284C7' : '#FFFFFF',
                 fillOpacity: 1,
-                strokeColor: isDone ? '#2E9E5B' : '#CCCCCC',
+                strokeColor: isDone ? '#0284C7' : '#CCCCCC',
                 strokeWeight: 2,
               }}
               label={{ text: label, color: isDone ? '#FFFFFF' : '#666666', fontSize: '10px', fontWeight: 'bold' }}

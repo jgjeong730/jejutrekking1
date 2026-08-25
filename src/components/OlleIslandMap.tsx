@@ -121,7 +121,7 @@ export default function OlleIslandMap() {
 
         {/* center title */}
         <text x={centroid.x} y={centroid.y - 6} textAnchor="middle" fontSize="11" fill="#64748b">제주를 한 바퀴</text>
-        <text x={centroid.x} y={centroid.y + 14} textAnchor="middle" fontSize="20" fontWeight="900" fill="#166534">
+        <text x={centroid.x} y={centroid.y + 14} textAnchor="middle" fontSize="20" fontWeight="900" fill="#0369a1">
           437km 27코스
         </text>
 

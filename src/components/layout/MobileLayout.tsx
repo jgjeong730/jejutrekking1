@@ -32,7 +32,7 @@ const MobileLayout: React.FC = () => {
                   to={item.path}
                   className={clsx(
                     'flex flex-col items-center justify-center flex-1 h-full transition-colors duration-200',
-                    isActive ? 'text-green-600' : 'text-gray-400 hover:text-gray-600'
+                    isActive ? 'text-sky-600' : 'text-gray-400 hover:text-gray-600'
                   )}
                 >
                   <item.icon
