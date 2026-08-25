@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { DollarSign, Utensils, Home, Award } from 'lucide-react';
-import { BUDGET_ITEMS, FOOD_RECS, ACCOMMODATIONS } from '../data/olleData';
+import { BUDGET_ITEMS, FOOD_RECS, ACCOMMODATIONS, REAL_SCHEDULE, GUESTHOUSE_NIGHT_RATE, CAMPING_NIGHT_RATE } from '../data/olleData';
+import { useOlleProgress } from '../hooks/useOlleProgress';
 
 type Tab = 'budget' | 'food' | 'stay' | 'cert';
 
@@ -45,13 +46,53 @@ const OlleInfo: React.FC = () => {
 };
 
 const BudgetTab: React.FC = () => {
-  const total = BUDGET_ITEMS.reduce((s, i) => s + i.cost, 0);
+  const { records } = useOlleProgress();
+
+  const lodging = useMemo(() => {
+    const costByCourse: Record<number, number> = {};
+    records.forEach((r) => { if (r.lodgeCost != null) costByCourse[r.courseId] = r.lodgeCost; });
+
+    let cost = 0;
+    let actualNights = 0;
+    REAL_SCHEDULE.forEach((day) => {
+      const recorded = day.courseIds.map((id) => costByCourse[id]).find((c) => c != null);
+      if (recorded != null) {
+        cost += recorded;
+        actualNights += 1;
+      } else {
+        cost += day.accommodation === 'camping' ? CAMPING_NIGHT_RATE : GUESTHOUSE_NIGHT_RATE;
+      }
+    });
+    return { cost, actualNights, totalNights: REAL_SCHEDULE.length };
+  }, [records]);
+
+  const budgetItems = useMemo(
+    () =>
+      BUDGET_ITEMS.map((item) =>
+        item.item.startsWith('숙박')
+          ? {
+              ...item,
+              cost: lodging.cost,
+              note:
+                lodging.actualNights > 0
+                  ? `실제 기록 ${lodging.actualNights}박 반영, 나머지 ${lodging.totalNights - lodging.actualNights}박은 게하 2.5만/캠핑 1만 추정`
+                  : item.note,
+            }
+          : item
+      ),
+    [lodging]
+  );
+
+  const total = budgetItems.reduce((s, i) => s + i.cost, 0);
 
   return (
     <div className="space-y-3">
       <div className="bg-sky-600 rounded-2xl p-4 text-white text-center mb-2">
         <p className="text-xs opacity-75">26일 확정 일정 예상 비용</p>
         <p className="text-3xl font-black mt-1">{(total / 10000).toFixed(0)}만원</p>
+        {lodging.actualNights > 0 && (
+          <p className="text-xs opacity-75 mt-1">숙박 {lodging.actualNights}박은 트래커에 기록된 실제 금액이에요</p>
+        )}
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -59,7 +100,7 @@ const BudgetTab: React.FC = () => {
           <span className="col-span-2">항목</span>
           <span className="text-center text-sky-600">금액</span>
         </div>
-        {BUDGET_ITEMS.map((item) => (
+        {budgetItems.map((item) => (
           <div key={item.item} className="px-4 py-3 border-b border-gray-50 last:border-0">
             <div className="grid grid-cols-3 items-center">
               <span className="col-span-2 text-xs text-gray-800 font-medium leading-snug">{item.item}</span>
@@ -78,6 +119,7 @@ const BudgetTab: React.FC = () => {
 
       <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-xs text-blue-700">
         아침 식비 제외 (생략 기준). 올레패스포트 1.5만원 포함. 캠핑 비중 높일수록 절약 가능.
+        트래커에서 완주 기록에 숙박비를 입력하면 여기 총액에 자동 반영돼요.
       </div>
     </div>
   );

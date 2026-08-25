@@ -61,6 +61,11 @@ export interface FoodRec {
   dinner: string;
 }
 
+// Per-night fallback estimate used for any night without a recorded actual
+// lodgeCost yet — matches the rates quoted throughout ACCOMMODATIONS/the info page.
+export const GUESTHOUSE_NIGHT_RATE = 25000;
+export const CAMPING_NIGHT_RATE = 10000;
+
 export interface BudgetItem {
   item: string;
   cost: number;
