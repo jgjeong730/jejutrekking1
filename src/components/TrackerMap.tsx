@@ -3,6 +3,12 @@ import { GoogleMap, useJsApiLoader, PolylineF, MarkerF } from '@react-google-map
 import { LocateFixed, LoaderCircle } from 'lucide-react';
 import { OLLE_COURSES } from '../data/olleCoursesData';
 import type { OlleCourse } from '../data/olleCoursesData';
+import { COURSE_DAY_MAP, HALLASAN_COORD, HALLASAN_DAY } from '../data/olleData';
+
+const formatMD = (iso: string) => {
+  const [, m, d] = iso.split('-');
+  return `${Number(m)}/${Number(d)}`;
+};
 
 const JEJU_CENTER = { lat: 33.3617, lng: 126.5292 };
 const MAP_OPTIONS = { disableDefaultUI: true, zoomControl: true, gestureHandling: 'greedy' as const };
@@ -102,25 +108,43 @@ const TrackerMap: React.FC<TrackerMapProps> = ({ completedCourses, onCourseSelec
 
         {OLLE_COURSES.filter(c => !c.isAlt).map(course => {
           const isDone = completedCourses.includes(course.id);
-          const label = course.name.replace('코스', '');
+          const num = course.name.replace('코스', '');
+          const day = COURSE_DAY_MAP[course.id];
+          const label = day != null ? `D${day}/${num}` : num;
           return (
             <MarkerF
               key={`marker-${course.id}`}
               position={course.startPoint}
-              title={`${course.name} · ${course.fullName}`}
+              title={`${course.name} · ${course.fullName}${day != null ? ` · D${day}` : ''}`}
               onClick={() => onCourseSelect(course)}
               icon={{
                 path: window.google.maps.SymbolPath.CIRCLE,
-                scale: 14,
+                scale: 19,
                 fillColor: isDone ? '#0284C7' : '#FFFFFF',
                 fillOpacity: 1,
                 strokeColor: isDone ? '#0284C7' : '#CCCCCC',
                 strokeWeight: 2,
               }}
-              label={{ text: label, color: isDone ? '#FFFFFF' : '#666666', fontSize: '10px', fontWeight: 'bold' }}
+              label={{ text: label, color: isDone ? '#FFFFFF' : '#666666', fontSize: '8px', fontWeight: 'bold' }}
             />
           );
         })}
+
+        {HALLASAN_DAY && (
+          <MarkerF
+            position={HALLASAN_COORD}
+            title={`한라산 성판악~관음사 · D${HALLASAN_DAY.day} · ${HALLASAN_DAY.date}`}
+            icon={{
+              path: window.google.maps.SymbolPath.CIRCLE,
+              scale: 19,
+              fillColor: '#f97316',
+              fillOpacity: 1,
+              strokeColor: '#f97316',
+              strokeWeight: 2,
+            }}
+            label={{ text: formatMD(HALLASAN_DAY.date), color: '#ffffff', fontSize: '8px', fontWeight: 'bold' }}
+          />
+        )}
 
         {myLocation && (
           <MarkerF

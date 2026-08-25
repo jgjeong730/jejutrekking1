@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import { OLLE_COURSES } from '../data/olleCoursesData';
-import { HALLASAN_COORD } from '../data/olleData';
+import { HALLASAN_COORD, COURSE_DAY_MAP, HALLASAN_DAY } from '../data/olleData';
+
+const formatMD = (iso: string) => {
+  const [, m, d] = iso.split('-');
+  return `${Number(m)}/${Number(d)}`;
+};
 
 // Simple equirectangular projection tuned to Jeju's real lat/lng bounding box,
 // scaled so 1° lng and 1° lat cover roughly the same real-world distance
@@ -77,9 +82,13 @@ export default function OlleIslandMap() {
         };
       }
 
+      const num = course.name.replace('코스', '');
+      const day = COURSE_DAY_MAP[course.id];
+      const label = !course.isAlt && day != null ? `D${day}/${num}` : num;
+
       return {
         id: course.id,
-        label: course.name.replace('코스', ''),
+        label,
         color: course.color,
         dot,
         pos,
@@ -116,7 +125,9 @@ export default function OlleIslandMap() {
         {/* Hallasan */}
         <g transform={`translate(${hallasan.x},${hallasan.y})`}>
           <path d="M -7 6 L 0 -8 L 7 6 Z" fill="#f97316" />
-          <text x="0" y="20" textAnchor="middle" fontSize="8" fontWeight="700" fill="#c2410c">한라산</text>
+          <text x="0" y="20" textAnchor="middle" fontSize="8" fontWeight="700" fill="#c2410c">
+            한라산{HALLASAN_DAY ? ` · ${formatMD(HALLASAN_DAY.date)}` : ''}
+          </text>
         </g>
 
         {/* center title */}
@@ -126,16 +137,20 @@ export default function OlleIslandMap() {
         </text>
 
         {/* course dots + connector + badge */}
-        {badges.map(b => (
-          <g key={b.id}>
-            <circle cx={b.dot.x} cy={b.dot.y} r="2.5" fill={b.color} />
-            <line x1={b.dot.x} y1={b.dot.y} x2={b.pos.x} y2={b.pos.y} stroke={b.color} strokeWidth="0.75" opacity="0.6" />
-            <circle cx={b.pos.x} cy={b.pos.y} r={b.label.length > 2 ? 13 : 10.5} fill="#ffffff" stroke={b.color} strokeWidth="1.5" />
-            <text x={b.pos.x} y={b.pos.y + 3.2} textAnchor="middle" fontSize={b.label.length > 2 ? 8 : 9.5} fontWeight="700" fill="#334155">
-              {b.label}
-            </text>
-          </g>
-        ))}
+        {badges.map(b => {
+          const r = b.label.length >= 5 ? 15.5 : b.label.length > 2 ? 13 : 10.5;
+          const fs = b.label.length >= 5 ? 7 : b.label.length > 2 ? 8 : 9.5;
+          return (
+            <g key={b.id}>
+              <circle cx={b.dot.x} cy={b.dot.y} r="2.5" fill={b.color} />
+              <line x1={b.dot.x} y1={b.dot.y} x2={b.pos.x} y2={b.pos.y} stroke={b.color} strokeWidth="0.75" opacity="0.6" />
+              <circle cx={b.pos.x} cy={b.pos.y} r={r} fill="#ffffff" stroke={b.color} strokeWidth="1.5" />
+              <text x={b.pos.x} y={b.pos.y + 3.2} textAnchor="middle" fontSize={fs} fontWeight="700" fill="#334155">
+                {b.label}
+              </text>
+            </g>
+          );
+        })}
       </svg>
     </div>
   );

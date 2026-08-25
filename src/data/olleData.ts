@@ -106,6 +106,15 @@ export const REAL_SCHEDULE: OlleDay[] = [
   { day: 26, date: '2026-11-18', accommodation: 'guesthouse', course: '18-2코스 완주 🎉', courseIds: [18.2],    section: '하추자 일주 → 제주항 복귀, 27코스 완주',    distance: 10.0, cumulative: 414.3, lodge: '제주시 게스트하우스 (완주 축하)', isSpecial: 'complete', lat: 33.9448, lng: 126.3013, routeIdx: -1 },
 ];
 
+// courseId -> schedule day number, derived from REAL_SCHEDULE so it can't
+// drift out of sync with the itinerary. Used to label map markers "D5/1".
+export const COURSE_DAY_MAP: Record<number, number> = REAL_SCHEDULE.reduce((acc, d) => {
+  d.courseIds.forEach((id) => { acc[id] = d.day; });
+  return acc;
+}, {} as Record<number, number>);
+
+export const HALLASAN_DAY = REAL_SCHEDULE.find((d) => d.isSpecial === 'hallasan');
+
 export const ACCOMMODATIONS: AccommodationRec[] = [
   { zone: '북동부 (D1~D4, 18~21코스)', type: 'guesthouse', name: '조천·하도·종달 게스트하우스', note: '함덕·김녕 해변 접근성 좋음' },
   { zone: '북동부 (D1~D4, 18~21코스)', type: 'camping', name: '김녕해수욕장 오토캠핑장', note: '19코스 종점 바로 앞' },
