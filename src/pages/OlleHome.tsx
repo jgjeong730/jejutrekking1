@@ -11,9 +11,9 @@ const OlleHome: React.FC = () => {
       <div className="bg-gradient-to-br from-sky-600 to-cyan-400 px-6 pt-14 pb-10 text-white">
         <p className="text-sky-100 text-sm font-medium mb-1">Updated · Aug 2026</p>
         <div className="flex items-center gap-3 mb-1">
-          <OlleMark className="w-11 h-11 flex-shrink-0" />
-          <h1 className="text-3xl font-black leading-tight">
-            제주 올레길<br />완주 플랜
+          <OlleMark className="w-9 h-9 flex-shrink-0" />
+          <h1 className="text-2xl font-black leading-tight whitespace-nowrap">
+            제주올레길 완주플랜
           </h1>
         </div>
         <p className="text-sky-100 text-sm">2026.10.23 ~ 11.19 확정 일정</p>
