@@ -6,6 +6,8 @@ export interface CompletionRecord {
   date: string;          // YYYY-MM-DD
   companions?: string;
   memo?: string;
+  actualDistance?: number; // km, as actually walked/recorded (GPS watch, phone, etc.)
+  actualDuration?: string; // free text, e.g. "4시간 30분"
 }
 
 interface StoredProgress {

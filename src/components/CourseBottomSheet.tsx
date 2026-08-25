@@ -19,6 +19,8 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [companions, setCompanions] = useState('');
   const [memo, setMemo] = useState('');
+  const [actualDistance, setActualDistance] = useState('');
+  const [actualDuration, setActualDuration] = useState('');
 
   useEffect(() => {
     if (course) {
@@ -26,6 +28,8 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
       setDate(existingRecord?.date ?? new Date().toISOString().slice(0, 10));
       setCompanions(existingRecord?.companions ?? '');
       setMemo(existingRecord?.memo ?? '');
+      setActualDistance(existingRecord?.actualDistance != null ? String(existingRecord.actualDistance) : '');
+      setActualDuration(existingRecord?.actualDuration ?? '');
     }
   }, [course, existingRecord]);
 
@@ -37,7 +41,15 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
     'text-green-600 bg-green-50';
 
   const handleSave = () => {
-    onComplete({ courseId: course.id, date, companions: companions || undefined, memo: memo || undefined });
+    const parsedDistance = actualDistance.trim() === '' ? undefined : Number(actualDistance);
+    onComplete({
+      courseId: course.id,
+      date,
+      companions: companions || undefined,
+      memo: memo || undefined,
+      actualDistance: parsedDistance != null && !Number.isNaN(parsedDistance) ? parsedDistance : undefined,
+      actualDuration: actualDuration.trim() || undefined,
+    });
     setShowForm(false);
   };
 
@@ -120,6 +132,13 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                 <Clock className="w-3 h-3 inline mr-1" />
                 {existingRecord.date}
               </p>
+              {(existingRecord.actualDistance != null || existingRecord.actualDuration) && (
+                <p className="text-xs text-sky-600 mt-1">
+                  실제 기록: {existingRecord.actualDistance != null ? `${existingRecord.actualDistance}km` : ''}
+                  {existingRecord.actualDistance != null && existingRecord.actualDuration ? ' · ' : ''}
+                  {existingRecord.actualDuration ?? ''}
+                </p>
+              )}
               {existingRecord.companions && (
                 <p className="text-xs text-sky-600 mt-1">함께: {existingRecord.companions}</p>
               )}
@@ -154,6 +173,34 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                   onChange={e => setDate(e.target.value)}
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
                 />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 block mb-1">실제 이동거리 (선택)</label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      inputMode="decimal"
+                      step="0.1"
+                      min="0"
+                      value={actualDistance}
+                      onChange={e => setActualDistance(e.target.value)}
+                      placeholder={`${course.distance}`}
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 pr-9 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">km</span>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 block mb-1">실제 소요시간 (선택)</label>
+                  <input
+                    type="text"
+                    value={actualDuration}
+                    onChange={e => setActualDuration(e.target.value)}
+                    placeholder="예: 4시간 30분"
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                  />
+                </div>
               </div>
               <div>
                 <label className="text-xs font-semibold text-gray-600 block mb-1">함께 걸은 사람 (선택)</label>

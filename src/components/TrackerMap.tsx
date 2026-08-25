@@ -28,7 +28,11 @@ const TrackerMap: React.FC<TrackerMapProps> = ({ completedCourses, onCourseSelec
   useEffect(() => {
     if (!map || !isLoaded) return;
     const bounds = new window.google.maps.LatLngBounds();
-    OLLE_COURSES.forEach(c => c.waypoints.forEach(p => bounds.extend(p)));
+    // Chuja-do (18-1/18-2) sits ~100km north of the main island — including it
+    // in the fit would zoom out so far that Jeju itself looks tiny. Keep the
+    // initial view on the main island + Udo/Gapado, which sit right off its coast.
+    OLLE_COURSES.filter(c => c.id !== 18.1 && c.id !== 18.2)
+      .forEach(c => c.waypoints.forEach(p => bounds.extend(p)));
     map.fitBounds(bounds, 16);
   }, [map, isLoaded]);
 
