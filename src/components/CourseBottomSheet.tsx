@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, CheckCircle2, Clock, MapPin, ChevronUp, Trash2, Plus, LoaderCircle } from 'lucide-react';
+import { X, CheckCircle2, Clock, MapPin, ChevronUp, Trash2, Plus, LoaderCircle, Home } from 'lucide-react';
 import type { OlleCourse } from '../data/olleCoursesData';
 import type { CompletionRecord } from '../hooks/useOlleProgress';
 import { getPhotos, addPhoto, removePhoto, MAX_PHOTOS } from '../lib/photoStore';
+import { LODGE_BY_COURSE } from '../data/olleData';
 
 interface CourseBottomSheetProps {
   course: OlleCourse | null;
@@ -22,6 +23,8 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
   const [memo, setMemo] = useState('');
   const [actualDistance, setActualDistance] = useState('');
   const [actualDuration, setActualDuration] = useState('');
+  const [lodgeName, setLodgeName] = useState('');
+  const [lodgeCost, setLodgeCost] = useState('');
   const [photos, setPhotos] = useState<string[]>([]);
   const [photoBusy, setPhotoBusy] = useState(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
@@ -36,6 +39,8 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
       setMemo(existingRecord?.memo ?? '');
       setActualDistance(existingRecord?.actualDistance != null ? String(existingRecord.actualDistance) : '');
       setActualDuration(existingRecord?.actualDuration ?? '');
+      setLodgeName(existingRecord?.lodgeName ?? '');
+      setLodgeCost(existingRecord?.lodgeCost != null ? String(existingRecord.lodgeCost) : '');
       setPhotoError(null);
       setLightbox(null);
       getPhotos(course.id).then(setPhotos).catch(() => setPhotos([]));
@@ -76,8 +81,11 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
     course.difficulty === '보통' ? 'text-amber-600 bg-amber-50' :
     'text-green-600 bg-green-50';
 
+  const scheduledLodge = LODGE_BY_COURSE[course.id];
+
   const handleSave = () => {
     const parsedDistance = actualDistance.trim() === '' ? undefined : Number(actualDistance);
+    const parsedLodgeCost = lodgeCost.trim() === '' ? undefined : Number(lodgeCost);
     onComplete({
       courseId: course.id,
       date,
@@ -85,6 +93,8 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
       memo: memo || undefined,
       actualDistance: parsedDistance != null && !Number.isNaN(parsedDistance) ? parsedDistance : undefined,
       actualDuration: actualDuration.trim() || undefined,
+      lodgeName: lodgeName.trim() || undefined,
+      lodgeCost: parsedLodgeCost != null && !Number.isNaN(parsedLodgeCost) ? parsedLodgeCost : undefined,
     });
     setShowForm(false);
   };
@@ -147,6 +157,14 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
           {/* Description */}
           {course.description && (
             <p className="text-sm text-gray-500 leading-relaxed">{course.description}</p>
+          )}
+
+          {/* Scheduled lodging for the night after this course */}
+          {scheduledLodge && (
+            <div className="flex items-center gap-2 text-sm bg-gray-50 rounded-2xl px-3 py-2.5">
+              <Home className="w-4 h-4 text-sky-500 flex-shrink-0" />
+              <span className="text-gray-600">오늘 숙소: <span className="font-semibold text-gray-800">{scheduledLodge}</span></span>
+            </div>
           )}
 
           {/* Photos */}
@@ -226,6 +244,13 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                   {existingRecord.actualDuration ?? ''}
                 </p>
               )}
+              {(existingRecord.lodgeName || existingRecord.lodgeCost != null) && (
+                <p className="text-xs text-sky-600 mt-1">
+                  숙소: {existingRecord.lodgeName ?? ''}
+                  {existingRecord.lodgeName && existingRecord.lodgeCost != null ? ' · ' : ''}
+                  {existingRecord.lodgeCost != null ? `${existingRecord.lodgeCost.toLocaleString()}원` : ''}
+                </p>
+              )}
               {existingRecord.companions && (
                 <p className="text-xs text-sky-600 mt-1">함께: {existingRecord.companions}</p>
               )}
@@ -287,6 +312,34 @@ const CourseBottomSheet: React.FC<CourseBottomSheetProps> = ({
                     placeholder="예: 4시간 30분"
                     className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
                   />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 block mb-1">숙소 이름 (선택)</label>
+                  <input
+                    type="text"
+                    value={lodgeName}
+                    onChange={e => setLodgeName(e.target.value)}
+                    placeholder={scheduledLodge ?? '예: OO게스트하우스'}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 block mb-1">숙박비 (선택)</label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      step="1000"
+                      min="0"
+                      value={lodgeCost}
+                      onChange={e => setLodgeCost(e.target.value)}
+                      placeholder="25000"
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2.5 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">원</span>
+                  </div>
                 </div>
               </div>
               <div>

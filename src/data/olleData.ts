@@ -115,6 +115,12 @@ export const COURSE_DAY_MAP: Record<number, number> = REAL_SCHEDULE.reduce((acc,
 
 export const HALLASAN_DAY = REAL_SCHEDULE.find((d) => d.isSpecial === 'hallasan');
 
+// courseId -> that night's scheduled lodging, same derivation as COURSE_DAY_MAP.
+export const LODGE_BY_COURSE: Record<number, string> = REAL_SCHEDULE.reduce((acc, d) => {
+  d.courseIds.forEach((id) => { acc[id] = d.lodge; });
+  return acc;
+}, {} as Record<number, string>);
+
 export const ACCOMMODATIONS: AccommodationRec[] = [
   { zone: '북동부 (D1~D4, 18~21코스)', type: 'guesthouse', name: '조천·하도·종달 게스트하우스', note: '함덕·김녕 해변 접근성 좋음' },
   { zone: '북동부 (D1~D4, 18~21코스)', type: 'camping', name: '김녕해수욕장 오토캠핑장', note: '19코스 종점 바로 앞' },

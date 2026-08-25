@@ -8,6 +8,8 @@ export interface CompletionRecord {
   memo?: string;
   actualDistance?: number; // km, as actually walked/recorded (GPS watch, phone, etc.)
   actualDuration?: string; // free text, e.g. "4시간 30분"
+  lodgeName?: string;      // where they actually stayed that night
+  lodgeCost?: number;      // KRW, actual amount paid
 }
 
 interface StoredProgress {
