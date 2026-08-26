@@ -9,30 +9,36 @@ const OlleHome: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-sky-600 to-cyan-400 px-6 pt-14 pb-10 text-white">
-        <p className="text-sky-100 text-sm font-medium mb-1">Updated · Aug 2026</p>
-        <div className="flex items-center gap-3 mb-1">
+      <div className="bg-gradient-to-br from-sky-600 to-cyan-400 px-6 pt-10 pb-10 text-white">
+        <div className="flex items-center gap-3">
           <OlleMark className="w-9 h-9 flex-shrink-0" />
           <h1 className="text-2xl font-black leading-tight whitespace-nowrap">
             Jeju Olle 437
           </h1>
         </div>
-        <p className="text-sky-100 text-sm">2026.10.23 ~ 11.19 확정 일정</p>
 
-        <div className="mt-6 bg-white/20 backdrop-blur rounded-2xl p-4 flex justify-between text-center">
-          <div>
-            <p className="text-2xl font-black">437km</p>
-            <p className="text-sky-100 text-xs mt-0.5">총 연장</p>
+        <div className="mt-6 bg-white/20 backdrop-blur rounded-2xl p-4">
+          <div className="flex justify-between text-center">
+            <div>
+              <p className="text-2xl font-black">437km</p>
+              <p className="text-sky-100 text-xs mt-0.5">총 연장</p>
+            </div>
+            <div className="w-px bg-white/30" />
+            <div>
+              <p className="text-2xl font-black">27개</p>
+              <p className="text-sky-100 text-xs mt-0.5">공식 코스</p>
+            </div>
+            <div className="w-px bg-white/30" />
+            <div>
+              <p className="text-2xl font-black">26일</p>
+              <p className="text-sky-100 text-xs mt-0.5">확정 일정</p>
+            </div>
           </div>
-          <div className="w-px bg-white/30" />
-          <div>
-            <p className="text-2xl font-black">27개</p>
-            <p className="text-sky-100 text-xs mt-0.5">공식 코스</p>
-          </div>
-          <div className="w-px bg-white/30" />
-          <div>
-            <p className="text-2xl font-black">26일</p>
-            <p className="text-sky-100 text-xs mt-0.5">확정 일정</p>
+
+          {/* CURRENT_EXPEDITION swaps each time a new trail starts (Olle → Baekdu → Yarigatake → ... → JMT) */}
+          <div className="mt-4 pt-4 border-t border-white/20 text-center">
+            <p className="text-white text-base italic font-bold leading-snug">"Not all who wander are lost"</p>
+            <p className="text-sky-100 text-sm mt-1 font-black tracking-widest">{CURRENT_EXPEDITION} to JMT</p>
           </div>
         </div>
       </div>
@@ -124,12 +130,6 @@ const OlleHome: React.FC = () => {
             <p className="text-xl font-black text-sky-700 mt-1">134만원</p>
           </div>
         </div>
-      </div>
-
-      {/* Quote — CURRENT_EXPEDITION swaps each time a new trail starts (Olle → Baekdu → Yarigatake → ... → JMT) */}
-      <div className="mx-4 mt-4 mb-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-5 text-center">
-        <p className="text-gray-800 text-lg italic font-bold leading-snug">"Not all who wander are lost"</p>
-        <p className="text-sky-600 text-base mt-1.5 font-black tracking-wide">{CURRENT_EXPEDITION} to JMT</p>
       </div>
     </div>
   );
