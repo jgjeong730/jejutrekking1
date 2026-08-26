@@ -2,18 +2,33 @@ import React, { useState } from 'react';
 import { Package, CheckSquare, Square, CheckCircle2 } from 'lucide-react';
 import { GEAR_ITEMS, CHECKLIST } from '../data/olleData';
 
-const OllePrep: React.FC = () => {
-  const [checked, setChecked] = useState<boolean[]>(new Array(CHECKLIST.length).fill(false));
+// Keyed by the checklist item's own text (not its index) so a persisted
+// check survives CHECKLIST being reordered or having items added later.
+const STORAGE_KEY = 'olle_checklist_v1';
 
-  const toggle = (idx: number) => {
-    setChecked((prev) => {
-      const next = [...prev];
-      next[idx] = !next[idx];
+function loadChecked(): Set<string> {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(arr) ? arr : []);
+  } catch {
+    return new Set();
+  }
+}
+
+const OllePrep: React.FC = () => {
+  const [checkedSet, setCheckedSet] = useState<Set<string>>(loadChecked);
+
+  const toggle = (item: string) => {
+    setCheckedSet((prev) => {
+      const next = new Set(prev);
+      if (next.has(item)) next.delete(item); else next.add(item);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...next]));
       return next;
     });
   };
 
-  const checkedCount = checked.filter(Boolean).length;
+  const checkedCount = CHECKLIST.filter((item) => checkedSet.has(item)).length;
   const progress = Math.round((checkedCount / CHECKLIST.length) * 100);
 
   return (
@@ -76,15 +91,15 @@ const OllePrep: React.FC = () => {
           {CHECKLIST.map((item, idx) => (
             <button
               key={idx}
-              onClick={() => toggle(idx)}
+              onClick={() => toggle(item)}
               className="w-full flex items-center gap-3 p-4 text-left hover:bg-gray-50 active:bg-gray-100 transition-colors"
             >
-              {checked[idx] ? (
+              {checkedSet.has(item) ? (
                 <CheckSquare className="w-5 h-5 text-blue-500 flex-shrink-0" />
               ) : (
                 <Square className="w-5 h-5 text-gray-300 flex-shrink-0" />
               )}
-              <span className={`text-sm ${checked[idx] ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
+              <span className={`text-sm ${checkedSet.has(item) ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
                 {item}
               </span>
             </button>
