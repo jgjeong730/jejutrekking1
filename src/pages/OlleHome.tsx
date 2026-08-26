@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 import { CalendarDays, Mountain, ClipboardList, Info, TrendingUp } from 'lucide-react';
 import OlleIslandMap from '../components/OlleIslandMap';
 import OlleMark from '../components/OlleMark';
-
-// Update this each time a new expedition kicks off — the footer always reads
-// "{CURRENT_EXPEDITION} to JMT", tracking the multi-year arc toward the John
-// Muir Trail: Olle → Baekdu(daegan) → Yarigatake → ... → JMT.
-const CURRENT_EXPEDITION = 'Olle';
+import { CURRENT_EXPEDITION } from '../data/olleData';
 
 const OlleHome: React.FC = () => {
   return (

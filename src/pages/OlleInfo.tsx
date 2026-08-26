@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { DollarSign, Utensils, Home, Award } from 'lucide-react';
-import { BUDGET_ITEMS, FOOD_RECS, ACCOMMODATIONS, REAL_SCHEDULE, GUESTHOUSE_NIGHT_RATE, CAMPING_NIGHT_RATE } from '../data/olleData';
+import { BUDGET_ITEMS, FOOD_RECS, ACCOMMODATIONS, REAL_SCHEDULE, GUESTHOUSE_NIGHT_RATE, CAMPING_NIGHT_RATE, CURRENT_EXPEDITION } from '../data/olleData';
 import { useOlleProgress } from '../hooks/useOlleProgress';
 
 type Tab = 'budget' | 'food' | 'stay' | 'cert';
@@ -213,8 +213,8 @@ const CertTab: React.FC = () => (
     </div>
 
     <div className="text-center py-4">
-      <p className="text-gray-500 text-sm italic">"걷는 것이 곧 완성이다"</p>
-      <p className="text-gray-300 text-xs mt-1">— JG, 437km의 끝에서</p>
+      <p className="text-gray-500 text-sm italic">"Not all who wander are lost"</p>
+      <p className="text-gray-300 text-xs mt-1 font-medium tracking-wide">{CURRENT_EXPEDITION} to JMT</p>
     </div>
   </div>
 );

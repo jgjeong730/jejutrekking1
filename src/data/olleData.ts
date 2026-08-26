@@ -1,3 +1,8 @@
+// Update this each time a new expedition kicks off — anywhere in the app that
+// reads "{CURRENT_EXPEDITION} to JMT" tracks the multi-year arc toward the
+// John Muir Trail: Olle → Baekdu(daegan) → Yarigatake → ... → JMT.
+export const CURRENT_EXPEDITION = 'Olle';
+
 export interface OlleDay {
   day: number;
   date: string; // YYYY-MM-DD
