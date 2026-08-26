@@ -127,9 +127,16 @@ const OlleHome: React.FC = () => {
       </div>
 
       {/* Quote — CURRENT_EXPEDITION swaps each time a new trail starts (Olle → Baekdu → Yarigatake → ... → JMT) */}
-      <div className="mx-4 mt-4 mb-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-5 text-center">
-        <p className="text-gray-800 text-lg italic font-bold leading-snug">"Not all who wander are lost"</p>
-        <p className="text-sky-600 text-base mt-1.5 font-black tracking-wide">{CURRENT_EXPEDITION} to JMT</p>
+      <div className="mx-4 mt-4 mb-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
+        <div className="flex-1 min-w-0">
+          <p className="text-gray-800 text-lg italic font-bold leading-snug">"Not all who wander are lost"</p>
+          <p className="text-sky-600 text-base mt-1.5 font-black tracking-wide">{CURRENT_EXPEDITION} to JMT</p>
+        </div>
+        <img
+          src={`${import.meta.env.BASE_URL}images/wanderer.jpg`}
+          alt="Jeju Olle Trail wanderer illustration"
+          className="w-20 h-28 object-cover rounded-xl border border-gray-100 shadow-sm flex-shrink-0"
+        />
       </div>
     </div>
   );
