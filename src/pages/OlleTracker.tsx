@@ -37,22 +37,22 @@ const OlleTracker: React.FC = () => {
   return (
     <div className="relative w-full h-screen flex flex-col overflow-hidden">
       {/* Top bar */}
-      <div className="flex-none bg-white border-b border-gray-100 px-4 pt-3 pb-2 z-10">
+      <div className="flex-none bg-gradient-to-r from-sky-600 to-cyan-400 px-4 pt-3 pb-2 z-10 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-base font-black text-gray-900 leading-tight">올레길 완주 트래커</h1>
-            <p className="text-xs text-gray-400">코스를 탭해 완주를 기록하세요</p>
+            <h1 className="text-base font-black text-white leading-tight">Olle Tracker</h1>
+            <p className="text-xs text-sky-100">코스를 탭해 완주를 기록하세요</p>
           </div>
           <div className="flex gap-1">
             <button
               onClick={() => setViewMode('map')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${viewMode === 'map' ? 'bg-sky-600 text-white' : 'bg-gray-100 text-gray-500'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${viewMode === 'map' ? 'bg-white text-sky-700' : 'bg-white/20 text-white'}`}
             >
               지도
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${viewMode === 'list' ? 'bg-sky-600 text-white' : 'bg-gray-100 text-gray-500'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${viewMode === 'list' ? 'bg-white text-sky-700' : 'bg-white/20 text-white'}`}
             >
               목록
             </button>
@@ -61,13 +61,13 @@ const OlleTracker: React.FC = () => {
 
         {/* Progress bar */}
         <div className="mt-2">
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
+          <div className="flex justify-between text-xs text-sky-100 mb-1">
             <span>{completedMainCount} / {totalCourseCount} 코스 완주</span>
-            <span className="font-bold text-sky-600">{progressRate}%</span>
+            <span className="font-bold text-white">{progressRate}%</span>
           </div>
-          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
             <div
-              className="h-full bg-sky-500 rounded-full transition-all duration-500"
+              className="h-full bg-white rounded-full transition-all duration-500"
               style={{ width: `${progressRate}%` }}
             />
           </div>

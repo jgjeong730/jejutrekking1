@@ -17,7 +17,7 @@ const OlleInfo: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-gradient-to-r from-purple-600 to-violet-500 px-4 pt-4 pb-2 sticky top-0 z-10 shadow-sm">
+      <div className="bg-gradient-to-r from-sky-600 to-cyan-400 px-4 pt-4 pb-2 sticky top-0 z-10 shadow-sm">
         <h1 className="text-lg font-black text-white text-center mb-3">여행 정보</h1>
         <div className="grid grid-cols-4 gap-1.5">
           {TABS.map(({ key, label, icon: Icon }) => (
@@ -25,7 +25,7 @@ const OlleInfo: React.FC = () => {
               key={key}
               onClick={() => setTab(key)}
               className={`py-1.5 rounded-xl text-xs font-bold flex flex-col items-center gap-0.5 transition-all ${
-                tab === key ? 'bg-white text-purple-700 shadow' : 'bg-white/20 text-white'
+                tab === key ? 'bg-white text-sky-700 shadow' : 'bg-white/20 text-white'
               }`}
             >
               <Icon className="w-4 h-4" />

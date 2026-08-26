@@ -18,7 +18,7 @@ const OllePrep: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-500 px-4 pt-4 pb-5 sticky top-0 z-10 shadow-sm">
+      <div className="bg-gradient-to-r from-sky-600 to-cyan-400 px-4 pt-4 pb-5 sticky top-0 z-10 shadow-sm">
         <h1 className="text-lg font-black text-white text-center">준비사항</h1>
       </div>
 
