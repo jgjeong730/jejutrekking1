@@ -19,27 +19,24 @@ const OlleHome: React.FC = () => {
 
         <div className="mt-6 bg-white/20 backdrop-blur rounded-2xl p-4">
           <div className="flex justify-between text-center">
-            <div>
-              <p className="text-2xl font-black">437km</p>
-              <p className="text-sky-100 text-xs mt-0.5">총 연장</p>
+            <div className="flex-1">
+              <p className="text-xl font-black">437KM</p>
             </div>
             <div className="w-px bg-white/30" />
-            <div>
-              <p className="text-2xl font-black">27개</p>
-              <p className="text-sky-100 text-xs mt-0.5">공식 코스</p>
+            <div className="flex-1">
+              <p className="text-xl font-black">27 코스</p>
             </div>
             <div className="w-px bg-white/30" />
-            <div>
-              <p className="text-2xl font-black">26일</p>
-              <p className="text-sky-100 text-xs mt-0.5">확정 일정</p>
+            <div className="flex-1">
+              <p className="text-xl font-black">26일</p>
             </div>
           </div>
+        </div>
 
-          {/* CURRENT_EXPEDITION swaps each time a new trail starts (Olle → Baekdu → Yarigatake → ... → JMT) */}
-          <div className="mt-4 pt-4 border-t border-white/20 text-center">
-            <p className="text-white text-base italic font-bold leading-snug">"Not all who wander are lost"</p>
-            <p className="text-sky-100 text-sm mt-1 font-black tracking-widest">{CURRENT_EXPEDITION} to JMT</p>
-          </div>
+        {/* CURRENT_EXPEDITION swaps each time a new trail starts (Olle → Baekdu → Yarigatake → ... → JMT) */}
+        <div className="mt-4 text-center">
+          <p className="text-xl italic font-bold leading-snug">"Not all who wander are lost"</p>
+          <p className="text-sky-100 text-sm mt-1 font-black tracking-widest">{CURRENT_EXPEDITION} to JMT</p>
         </div>
       </div>
 
