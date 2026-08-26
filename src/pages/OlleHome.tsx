@@ -14,7 +14,7 @@ const OlleHome: React.FC = () => {
         <div className="flex items-center gap-3 mb-1">
           <OlleMark className="w-9 h-9 flex-shrink-0" />
           <h1 className="text-2xl font-black leading-tight whitespace-nowrap">
-            JG on Jeju Olle 437
+            Jeju Olle 437
           </h1>
         </div>
         <p className="text-sky-100 text-sm">2026.10.23 ~ 11.19 확정 일정</p>
@@ -127,9 +127,9 @@ const OlleHome: React.FC = () => {
       </div>
 
       {/* Quote — CURRENT_EXPEDITION swaps each time a new trail starts (Olle → Baekdu → Yarigatake → ... → JMT) */}
-      <div className="mx-4 mt-4 mb-2 text-center">
-        <p className="text-gray-400 text-sm italic">"Not all who wander are lost"</p>
-        <p className="text-gray-300 text-xs mt-1 font-medium tracking-wide">{CURRENT_EXPEDITION} to JMT</p>
+      <div className="mx-4 mt-4 mb-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-5 text-center">
+        <p className="text-gray-800 text-lg italic font-bold leading-snug">"Not all who wander are lost"</p>
+        <p className="text-sky-600 text-base mt-1.5 font-black tracking-wide">{CURRENT_EXPEDITION} to JMT</p>
       </div>
     </div>
   );
