@@ -154,13 +154,30 @@ export const FOOD_RECS: FoodRec[] = [
   { zone: '추자도 (18-1·18-2코스)', lunch: '추자도 특산 참굴비 정식', dinner: '추자항 활어회 (완주 축하)' },
 ];
 
+// 점심 1.5만 + 저녁 2만 = 평일 3.5만, 주말은 특식으로 5만 잡음.
+const WEEKDAY_MEAL_COST = 35000;
+const WEEKEND_MEAL_COST = 50000;
+
+function isWeekend(dateStr: string): boolean {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const dow = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
+  return dow === 0 || dow === 6;
+}
+
+export const TOTAL_MEAL_COST = REAL_SCHEDULE.reduce(
+  (sum, day) => sum + (isWeekend(day.date) ? WEEKEND_MEAL_COST : WEEKDAY_MEAL_COST),
+  0
+);
+
 export const BUDGET_ITEMS: BudgetItem[] = [
-  { item: '숙박 (게스트하우스+캠핑 혼합, 25박)', cost: 550000, note: '게하 2.5만 × 19박 + 캠핑 1만 × 6박 기준' },
-  { item: '식비 (점심+저녁, 26일)', cost: 520000, note: '1일 평균 2만원, 아침 제외' },
-  { item: '항공 (김포↔제주 왕복)', cost: 100000, note: '저비용항공 특가 기준' },
+  { item: '숙박 (게스트하우스+캠핑 혼합, 26박)', cost: 530000, note: '게하 2.5만 × 18박 + 캠핑 1만 × 8박 기준' },
+  { item: '식비 (점심+저녁, 26일)', cost: TOTAL_MEAL_COST, note: '평일 점심 1.5만+저녁 2만(3.5만/일), 주말 특식 5만/일, 아침 제외' },
+  { item: '항공 (김포↔제주 왕복)', cost: 0, note: '마일리지 1만 마일 사용 (현금 지출 없음)' },
   { item: '여객선 (우도·가파도·추자도 왕복)', cost: 70000, note: '우도 8천, 가파도 8천, 추자도 왕복 3만원대' },
-  { item: '올레패스포트·간식·비품', cost: 100000, note: '패스포트 1.5만원 포함' },
+  { item: '올레패스포트·간식·비품', cost: 105000, note: '패스포트 2만원 포함' },
 ];
+
+export const TOTAL_BUDGET_ESTIMATE = BUDGET_ITEMS.reduce((s, i) => s + i.cost, 0);
 
 export const GEAR_ITEMS: GearItem[] = [
   { name: '트레일 러닝화', detail: '발볼 넓고 쿠션 충분한 모델\n호카 HOKA 또는 살로몬 XT-6 권장' },

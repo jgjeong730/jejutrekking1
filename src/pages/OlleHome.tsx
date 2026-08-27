@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { CalendarDays, Mountain, ClipboardList, Info, TrendingUp } from 'lucide-react';
 import OlleIslandMap from '../components/OlleIslandMap';
 import OlleMark from '../components/OlleMark';
-import { CURRENT_EXPEDITION } from '../data/olleData';
+import { CURRENT_EXPEDITION, TOTAL_BUDGET_ESTIMATE } from '../data/olleData';
 
 const OlleHome: React.FC = () => {
   return (
@@ -124,7 +124,7 @@ const OlleHome: React.FC = () => {
         <div className="flex gap-3">
           <div className="flex-1 bg-sky-50 rounded-xl p-3 text-center">
             <p className="text-xs text-sky-600 font-medium">26일 전체</p>
-            <p className="text-xl font-black text-sky-700 mt-1">134만원</p>
+            <p className="text-xl font-black text-sky-700 mt-1">{Math.round(TOTAL_BUDGET_ESTIMATE / 10000)}만원</p>
           </div>
         </div>
       </div>

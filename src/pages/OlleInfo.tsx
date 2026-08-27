@@ -118,7 +118,7 @@ const BudgetTab: React.FC = () => {
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-xs text-blue-700">
-        아침 식비 제외 (생략 기준). 올레패스포트 1.5만원 포함. 캠핑 비중 높일수록 절약 가능.
+        아침 식비 제외 (생략 기준). 올레패스포트 2만원 포함. 캠핑 비중 높일수록 절약 가능.
         트래커에서 완주 기록에 숙박비를 입력하면 여기 총액에 자동 반영돼요.
       </div>
     </div>

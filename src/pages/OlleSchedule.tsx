@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Tent, Home, Mountain, Trophy, MapPin, Clock, ExternalLink } from 'lucide-react';
-import { REAL_SCHEDULE } from '../data/olleData';
+import { REAL_SCHEDULE, TOTAL_BUDGET_ESTIMATE } from '../data/olleData';
 import type { OlleDay } from '../data/olleData';
 import { OLLE_COURSES } from '../data/olleCoursesData';
 import type { OlleCourse } from '../data/olleCoursesData';
@@ -71,7 +71,7 @@ const OlleSchedule: React.FC = () => {
             <p className="text-xs opacity-75 mt-0.5">코스(437km)</p>
           </div>
           <div className="text-center">
-            <p className="text-xl font-black">134만원</p>
+            <p className="text-xl font-black">{Math.round(TOTAL_BUDGET_ESTIMATE / 10000)}만원</p>
             <p className="text-xs opacity-75 mt-0.5">예상 비용</p>
           </div>
         </div>
