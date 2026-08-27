@@ -1,5 +1,6 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { OLLE_COURSES } from '../data/olleCoursesData';
+import { supabase } from '../lib/supabaseClient';
 
 export interface CompletionRecord {
   courseId: number;
@@ -33,8 +34,62 @@ function saveToStorage(records: CompletionRecord[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ records }));
 }
 
+// Supabase row <-> CompletionRecord mapping (DB uses snake_case columns).
+interface CompletionRow {
+  course_id: number;
+  date: string;
+  companions: string | null;
+  memo: string | null;
+  actual_distance: number | null;
+  actual_duration: string | null;
+  lodge_name: string | null;
+  lodge_cost: number | null;
+}
+
+function fromRow(row: CompletionRow): CompletionRecord {
+  return {
+    courseId: row.course_id,
+    date: row.date,
+    companions: row.companions ?? undefined,
+    memo: row.memo ?? undefined,
+    actualDistance: row.actual_distance ?? undefined,
+    actualDuration: row.actual_duration ?? undefined,
+    lodgeName: row.lodge_name ?? undefined,
+    lodgeCost: row.lodge_cost ?? undefined,
+  };
+}
+
+function toRow(record: CompletionRecord): CompletionRow {
+  return {
+    course_id: record.courseId,
+    date: record.date,
+    companions: record.companions ?? null,
+    memo: record.memo ?? null,
+    actual_distance: record.actualDistance ?? null,
+    actual_duration: record.actualDuration ?? null,
+    lodge_name: record.lodgeName ?? null,
+    lodge_cost: record.lodgeCost ?? null,
+  };
+}
+
 export function useOlleProgress() {
   const [records, setRecords] = useState<CompletionRecord[]>(loadFromStorage);
+
+  // Pull the shared copy from Supabase on load so anyone opening the link
+  // (family, friends) sees the latest recorded progress. Falls back silently
+  // to whatever's in localStorage if offline or Supabase isn't configured.
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('completions')
+      .select('*')
+      .then(({ data, error }) => {
+        if (error || !data) return;
+        const next = (data as CompletionRow[]).map(fromRow);
+        setRecords(next);
+        saveToStorage(next);
+      });
+  }, []);
 
   const completedCourses = useMemo(
     () => records.map(r => r.courseId),
@@ -81,6 +136,12 @@ export function useOlleProgress() {
       saveToStorage(next);
       return next;
     });
+    // Best-effort sync — the local write above already updated the UI, so a
+    // failed/offline upsert just means this device's copy is ahead until the
+    // next successful sync.
+    supabase?.from('completions').upsert(toRow(record)).then(({ error }) => {
+      if (error) console.warn('Supabase sync (upsert) failed:', error.message);
+    });
   }, []);
 
   const removeCompletion = useCallback((courseId: number) => {
@@ -88,6 +149,9 @@ export function useOlleProgress() {
       const next = prev.filter(r => r.courseId !== courseId);
       saveToStorage(next);
       return next;
+    });
+    supabase?.from('completions').delete().eq('course_id', courseId).then(({ error }) => {
+      if (error) console.warn('Supabase sync (delete) failed:', error.message);
     });
   }, []);
 
