@@ -17,6 +17,9 @@ dist-ssr
 .env.local
 .env.*.local
 
+# Personal Claude Code permission allowlist (not shared/team config)
+.claude/settings.local.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
