@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { DollarSign, Utensils, Home, Award } from 'lucide-react';
+import { DollarSign, Utensils, Home, Award, ExternalLink } from 'lucide-react';
 import { BUDGET_ITEMS, FOOD_RECS, ACCOMMODATIONS, REAL_SCHEDULE, GUESTHOUSE_NIGHT_RATE, CAMPING_NIGHT_RATE, CURRENT_EXPEDITION } from '../data/olleData';
 import { useOlleProgress } from '../hooks/useOlleProgress';
 
@@ -161,16 +161,26 @@ const StayTab: React.FC = () => {
                   <span className={`text-sm flex-shrink-0 mt-0.5 ${acc.type === 'guesthouse' ? '🏠' : '⛺'}`}>
                     {acc.type === 'guesthouse' ? '🏠' : '⛺'}
                   </span>
-                  <div>
+                  <div className="flex-1">
                     <p className="font-bold text-gray-900 text-sm">{acc.name}</p>
                     <p className="text-xs text-gray-500 mt-0.5">{acc.note}</p>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium mt-1 inline-block ${
-                      acc.type === 'guesthouse'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-amber-100 text-amber-700'
-                    }`}>
-                      {acc.type === 'guesthouse' ? '게스트하우스 ~2.5만원' : '캠핑 ~1만원'}
-                    </span>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                        acc.type === 'guesthouse'
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-amber-100 text-amber-700'
+                      }`}>
+                        {acc.type === 'guesthouse' ? '게스트하우스 ~2.5만원' : '캠핑 ~1만원'}
+                      </span>
+                      <a
+                        href={acc.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-2 py-0.5 rounded-full font-medium bg-sky-600 text-white flex items-center gap-1"
+                      >
+                        정보·예약 <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               ))}

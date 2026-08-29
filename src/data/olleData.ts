@@ -58,7 +58,10 @@ export interface AccommodationRec {
   type: 'guesthouse' | 'camping';
   name: string;
   note: string;
+  link: string;
 }
+
+const naverMapSearch = (query: string) => `https://map.naver.com/p/search/${encodeURIComponent(query)}`;
 
 export interface FoodRec {
   zone: string;
@@ -132,17 +135,17 @@ export const LODGE_BY_COURSE: Record<number, string> = REAL_SCHEDULE.reduce((acc
 }, {} as Record<number, string>);
 
 export const ACCOMMODATIONS: AccommodationRec[] = [
-  { zone: '북동부 (D1~D4, 18~21코스)', type: 'guesthouse', name: '조천·하도·종달 게스트하우스', note: '함덕·김녕 해변 접근성 좋음' },
-  { zone: '북동부 (D1~D4, 18~21코스)', type: 'camping', name: '김녕해수욕장 오토캠핑장', note: '19코스 종점 바로 앞' },
-  { zone: '동부 (D5~D8, 1~4코스)', type: 'guesthouse', name: '성산·표선해비치 게스트하우스', note: '우도 배편, 4코스 종점 인접' },
-  { zone: '동부 (D5~D8, 1~4코스)', type: 'camping', name: '신양리 섭지코지 / 남원 큰엉 캠핑장', note: '2·4코스 구간 내' },
-  { zone: '서귀포권 (D9~D14, 5~9코스)', type: 'guesthouse', name: '제주 올레스테이 (서귀포시 중정로 22)', note: '제주올레 사단법인 직영, 7코스 시작점(서귀포올레여행자센터) 바로 앞, D10~D11 연박. 1층 간세스테이션에 공유주방·세탁실, 카페·식당·펍 입점. 예약 jejuolle.org/trail#/center/stay 또는 064-762-2167' },
-  { zone: '서귀포권 (D9~D14, 5~9코스)', type: 'camping', name: '월평·대평포구 인근 캠핑', note: '7·8코스 구간 내 (사전 확인 필요)' },
-  { zone: '서부 (D16~D20, 10~14코스)', type: 'guesthouse', name: '모슬포·용수·저지 게스트하우스', note: '가파도 배편(운진항), D19~D20 저지 연박' },
-  { zone: '서부 (D16~D20, 10~14코스)', type: 'camping', name: '무릉·한림 캠핑장', note: '11·14코스 구간 내' },
-  { zone: '북부 (D22~D24, 15~17코스)', type: 'guesthouse', name: '애월·제주시 게스트하우스', note: '해안도로 근처, D24 본섬 완주' },
-  { zone: '북부 (D22~D24, 15~17코스)', type: 'camping', name: '제주올레캠핑 (애월읍 소길리)', note: '숲속 분지형 캠핑장' },
-  { zone: '추자도 (D25~D26, 18-1·18-2코스)', type: 'guesthouse', name: '추자도 대서리 게스트하우스', note: '제주항에서 배로 약 1시간' },
+  { zone: '북동부 (D1~D4, 18~21코스)', type: 'guesthouse', name: '조천·하도·종달 게스트하우스', note: '함덕·김녕 해변 접근성 좋음', link: naverMapSearch('제주 조천 하도 종달 게스트하우스') },
+  { zone: '북동부 (D1~D4, 18~21코스)', type: 'camping', name: '김녕해수욕장 오토캠핑장', note: '19코스 종점 바로 앞', link: naverMapSearch('김녕해수욕장 오토캠핑장') },
+  { zone: '동부 (D5~D8, 1~4코스)', type: 'guesthouse', name: '성산·표선해비치 게스트하우스', note: '우도 배편, 4코스 종점 인접', link: naverMapSearch('제주 성산 표선해비치 게스트하우스') },
+  { zone: '동부 (D5~D8, 1~4코스)', type: 'camping', name: '신양리 섭지코지 / 남원 큰엉 캠핑장', note: '2·4코스 구간 내', link: naverMapSearch('제주 신양리 섭지코지 캠핑장') },
+  { zone: '서귀포권 (D9~D14, 5~9코스)', type: 'guesthouse', name: '제주 올레스테이 (서귀포시 중정로 22)', note: '제주올레 사단법인 직영, 7코스 시작점(서귀포올레여행자센터) 바로 앞, D10~D11 연박. 1층 간세스테이션에 공유주방·세탁실, 카페·식당·펍 입점. 예약 jejuolle.org/trail#/center/stay 또는 064-762-2167', link: 'https://www.jejuolle.org/trail#/center/stay' },
+  { zone: '서귀포권 (D9~D14, 5~9코스)', type: 'camping', name: '월평·대평포구 인근 캠핑', note: '7·8코스 구간 내 (사전 확인 필요)', link: naverMapSearch('제주 대평포구 캠핑장') },
+  { zone: '서부 (D16~D20, 10~14코스)', type: 'guesthouse', name: '모슬포·용수·저지 게스트하우스', note: '가파도 배편(운진항), D19~D20 저지 연박', link: naverMapSearch('제주 모슬포 용수 저지 게스트하우스') },
+  { zone: '서부 (D16~D20, 10~14코스)', type: 'camping', name: '무릉·한림 캠핑장', note: '11·14코스 구간 내', link: naverMapSearch('제주 한림 캠핑장') },
+  { zone: '북부 (D22~D24, 15~17코스)', type: 'guesthouse', name: '애월·제주시 게스트하우스', note: '해안도로 근처, D24 본섬 완주', link: naverMapSearch('제주 애월 게스트하우스') },
+  { zone: '북부 (D22~D24, 15~17코스)', type: 'camping', name: '제주올레캠핑 (애월읍 소길리)', note: '숲속 분지형 캠핑장', link: naverMapSearch('제주올레캠핑 애월 소길리') },
+  { zone: '추자도 (D25~D26, 18-1·18-2코스)', type: 'guesthouse', name: '추자도 대서리 게스트하우스', note: '제주항에서 배로 약 1시간', link: naverMapSearch('추자도 대서리 게스트하우스') },
 ];
 
 export const FOOD_RECS: FoodRec[] = [
