@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Olle 개발일지</title>
+<style>
+  :root {
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --ink: #1F2937;
+    --ink-soft: #64748B;
+    --line: #E7ECF1;
+    --sky-600: #0284C7;
+    --sky-700: #0369A1;
+    --cyan-400: #22D3EE;
+    --sky-tint: #E0F2FE;
+    --neutral-tint: #F1F5F9;
+    --neutral: #64748B;
+    --shadow: rgba(15, 23, 42, 0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: '맑은 고딕', 'Malgun Gothic', sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: '맑은 고딕', 'Malgun Gothic', sans-serif; text-wrap: balance; color: var(--ink); }
+  code, .mono { font-family: '맑은 고딕', 'Malgun Gothic', sans-serif; }
+
+  a { color: var(--sky-700); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--sky-600); outline-offset: 2px; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px 120px; }
+
+  /* ---------- header ---------- */
+  header.top {
+    padding: 72px 24px 64px;
+    background: linear-gradient(135deg, var(--sky-600), var(--cyan-400));
+    color: #FFFFFF;
+  }
+  header.top .inner { max-width: 880px; margin: 0 auto; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 18px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: #FFFFFF; }
+  header.top h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 900; margin: 0 0 14px; line-height: 1.3; color: #FFFFFF; }
+  header.top .lede { font-size: 16px; color: rgba(255,255,255,0.9); margin: 0; }
+  header.top code { background: rgba(255,255,255,0.18); padding: 1px 6px; border-radius: 4px; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .badge {
+    font-size: 12px; padding: 5px 11px;
+    border-radius: 999px; color: #FFFFFF;
+    background: rgba(255,255,255,0.18);
+  }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+  .section-head h2 { font-size: 24px; margin: 0; }
+  .section-num { color: var(--sky-600); font-size: 14px; font-weight: 700; }
+  .section-intro { color: var(--ink-soft); margin: 12px 0 32px; }
+
+  /* ---------- workflow loop ---------- */
+  .loop {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin: 8px 0 20px;
+  }
+  .loop-step {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 2px var(--shadow);
+    border-radius: 14px;
+    padding: 18px 14px;
+    text-align: center;
+  }
+  .loop-step + .loop-step { margin-left: -1px; }
+  .loop-step .n {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--sky-tint); color: var(--sky-700);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px;
+    margin: 0 auto 10px;
+  }
+  .loop-step h3 { font-size: 14px; margin: 0 0 4px; font-weight: 700; }
+  .loop-step p { font-size: 12.5px; color: var(--ink-soft); margin: 0; }
+  .loop-arrow { display: flex; align-items: center; justify-content: center; color: var(--sky-600); }
+  .loop-wrap { display: flex; align-items: stretch; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+  .loop-wrap .loop-step { flex: 1 0 150px; }
+  .loop-cycle-note {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--ink-soft); margin-top: 6px;
+  }
+  .loop-cycle-note svg { flex-shrink: 0; }
+
+  /* ---------- glossary ---------- */
+  .glossary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .gterm {
+    background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px var(--shadow);
+    border-radius: 12px;
+    padding: 16px 18px; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .gterm .icon {
+    flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px;
+    background: var(--sky-tint); display: flex; align-items: center; justify-content: center;
+  }
+  .gterm .icon svg { stroke: var(--sky-600); }
+  .gterm h4 { margin: 0 0 4px; font-size: 14.5px; font-weight: 700; }
+  .gterm p { margin: 0; font-size: 13px; color: var(--ink-soft); }
+
+  /* ---------- journey chapters ---------- */
+  .chapter { margin-bottom: 24px; }
+  .chapter:last-child { margin-bottom: 0; }
+  .chapter-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .stamp {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--sky-600); color: #FFFFFF;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .chapter-head h3 { font-size: 17px; margin: 0; }
+  .chapter-blurb { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 14px 36px; }
+
+  .qa-table-scroll {
+    overflow-x: auto; background: var(--surface); border: 1px solid var(--line);
+    box-shadow: 0 1px 2px var(--shadow); border-radius: 14px;
+  }
+  table.qa { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.qa th {
+    text-align: left; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.06em; color: var(--sky-700);
+    background: var(--sky-tint);
+    padding: 10px 14px;
+  }
+  table.qa th:first-child { border-radius: 14px 0 0 0; }
+  table.qa th:last-child { border-radius: 0 14px 0 0; }
+  table.qa td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.qa tr:last-child td { border-bottom: none; }
+  table.qa td.q { width: 44%; }
+  table.qa .who {
+    display: inline-block; font-size: 10.5px;
+    font-weight: 700; padding: 2px 7px; border-radius: 5px; margin-bottom: 5px;
+  }
+  .who.jg { background: var(--sky-tint); color: var(--sky-700); }
+  .who.cody { background: var(--neutral-tint); color: var(--neutral); }
+
+  @media (max-width: 620px) {
+    table.qa, table.qa thead, table.qa tbody, table.qa tr, table.qa td { display: block; }
+    table.qa thead { display: none; }
+    table.qa tr { border-bottom: 1px solid var(--line); padding: 12px 0; }
+    table.qa tr:last-child { border-bottom: none; }
+    table.qa td { border-bottom: none; padding: 6px 0; }
+    table.qa td.q { width: auto; }
+    .loop-wrap { flex-wrap: nowrap; }
+
+    table.compare, table.compare thead, table.compare tbody, table.compare tr, table.compare td { display: block; }
+    table.compare thead { display: none; }
+    table.compare tr { border-bottom: 1px solid var(--line); padding: 12px 0; }
+    table.compare tr:last-child { border-bottom: none; }
+    table.compare td { border-bottom: none; padding: 4px 0; }
+    .diagram-box { font-size: 11.5px; }
+  }
+
+  /* ---------- lessons ---------- */
+  .lessons { display: grid; gap: 12px; }
+  .lesson {
+    display: flex; gap: 14px; background: var(--surface);
+    border: 1px solid var(--line); box-shadow: 0 1px 2px var(--shadow);
+    border-radius: 12px; padding: 16px 18px;
+  }
+  .lesson .mark { font-weight: 900; font-size: 20px; color: var(--sky-600); flex-shrink: 0; }
+  .lesson h4 { margin: 0 0 4px; font-size: 14.5px; }
+  .lesson p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+
+  /* ---------- concept diagrams & comparison tables ---------- */
+  .concept-block { margin-bottom: 40px; }
+  .concept-block:last-child { margin-bottom: 0; }
+  .concept-block h3 { font-size: 18px; margin: 0 0 10px; }
+  .concept-block .note { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 16px; }
+  .concept-block .note strong { color: var(--ink); }
+
+  .diagram-box {
+    background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px var(--shadow);
+    border-radius: 14px; padding: 20px 22px; margin: 0 0 20px;
+    font-family: 'Consolas', 'D2Coding', monospace; font-size: 12.5px; line-height: 1.7;
+    color: var(--ink); white-space: pre; overflow-x: auto;
+  }
+
+  table.compare { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.compare th {
+    text-align: left; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; color: var(--sky-700);
+    background: var(--sky-tint); padding: 10px 14px;
+  }
+  table.compare th:first-child { border-radius: 14px 0 0 0; }
+  table.compare th:last-child { border-radius: 0 14px 0 0; }
+  table.compare td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-soft); }
+  table.compare td:first-child { font-weight: 700; color: var(--ink); }
+  table.compare tr:last-child td { border-bottom: none; }
+  table.compare code { background: var(--neutral-tint); padding: 1px 6px; border-radius: 4px; color: var(--ink); }
+
+  .callout {
+    background: var(--sky-tint); border-radius: 12px; padding: 16px 18px; margin: 0 0 20px;
+    font-size: 13.5px; color: var(--sky-700); font-weight: 700;
+  }
+
+  /* ---------- closing ---------- */
+  .closing {
+    background: linear-gradient(135deg, var(--sky-600), var(--cyan-400));
+    color: #FFFFFF;
+    border-radius: 16px;
+    padding: 32px; margin-top: 8px;
+  }
+  .closing p { margin: 0 0 12px; }
+  .closing p:last-child { margin-bottom: 0; }
+  .closing strong { color: #FFFFFF; }
+  .sign { font-style: italic; color: rgba(255,255,255,0.85); margin-top: 18px !important; }
+
+  footer.foot {
+    max-width: 880px; margin: 0 auto; padding: 32px 24px 60px;
+    font-size: 12.5px; color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="eyebrow"><span class="dot"></span>FIELD NOTES · JEJU OLLE 437 개발기</div>
+    <h1>AI랑 같이 앱 하나를 완성해가는 과정</h1>
+    <p class="lede">
+      제주 올레길 437km 완주를 준비하며 JG가 Claude("코디")와 함께 만든 트레킹 앱, <code>jejutrekking1</code>의
+      실제 개발 기록이에요. 코딩을 처음 접하는 분에게 "AI랑 코딩한다는 게 실제로 어떤 느낌인지" 보여주려고
+      정리했습니다 — 질문 하나하나가 어떻게 실제 기능으로 이어졌는지 그대로 따라가 볼 수 있어요.
+    </p>
+    <div class="badge-row">
+      <span class="badge">React + TypeScript</span>
+      <span class="badge">Vite</span>
+      <span class="badge">GitHub Pages</span>
+      <span class="badge">Supabase</span>
+      <span class="badge">약 50여 차례 대화 → 배포</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <div class="section-head"><span class="section-num">01</span><h2>이 앱은 어떻게 완성되는가</h2></div>
+    <p class="section-intro">
+      매번 똑같은 리듬이 반복돼요. 말로 요청하면 코드가 되고, 코드는 눈으로 확인한 다음에야 세상에 나갑니다.
+      아래 다섯 단계가 이 문서에 나오는 모든 대화의 기본 골격이에요.
+    </p>
+    <div class="loop-wrap">
+      <div class="loop-step">
+        <div class="n">1</div>
+        <h3>말로 요청</h3>
+        <p>"D-day를 지도에 표시해줘" 같은 자연어 한 문장</p>
+      </div>
+      <div class="loop-arrow" aria-hidden="true">
+        <svg width="20" height="16" viewBox="0 0 20 16"><path d="M0 8h17M11 2l6 6-6 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="loop-step">
+        <div class="n">2</div>
+        <h3>코드 작성</h3>
+        <p>코디가 실제 파일을 읽고 고치기</p>
+      </div>
+      <div class="loop-arrow" aria-hidden="true">
+        <svg width="20" height="16" viewBox="0 0 20 16"><path d="M0 8h17M11 2l6 6-6 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="loop-step">
+        <div class="n">3</div>
+        <h3>빌드·확인</h3>
+        <p>실제 화면을 브라우저로 열어 눈으로 검증</p>
+      </div>
+      <div class="loop-arrow" aria-hidden="true">
+        <svg width="20" height="16" viewBox="0 0 20 16"><path d="M0 8h17M11 2l6 6-6 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="loop-step">
+        <div class="n">4</div>
+        <h3>기록·배포</h3>
+        <p>Git에 저장하고 실제 사이트에 반영</p>
+      </div>
+    </div>
+    <div class="loop-cycle-note">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      확인해서 마음에 들면 끝, 아니면 1번으로 돌아가서 다시 — 이 문서의 모든 챕터가 이 루프의 반복이에요.
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">02</span><h2>미리 알아두면 좋은 말들</h2></div>
+    <p class="section-intro">아래 여정 로그에서 계속 나오는 용어예요. 처음 봐도 되도록 쉽게 풀어썼어요.</p>
+    <div class="glossary">
+      <div class="gterm">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div><h4>React / Vite</h4><p>화면을 그리는 도구(React)와, 그걸 빠르게 개발·빌드해주는 도구(Vite). 둘 다 그냥 "코드를 화면으로 바꿔주는 엔진"이라고 생각하면 돼요.</p></div>
+      </div>
+      <div class="gterm">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2.3" stroke-width="1.8"/><circle cx="6" cy="18" r="2.3" stroke-width="1.8"/><circle cx="18" cy="9" r="2.3" stroke-width="1.8"/><path d="M6 8.3V15.7M6 9c4 0 6-1.5 6-3.5" stroke-width="1.8"/></svg></div>
+        <div><h4>Git commit / push</h4><p>수정한 코드에 "이만큼 저장!"이라고 도장 찍는 것(commit), 그걸 온라인 저장소에 올리는 것(push). 되돌리기 가능한 저장 지점이 생겨요.</p></div>
+      </div>
+      <div class="gterm">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12M7 8l5-5 5 5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div><h4>빌드 / 배포(deploy)</h4><p>내 컴퓨터에서만 보이던 코드를 "실제로 작동하는 완성품"으로 만드는 게 빌드, 그걸 인터넷에 올려 누구나 접속하게 하는 게 배포예요.</p></div>
+      </div>
+      <div class="gterm">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke-width="1.8"/><path d="M3 9h18" stroke-width="1.8"/></svg></div>
+        <div><h4>localStorage</h4><p>웹사이트가 "그 브라우저 안에만" 저장해두는 메모장. 다른 기기나 다른 사람은 절대 못 봐요 — 이게 이번 프로젝트의 큰 반전 포인트였어요 (7장 참고).</p></div>
+      </div>
+      <div class="gterm">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3a5 5 0 00-5 5c-2 .3-3.5 2-3.5 4a4 4 0 004 4h9.5a3.5 3.5 0 000-7 5 5 0 00-5-6z" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+        <div><h4>Supabase</h4><p>클라우드에 있는 공용 데이터베이스. localStorage와 달리 모두가 같은 데이터를 보게 해줘요 — "링크 공유하면 진행상황이 보이나?"의 답이 여기 있어요.</p></div>
+      </div>
+      <div class="gterm">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke-width="1.8"/><path d="M7 6V4h10v2" stroke-width="1.8"/><circle cx="8" cy="12.5" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+        <div><h4>API 키 (공개키 vs 비밀키)</h4><p>공개키(anon key)는 브라우저에 그대로 노출돼도 괜찮게 설계된 키, 비밀키(service role)는 서버만 알아야 하는 관리자 키. 절대 섞어 쓰면 안 돼요.</p></div>
+      </div>
+      <div class="gterm">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke-width="1.8"/></svg></div>
+        <div><h4>권한 모드 (Auto / Plan)</h4><p>Auto는 코드 수정·명령 실행을 거의 자동으로 진행하는 모드, Plan은 먼저 조사만 하고 계획을 승인받은 다음에 실행하는 모드. 반복 작업엔 Auto, 되돌리기 까다로운 큰 결정엔 Plan이 어울려요 (11장 참고).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">03</span><h2>여정 로그</h2></div>
+    <p class="section-intro">
+      실제로 오간 요청과 대응을 시간순으로 정리했어요. 하늘색 태그는 JG의 질문, 회색 태그는 코디의 대응이에요.
+    </p>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">0</span><h3>기초를 다지다</h3></div>
+      <p class="chapter-blurb">27개 코스 데이터와 26일 일정이라는 뼈대부터 세우고, 보안 문제부터 먼저 잡았어요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>올레패스 같은 잘 만든 앱 조사해서 통합 아이디어 줘</td><td>유사 앱들 리서치, 통합·업그레이드 아이디어 제안</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>437km 완주할 거야, 100km는 의미 없어</td><td>27개 코스 + 26일 실일정으로 데이터 전면 재설계</td></tr>
+          <tr><td class="q"><span class="who cody">코디</span><br>(작업 중 발견) API 키가 코드에 그대로 노출돼 있고, 사진에 실제 개인정보가 담겨 있음</td><td>키를 저장소에서 제거·재발급, 문제 사진 삭제, 도메인 제한 적용</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>네이버맵 쓰려면 결제 등록해야 하나?</td><td>결제 없이 쓸 수 있는 구글맵으로 전체 마이그레이션</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>완주 기록에 사진도 넣고 싶어</td><td>브라우저 저장공간(IndexedDB) 기반 사진 첨부 기능(최대 5장) 추가</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">1</span><h3>지도와 일정을 실제에 가깝게</h3></div>
+      <p class="chapter-blurb">숫자와 지도가 실제 여행과 어긋나지 않도록 하나씩 맞춰나간 구간이에요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>18코스부터 Day-1이니까 D1/18처럼 지도에 표시해줘</td><td>일정↔코스ID 자동 매핑 로직을 만들어 지도 라벨에 반영</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>코스 선이 실제 올레길을 따라가게 할 수 없나?</td><td>공공데이터·지도서비스 등 가능한 소스를 다 확인했지만 무료로 쓸 수 있는 실제 경로 데이터가 없음을 확인 → 나중에 파일만 넣으면 되는 변환 파이프라인을 미리 구축</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>코디가 대신 그 파일 받아올 수 있어?</td><td>모바일 앱은 직접 조작할 수 없다는 한계를 설명, 대체 경로들도 다 막혀있음을 확인 후 보고</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>올레스테이 숙박이랑 식사 일정도 넣어줘</td><td>실제 숙소 정보를 조사해 일정표·숙소·맛집·체크리스트에 정확히 반영</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">2</span><h3>기록 기능을 더 쓸모있게</h3></div>
+      <p class="chapter-blurb">단순 체크가 아니라, 실제 여행에서 쓸모있는 기록장이 되도록 다듬었어요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>트래커에 숙소 이름·숙박비도 넣어줘</td><td>완주 기록 폼에 숙소명·비용 입력란 추가, 예정 숙소를 자동으로 미리 보여줌</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>숙박비도 예산 총액에 반영해줘</td><td>실제 기록된 숙박비가 있으면 그 값으로, 없으면 추정치로 자동 계산하는 로직 구현</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">3</span><h3>이름과 이야기를 붙이다</h3></div>
+      <p class="chapter-blurb">기능만큼 이름과 톤도 중요했어요 — 여러 번 주고받으며 문구를 다듬었어요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>이미지 포함해서 카톡 공유되게 할 수 있어?</td><td>공유 시 보여줄 메타정보(Open Graph)와 전용 배너 이미지를 새로 제작</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>JG+Jeju+Olle로 위트있는 타이틀 5개 추천해줘</td><td>언어유희를 담은 후보 5개 제시, 장단점 설명</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>"JG on Jeju Olle 437" 어때?</td><td>홈 타이틀·공유 이미지·메타태그 전체에 반영</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>"Not all who wander are lost", 무슨 뜻이야?</td><td>톨킨 원문의 배경과 의미를, 아들과 친구들에게 설명하는 버전으로 풀이</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>"Olle to JMT"를 하단에 놓고, 다음 여정마다 바꿔 적으면 어때?</td><td>변수 하나만 바꾸면 앱 전체 문구가 함께 바뀌는 구조(CURRENT_EXPEDITION)로 설계</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">4</span><h3>카카오톡 캐시와의 사투</h3></div>
+      <p class="chapter-blurb">버그처럼 보였지만 사실 "캐시" 때문이었던, 실전 디버깅의 좋은 예시예요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>카톡으로 보내니 이미지가 안 뜨네</td><td>서버는 이미 정상임을 직접 확인, 카톡이 예전 정보를 저장(캐싱)해뒀을 가능성 설명</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>주소 뒤에 ?v=3,4,5 붙여도 안 바뀌네</td><td>카카오는 그 방식을 무시한다는 것을 확인, 카카오 공식 캐시 초기화 도구로 안내 전환</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>디버거에선 맞게 나오는데 폰은 그대로야</td><td>"서버 캐시"와 "폰 앱 자체 캐시"는 별개라는 걸 설명, 새 메시지로 재확인 제안</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">5</span><h3>디테일 다듬기</h3></div>
+      <p class="chapter-blurb">큰 기능이 끝난 뒤엔 늘 이런 마감 작업이 따라와요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>이미지는 안 어울리네, 빼줘. 탭 헤더 색도 다 하늘색으로 통일해줘</td><td>이미지 원복, 5개 탭 헤더를 같은 그라데이션으로 통일</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>체크리스트가 새로고침하면 초기화되는데?</td><td>브라우저 저장(localStorage)에 남도록 수정 → 앱을 다시 열어도 유지</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>상단 레이아웃·문구 배치를 계속 다시 조정하고 싶어</td><td>여백·폰트 크기·문구 위치를 요청대로 여러 차례 세밀하게 반복 조정</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">6</span><h3>클라우드로 연결하다</h3></div>
+      <p class="chapter-blurb">이 프로젝트에서 가장 큰 구조 변화예요 — 자세한 배경은 용어 사전의 Supabase 항목을 참고하세요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>폰에서 기록하면, 링크 공유한 사람도 볼 수 있어?</td><td>localStorage는 기기별로 완전히 분리된다는 걸 설명 → 클라우드 DB(Supabase) 연동 제안</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>(계정 생성 후) URL이랑 키 여기 있어</td><td>계정·프로젝트 생성은 안내만(직접 로그인은 할 수 없어서), 이후 연동 코드·보안 정책 SQL 작성</td></tr>
+          <tr><td class="q"><span class="who cody">코디</span><br>(연동 후) 실제로 기록 → 저장 → 재접속까지 종단 테스트</td><td>정상 동작 확인 후 배포, "다른 기기에서도 확인해보라"고 안내</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">7</span><h3>예산을 현실적으로</h3></div>
+      <p class="chapter-blurb">숫자도 결국 실제 삶에 맞춰 계속 고쳐나가는 대상이에요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>식비 1일 2만원은 너무 적어. 평일 3.5만, 주말은 특식 5만으로</td><td>요일별로 자동 계산하는 로직으로 교체, 총액 재산정</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>항공은 마일리지로, 올레패스포트는 2만원으로 인상됨</td><td>예산 항목 수정 + 여러 화면에 흩어져 있던 오래된 하드코딩 총액까지 함께 정리</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">8</span><h3>마무리 관리</h3></div>
+      <p class="chapter-blurb">기능 개발이 끝나도, 운영을 위한 대화는 계속돼요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>Supabase 로그아웃해도 돼? 따로 저장해야 할 거 있어?</td><td>앱은 이미 저장된 공개키만 있으면 된다고 안내, DB 비밀번호는 따로 보관 권유</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>10/23 전까지 한 번씩 확인해줘</td><td>대화 세션은 며칠 이상 지속될 수 없다는 한계를 솔직히 설명, 직접 확인 또는 외부 자동 점검 서비스를 대안으로 제안</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">9</span><h3>문서도 브랜드에 맞게</h3></div>
+      <p class="chapter-blurb">코드뿐 아니라 이 개발일지 자체도 다듬어야 할 대상이었어요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>컬러를 jeju_olle 앱처럼 하늘색 그라데이션으로, 폰트는 항상 맑은고딕으로 해줘</td><td>이 문서 전체를 앱과 같은 하늘색→시안 그라데이션·흰 카드 스타일로 다시 입히고, 폰트를 맑은고딕으로 통일</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>줄바꿈이 여백을 다 안 쓰고 미리 일어나는데, 페이지 여백을 충분히 써줘. 앞으로도 기억해줘</td><td>문단 폭 제한(ch 단위)을 전부 제거, 앞으로 모든 프로젝트에 적용할 규칙으로 저장</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">10</span><h3>안전 점검과 다음 프로젝트 준비</h3></div>
+      <p class="chapter-blurb">기능이 끝나면 늘 점검과 문서화가 남아요 — 다음 프로젝트를 위한 준비이기도 해요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>다른 페이지들도 여백 규칙 확인해줘. 그리고 깃허브에서 남이 Fork하면 내 개인적인 내용도 다 보이나?</td><td>앱 전체를 검사해 문제없음을 확인, 실제 기록은 git이 아니라 Supabase에 있어 Fork와는 무관하다는 점과 공개키의 노출 범위를 정확히 설명</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>새 프로젝트 시작할 때 Roadmap.md 같은 걸 만들어야 하나?</td><td>CLAUDE.md 개념과 필요성을 설명하고, 이 프로젝트에도 만들 것을 제안</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>응 만들어줘. 이건 프로젝트 할 때마다 항상 만들자</td><td>개요·구조·핵심 결정사항을 담은 CLAUDE.md를 작성해 커밋, 앞으로 모든 프로젝트에 적용할 습관으로 저장</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>지금까지 추가로 작업한 내용을 포함해서 개발일지 업데이트해줘</td><td>9~10장을 추가해 이 문서 자체를 최신 상태로 갱신 (바로 지금 이 작업)</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">11</span><h3>AI와 일하는 방식 다듬기</h3></div>
+      <p class="chapter-blurb">코드만이 아니라, 코디와 일하는 방식 자체도 점점 손에 맞게 다듬었어요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>Bash 명령어를 묻지 않고 승인하는 방법은?</td><td>권한 모드 종류와 설정 파일(.claude/settings.json) 문법을 조사해 설명</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>이거 진행하는 것 추천해 아님 비추천? 이유는?</td><td>전체 자동승인은 비추천, 자주 쓰는 명령만 허용목록에 추가하는 절충안을 근거와 함께 추천</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>개별 명령 허용목록 진행하려면 어떻게 해?</td><td>이 프로젝트에서 실제로 반복해온 명령들로 개인용 허용목록 파일을 만들어 적용, git 커밋에서는 제외</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>Auto 모드인데 Plan 모드로 바꾸는 게 좋아? 이 프로젝트 예로 설명해줘</td><td>두 모드는 독립적으로 조합 가능하다는 점을 확인하고, 이 프로젝트의 실제 사례(Supabase 설계는 Plan이 나았을 상황, 반복 배포는 Auto가 적합)로 구분 기준을 설명</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>Olle 개발일지에 업데이트해줘</td><td>11장을 추가해 이 문서를 다시 최신 상태로 갱신 (바로 지금 이 작업)</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-head"><span class="stamp">12</span><h3>도구 관계 정리</h3></div>
+      <p class="chapter-blurb">이번엔 코드가 아니라, 매일 쓰는 도구들이 서로 어떤 관계인지 자체를 정리해달라는 요청이었어요.</p>
+      <div class="qa-table-scroll">
+      <table class="qa">
+        <thead><tr><th>요청</th><th>코디의 대응</th></tr></thead>
+        <tbody>
+          <tr><td class="q"><span class="who jg">JG</span><br>숙박 정보에 게스트하우스·캠핑장 확인·예약 링크도 연결해줘</td><td>지역별 숙소·캠핑장 항목에 지도 검색 링크(정보·예약 버튼) 추가, 공식 숙소는 실제 예약 페이지로 연결</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>git config --global user.name / user.email 확인해줘</td><td>로컬에 설정된 Git 계정명·이메일 조회해 안내</td></tr>
+          <tr><td class="q"><span class="who jg">JG</span><br>Cursor·터미널, Git·GitHub 관계를 정리해줘</td><td>05장에 포함관계 도식과 비교표를 신설해 이 개발일지에 반영 (바로 지금 이 작업)</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">04</span><h2>지켜보며 느낀 점</h2></div>
+    <div class="lessons">
+      <div class="lesson">
+        <div class="mark">”</div>
+        <div><h4>완벽한 설계보다, 작게 물어보고 고쳐나가기</h4><p>처음부터 완성형을 요구하지 않았어요. "이렇게 해볼까?" → 확인 → "이건 아니네, 이렇게 바꿔줘"의 반복이 실제 개발의 기본 리듬이에요.</p></div>
+      </div>
+      <div class="lesson">
+        <div class="mark">”</div>
+        <div><h4>배포 전엔 항상 눈으로 확인</h4><p>코드가 "그럴듯해 보이는 것"과 "실제로 화면에서 잘 작동하는 것"은 달라요. 이 프로젝트 내내 빌드 → 스크린샷/테스트 → 배포 순서를 지켰어요.</p></div>
+      </div>
+      <div class="lesson">
+        <div class="mark">”</div>
+        <div><h4>이상해 보이는 문제가 사실은 "캐시"인 경우가 많다</h4><p>4장의 카카오톡 사례처럼, 코드가 틀린 게 아니라 어딘가에 저장된 오래된 정보가 문제인 경우가 정말 흔해요.</p></div>
+      </div>
+      <div class="lesson">
+        <div class="mark">”</div>
+        <div><h4>키에도 등급이 있다</h4><p>공개해도 되는 키와 절대 노출되면 안 되는 키를 구분하는 습관 — 이번 프로젝트 초반의 보안 사고와 Supabase 연동 모두에서 반복해서 나온 원칙이에요.</p></div>
+      </div>
+      <div class="lesson">
+        <div class="mark">”</div>
+        <div><h4>AI가 못 하는 일도 분명히 있다</h4><p>모바일 앱 직접 조작, 계정 생성, 몇 달짜리 예약 알림처럼 "이건 안 된다"고 솔직하게 말하는 것도 협업의 일부예요.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">05</span><h2>도구 이해하기 — Cursor·터미널, Git·GitHub</h2></div>
+    <p class="section-intro">
+      작업 중 자주 헷갈리는 네 가지 도구의 관계를 따로 정리했어요. 코딩을 모르는 분께 설명할 때도
+      결론부터 먼저 말하면 훨씬 잘 통해요.
+    </p>
+
+    <div class="concept-block">
+      <h3>1) Cursor vs 터미널</h3>
+      <p class="note"><strong>결론</strong> — Cursor는 "큰 작업실(IDE)", 터미널은 "그 작업실 안의 명령어 입력 창"이에요. 둘은 대등한 비교 대상이 아니라 포함 관계예요.</p>
+
+      <div class="diagram-box">Cursor (IDE, 프로그램 전체)
+  ├─ 파일 탐색기 (좌측 폴더 목록)
+  ├─ 코드 에디터 (색깔 강조, 자동완성)
+  ├─ 디버거
+  └─ 터미널 패널 ← 이 안에서 명령어 입력
+        └─ PowerShell (Windows 기본 명령어 프로그램)
+              └─ claude, node, npm, git 같은 명령어 실행</div>
+
+      <div class="qa-table-scroll">
+        <table class="compare">
+          <thead><tr><th>구분</th><th>Cursor</th><th>터미널</th></tr></thead>
+          <tbody>
+            <tr><td>정체</td><td>IDE(통합개발환경) — 코딩용 종합 프로그램</td><td>IDE 안의 기능 하나 — 명령어 입력 창</td></tr>
+            <tr><td>역할</td><td>코드 보기·수정·파일관리·실행 전체를 담당</td><td>텍스트 명령으로 컴퓨터 조작</td></tr>
+            <tr><td>예시</td><td>좌측 파일트리, 상단 메뉴바(File/Edit/View)</td><td><code>claude doctor</code>, <code>node --version</code> 입력하던 검은 창</td></tr>
+            <tr><td>독립 실행</td><td>가능 (자체 프로그램)</td><td>Windows에 원래 내장 — Cursor 안에서도, 시작메뉴에서도 열림</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note" style="margin-top:16px;"><strong>헷갈렸던 포인트</strong></p>
+      <div class="qa-table-scroll">
+        <table class="compare">
+          <thead><tr><th>헷갈렸던 것</th><th>정답</th></tr></thead>
+          <tbody>
+            <tr><td>"Cursor가 터미널 아닌가?"</td><td>아니오 — Cursor는 IDE, 터미널은 그 안의 패널</td></tr>
+            <tr><td>"VS Code랑 Cursor 구분이 안 됨"</td><td>Cursor는 VS Code를 포크해서 만든 별도 프로그램 — UI가 거의 같아서 헷갈림 (좌측 상단 로고, 하단 상태바의 "Cursor" 텍스트로 구분)</td></tr>
+            <tr><td>"시작메뉴로 연 PowerShell이 이상한 위치(system32)에서 시작됨"</td><td>정상 — Cursor 안에서 열면 자동으로 프로젝트 폴더에서 시작, 시작메뉴로 직접 열면 <code>cd</code> 명령으로 위치 이동 필요</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="concept-block">
+      <h3>2) Git vs GitHub</h3>
+      <p class="note"><strong>결론</strong> — Git은 "코드 변경 이력을 저장하는 개인 다이어리", GitHub는 "그 다이어리를 인터넷에 올려 공유하는 클라우드 저장소"예요.</p>
+
+      <div class="qa-table-scroll">
+        <table class="compare">
+          <thead><tr><th>항목</th><th>Git</th><th>GitHub</th></tr></thead>
+          <tbody>
+            <tr><td>정체</td><td>프로그램 (버전 관리 도구)</td><td>웹사이트/서비스 (Git 파일을 저장하는 클라우드)</td></tr>
+            <tr><td>위치</td><td>내 컴퓨터 안에 설치</td><td>인터넷 상의 서버</td></tr>
+            <tr><td>비유</td><td>문서 작업할 때 "저장" 버튼</td><td>저장한 문서를 구글드라이브에 올리는 것</td></tr>
+            <tr><td>관계</td><td colspan="2">GitHub는 Git을 사용하는 여러 서비스 중 하나 (다른 예: GitLab, Bitbucket)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note" style="margin-top:16px;">Git은 코드가 바뀔 때마다 "스냅샷"을 찍어 기록하는 도구예요.</p>
+      <div class="diagram-box">[월요일] 코드 작성 → 커밋(저장) → "지출 입력 기능 추가"
+[화요일] 코드 수정 → 커밋(저장) → "버그 수정"
+[수요일] 코드 수정 → 커밋(저장) → "디자인 개선"</div>
+      <p class="note">이렇게 저장해두면 언제 뭘 고쳤는지 역사가 남고, 실수했을 때 예전 버전으로 되돌릴 수 있고, 여러 사람이 같은 파일을 동시에 작업해도 충돌 없이 합칠 수 있어요.</p>
+
+      <div class="qa-table-scroll">
+        <table class="compare">
+          <thead><tr><th>용어</th><th>의미</th><th>비유</th></tr></thead>
+          <tbody>
+            <tr><td>커밋 (Commit)</td><td>지금 상태를 로컬에 저장</td><td>문서 "저장" 버튼</td></tr>
+            <tr><td>푸시 (Push)</td><td>저장한 걸 GitHub로 업로드</td><td>클라우드에 올리기</td></tr>
+            <tr><td>풀 (Pull)</td><td>GitHub에 있는 최신 버전을 내려받기</td><td>클라우드에서 최신 파일 받아오기</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note" style="margin-top:16px;">GitHub는 Git으로 기록한 코드 역사를 인터넷에 올려 저장·공유하는 웹사이트예요.</p>
+      <div class="qa-table-scroll">
+        <table class="compare">
+          <thead><tr><th>기능</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>백업</td><td>내 컴퓨터가 고장 나도 코드는 GitHub에 안전하게 보관됨</td></tr>
+            <tr><td>공유/협업</td><td>다른 사람과 같은 프로젝트를 함께 작업 가능</td></tr>
+            <tr><td>GitHub Pages</td><td>코드를 실제 웹사이트로 배포 가능 (예: jgjeong730.github.io)</td></tr>
+            <tr><td>이력 확인</td><td>웹 화면에서 누가 언제 뭘 고쳤는지 시각적으로 확인</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note" style="margin-top:16px;"><strong>실제 겪은 흐름으로 정리하면</strong></p>
+      <div class="diagram-box">1. Cursor에서 코드 수정 (Claude Code가 파일 고침)
+        ↓
+2. Git이 로컬에 "커밋" — 변경사항 기록
+        ↓
+3. GitHub로 "푸시" — 인터넷 저장소로 업로드
+        ↓
+4. GitHub Pages가 자동으로 "배포" — 실제 웹사이트로 반영
+        ↓
+5. 실제 웹사이트에서 확인 가능</div>
+
+      <div class="callout">Committed → Pushed to main → 배포 완료 → 실제 사이트에서 확인 — 이게 매번 반복되는 배포 로그의 순서예요.</div>
+
+      <p class="note"><strong>비유로 최종 정리</strong></p>
+      <div class="qa-table-scroll">
+        <table class="compare">
+          <thead><tr><th>개념</th><th>비유</th></tr></thead>
+          <tbody>
+            <tr><td>Git</td><td>문서 작업 이력을 남기는 "버전 관리 수첩"</td></tr>
+            <tr><td>커밋</td><td>수첩에 "오늘 이렇게 고쳤음" 한 페이지 적기</td></tr>
+            <tr><td>GitHub</td><td>그 수첩을 클라우드(구글드라이브)에 올려두는 곳</td></tr>
+            <tr><td>푸시</td><td>수첩 내용을 클라우드에 업로드</td></tr>
+            <tr><td>저장소 (Repository)</td><td>프로젝트별로 만든 "폴더" (예: jejutrekking1)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="concept-block">
+      <h3>전체 작업 도구 최종 정리 (지금까지 배운 모든 개념 통합)</h3>
+      <div class="qa-table-scroll">
+        <table class="compare">
+          <thead><tr><th>레이어</th><th>이름</th><th>역할</th></tr></thead>
+          <tbody>
+            <tr><td>① 그릇(IDE)</td><td>Cursor</td><td>코드를 보고 고치는 전체 작업 공간</td></tr>
+            <tr><td>② 명령어 창</td><td>터미널 패널 (PowerShell)</td><td>Cursor 안에서 명령어 입력하는 곳</td></tr>
+            <tr><td>③ AI 에이전트</td><td>Claude Code CLI</td><td>터미널 안에서 <code>claude</code> 명령으로 실행되는 코딩 AI</td></tr>
+            <tr><td>④ 실행 엔진</td><td>Node.js / npm</td><td>자바스크립트 코드를 실행하는 도구</td></tr>
+            <tr><td>⑤ 버전 관리</td><td>Git</td><td>코드 변경 이력을 로컬에 기록</td></tr>
+            <tr><td>⑥ 클라우드 저장소</td><td>GitHub</td><td>Git 기록을 인터넷에 올려 백업·배포</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note" style="margin-top:16px;"><strong>실전 사용 흐름</strong> — 지금 JG가 매번 하는 패턴이에요.</p>
+      <div class="diagram-box">1. Cursor 실행 → 프로젝트 폴더 열기 (예: jeju_family)
+2. 터미널 패널 열기 (자동으로 해당 폴더 위치에서 시작)
+3. 터미널에 claude 입력 → Claude Code 에이전트 실행
+4. 자연어로 작업 요청 (예: "지도에 경로선 그려줘")
+5. Claude가 파일 수정 → Git 커밋 → GitHub 푸시 → 배포까지 자동 진행
+6. 실제 웹사이트(jgjeong730.github.io)에서 결과 확인</div>
+
+      <p class="note" style="margin-top:16px;"><strong>한 줄 결론</strong> — Cursor는 집 전체, 터미널은 그 집 안의 전화기(명령 전달 창구)예요. 서로 경쟁 관계가 아니라, 터미널은 Cursor의 여러 도구 중 하나일 뿐이에요.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="closing">
+      <p><strong>지인에게 이 문서를 보여주신다면 이렇게 정리해보셔도 좋을 것 같아요:</strong></p>
+      <p>"코딩"은 처음부터 정답을 아는 게 아니라, 하고 싶은 걸 말로 표현하고 → 결과를 보고 → 다시 다듬는 대화의 연속이에요. 이 문서에 나온 50번 남짓한 대화 하나하나가, 지금 인터넷에 떠 있는 이 앱을 만든 전부예요.</p>
+      <p class="sign">— 코디</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="foot">jejutrekking1 · docs/dev-journal.html · 2026-08-27 작성 · 2026-08-31 업데이트</footer>
+
+</body>
+</html>
