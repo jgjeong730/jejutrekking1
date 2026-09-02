@@ -1,6 +1,8 @@
-import React, { useState, useMemo } from 'react';
-import { DollarSign, Utensils, Home, Award, ExternalLink } from 'lucide-react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { GoogleMap, MarkerF, InfoWindowF, useJsApiLoader } from '@react-google-maps/api';
+import { DollarSign, Utensils, Home, Award, ExternalLink, Map as MapIcon, List } from 'lucide-react';
 import { BUDGET_ITEMS, FOOD_RECS, ACCOMMODATIONS, REAL_SCHEDULE, GUESTHOUSE_NIGHT_RATE, CAMPING_NIGHT_RATE, CURRENT_EXPEDITION } from '../data/olleData';
+import type { AccommodationRec } from '../data/olleData';
 import { useOlleProgress } from '../hooks/useOlleProgress';
 
 type Tab = 'budget' | 'food' | 'stay' | 'cert';
@@ -146,11 +148,110 @@ const FoodTab: React.FC = () => (
   </div>
 );
 
+const JEJU_MAP_CENTER = { lat: 33.38, lng: 126.55 };
+
+const AccommodationMap: React.FC = () => {
+  const [selected, setSelected] = useState<AccommodationRec | null>(null);
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '',
+  });
+  const onLoad = useCallback((map: google.maps.Map) => {
+    const bounds = new window.google.maps.LatLngBounds();
+    ACCOMMODATIONS.forEach((a) => bounds.extend({ lat: a.lat, lng: a.lng }));
+    map.fitBounds(bounds, 24);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="h-56 rounded-2xl bg-gray-100 flex items-center justify-center text-xs text-gray-400">
+        지도 로딩 중...
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative h-56 rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+      <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '100%' }}
+        center={JEJU_MAP_CENTER}
+        zoom={10}
+        onLoad={onLoad}
+        options={{ disableDefaultUI: true, zoomControl: true, gestureHandling: 'greedy' }}
+      >
+        {ACCOMMODATIONS.map((a) => (
+          <MarkerF
+            key={`${a.zone}-${a.name}`}
+            position={{ lat: a.lat, lng: a.lng }}
+            title={a.name}
+            onClick={() => setSelected(a)}
+            icon={{
+              path: window.google.maps.SymbolPath.CIRCLE,
+              scale: 7,
+              fillColor: a.type === 'guesthouse' ? '#0284C7' : '#D97706',
+              fillOpacity: 1,
+              strokeColor: '#ffffff',
+              strokeWeight: 1.5,
+            }}
+          />
+        ))}
+        {selected && (
+          <InfoWindowF
+            position={{ lat: selected.lat, lng: selected.lng }}
+            onCloseClick={() => setSelected(null)}
+          >
+            <div className="text-xs max-w-[180px]">
+              <p className="font-bold text-gray-900 mb-1">{selected.name}</p>
+              <p className="text-gray-500 mb-1.5">{selected.note}</p>
+              <a
+                href={selected.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sky-600 font-medium underline"
+              >
+                정보·예약 보기
+              </a>
+            </div>
+          </InfoWindowF>
+        )}
+      </GoogleMap>
+    </div>
+  );
+};
+
 const StayTab: React.FC = () => {
+  const [view, setView] = useState<'list' | 'map'>('list');
   const zones = [...new Set(ACCOMMODATIONS.map((a) => a.zone))];
   return (
     <div className="space-y-4">
-      {zones.map((zone) => {
+      <div className="flex gap-2">
+        <button
+          onClick={() => setView('list')}
+          className={`flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 ${
+            view === 'list' ? 'bg-sky-600 text-white' : 'bg-white text-gray-500 border border-gray-100'
+          }`}
+        >
+          <List className="w-3.5 h-3.5" /> 목록
+        </button>
+        <button
+          onClick={() => setView('map')}
+          className={`flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 ${
+            view === 'map' ? 'bg-sky-600 text-white' : 'bg-white text-gray-500 border border-gray-100'
+          }`}
+        >
+          <MapIcon className="w-3.5 h-3.5" /> 지도
+        </button>
+      </div>
+      {view === 'map' && (
+        <div className="space-y-2">
+          <AccommodationMap />
+          <p className="text-xs text-gray-400 flex items-center gap-3">
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-600 inline-block" /> 게스트하우스</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-600 inline-block" /> 캠핑</span>
+          </p>
+        </div>
+      )}
+      {view === 'list' && zones.map((zone) => {
         const items = ACCOMMODATIONS.filter((a) => a.zone === zone);
         return (
           <div key={zone}>

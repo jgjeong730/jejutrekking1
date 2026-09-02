@@ -59,6 +59,8 @@ export interface AccommodationRec {
   name: string;
   note: string;
   link: string;
+  lat: number;
+  lng: number;
 }
 
 const naverMapSearch = (query: string) => `https://map.naver.com/p/search/${encodeURIComponent(query)}`;
@@ -134,18 +136,74 @@ export const LODGE_BY_COURSE: Record<number, string> = REAL_SCHEDULE.reduce((acc
   return acc;
 }, {} as Record<number, string>);
 
+// 코스별 실제 존재가 확인된 게스트하우스/캠핑장을 우선 수록하고, 특정 업체를 찾지 못한
+// 구간은 동네 단위 검색으로 대체했습니다(note에 표시). 예약 전 최신 운영 여부는 꼭 재확인하세요.
 export const ACCOMMODATIONS: AccommodationRec[] = [
-  { zone: '북동부 (D1~D4, 18~21코스)', type: 'guesthouse', name: '조천·하도·종달 게스트하우스', note: '함덕·김녕 해변 접근성 좋음', link: naverMapSearch('제주 조천 하도 종달 게스트하우스') },
-  { zone: '북동부 (D1~D4, 18~21코스)', type: 'camping', name: '김녕해수욕장 오토캠핑장', note: '19코스 종점 바로 앞', link: naverMapSearch('김녕해수욕장 오토캠핑장') },
-  { zone: '동부 (D5~D8, 1~4코스)', type: 'guesthouse', name: '성산·표선해비치 게스트하우스', note: '우도 배편, 4코스 종점 인접', link: naverMapSearch('제주 성산 표선해비치 게스트하우스') },
-  { zone: '동부 (D5~D8, 1~4코스)', type: 'camping', name: '신양리 섭지코지 / 남원 큰엉 캠핑장', note: '2·4코스 구간 내', link: naverMapSearch('제주 신양리 섭지코지 캠핑장') },
-  { zone: '서귀포권 (D9~D14, 5~9코스)', type: 'guesthouse', name: '제주 올레스테이 (서귀포시 중정로 22)', note: '제주올레 사단법인 직영, 7코스 시작점(서귀포올레여행자센터) 바로 앞, D10~D11 연박. 1층 간세스테이션에 공유주방·세탁실, 카페·식당·펍 입점. 예약 jejuolle.org/trail#/center/stay 또는 064-762-2167', link: 'https://www.jejuolle.org/trail#/center/stay' },
-  { zone: '서귀포권 (D9~D14, 5~9코스)', type: 'camping', name: '월평·대평포구 인근 캠핑', note: '7·8코스 구간 내 (사전 확인 필요)', link: naverMapSearch('제주 대평포구 캠핑장') },
-  { zone: '서부 (D16~D20, 10~14코스)', type: 'guesthouse', name: '모슬포·용수·저지 게스트하우스', note: '가파도 배편(운진항), D19~D20 저지 연박', link: naverMapSearch('제주 모슬포 용수 저지 게스트하우스') },
-  { zone: '서부 (D16~D20, 10~14코스)', type: 'camping', name: '무릉·한림 캠핑장', note: '11·14코스 구간 내', link: naverMapSearch('제주 한림 캠핑장') },
-  { zone: '북부 (D22~D24, 15~17코스)', type: 'guesthouse', name: '애월·제주시 게스트하우스', note: '해안도로 근처, D24 본섬 완주', link: naverMapSearch('제주 애월 게스트하우스') },
-  { zone: '북부 (D22~D24, 15~17코스)', type: 'camping', name: '제주올레캠핑 (애월읍 소길리)', note: '숲속 분지형 캠핑장', link: naverMapSearch('제주올레캠핑 애월 소길리') },
-  { zone: '추자도 (D25~D26, 18-1·18-2코스)', type: 'guesthouse', name: '추자도 대서리 게스트하우스', note: '제주항에서 배로 약 1시간', link: naverMapSearch('추자도 대서리 게스트하우스') },
+  { zone: 'D1 · 조천 (18코스)', type: 'guesthouse', name: '우리희망이 게스트하우스', note: '함덕해수욕장 차량 5분, 신흥해수욕장 도보 5분, 조용한 숙소', link: naverMapSearch('제주 우리희망이 게스트하우스'), lat: 33.5400, lng: 126.6370 },
+  { zone: 'D1 · 조천 (18코스)', type: 'guesthouse', name: '함덕해수욕장 게스트하우스 밀집지역', note: '해변 바로 앞, 선택지 다수 — 성수기 전 예약 확인', link: naverMapSearch('함덕해수욕장 게스트하우스'), lat: 33.5433, lng: 126.6690 },
+
+  { zone: 'D2 · 김녕 (19코스)', type: 'camping', name: '김녕해수욕장 야영장', note: '해변 바로 옆, 화장실·샤워장·취사장 완비, 19코스 종점', link: naverMapSearch('김녕해수욕장 야영장'), lat: 33.5510, lng: 126.7620 },
+  { zone: 'D2 · 김녕 (19코스)', type: 'guesthouse', name: '김녕 게스트하우스', note: '우천 시 대체용, 해변 도보권', link: naverMapSearch('제주 김녕 게스트하우스'), lat: 33.5510, lng: 126.7620 },
+
+  { zone: 'D3 · 하도 (20코스)', type: 'guesthouse', name: '하도살이', note: '하도해수욕장 도보 5분, 조용한 휴식형 숙소', link: naverMapSearch('제주 하도살이 게스트하우스'), lat: 33.5254, lng: 126.8567 },
+  { zone: 'D3 · 하도 (20코스)', type: 'guesthouse', name: '아모르하우스 펜션', note: '가성비 좋고 시설 깨끗한 편', link: naverMapSearch('제주 하도 아모르하우스 펜션'), lat: 33.5254, lng: 126.8567 },
+
+  { zone: 'D4 · 종달 (21코스)', type: 'guesthouse', name: '종달스토리 게스트하우스', note: '신축 건물, 개별 욕실 + 조식 제공', link: naverMapSearch('제주 종달스토리 게스트하우스'), lat: 33.4972, lng: 126.9181 },
+  { zone: 'D4 · 종달 (21코스)', type: 'guesthouse', name: '아람 (하도 고택 독채)', note: '제주 옛집을 리모델링한 독채, 도보 10분 바닷가', link: naverMapSearch('제주 하도 아람 독채'), lat: 33.4972, lng: 126.9181 },
+
+  { zone: 'D5 · 성산 (1코스 + 우도)', type: 'guesthouse', name: '성산에오거들랑 게스트하우스', note: '올레2코스 스탬프 지점에서 200m, 일부 객실 성산일출봉 뷰', link: naverMapSearch('제주 성산에오거들랑 게스트하우스'), lat: 33.4361, lng: 126.9269 },
+  { zone: 'D5 · 성산 (1코스 + 우도)', type: 'guesthouse', name: '어락게스트하우스', note: '성산항 인근', link: naverMapSearch('제주 어락게스트하우스'), lat: 33.4361, lng: 126.9269 },
+
+  { zone: 'D6 · 신양리·섭지코지 (2코스)', type: 'guesthouse', name: '오조리 일출스테이', note: '⚠️ 이 구간은 확인된 지정 야영장이 없어 게스트하우스로 대체 추천 (성산일출봉 조망 펜션)', link: naverMapSearch('제주 오조리 일출스테이'), lat: 33.4237, lng: 126.9139 },
+  { zone: 'D6 · 신양리·섭지코지 (2코스)', type: 'guesthouse', name: '신양리 인근 펜션 검색', note: '차박/노지야영 원하면 현지에서 가능 여부 추가 확인 필요', link: naverMapSearch('제주 신양리 펜션'), lat: 33.4237, lng: 126.9139 },
+
+  { zone: 'D7 · 표선 (3코스)', type: 'guesthouse', name: '불턱 게스트하우스', note: '표선해비치해변 진입 전 언덕, 올레3코스 경로상', link: naverMapSearch('제주 불턱 게스트하우스'), lat: 33.3255, lng: 126.8340 },
+  { zone: 'D7 · 표선 (3코스)', type: 'guesthouse', name: '표선해수욕장 게스트하우스 밀집지역', note: '해변 도보권, 선택지 다수', link: naverMapSearch('표선해수욕장 게스트하우스'), lat: 33.3255, lng: 126.8340 },
+
+  { zone: 'D8 · 남원 큰엉 (4코스)', type: 'guesthouse', name: '카름스테이', note: '⚠️ 큰엉해안경승지 도보권 펜션, 지정 야영장 확인 안 됨 — 캠핑 대신 대체 숙소로 추천', link: naverMapSearch('제주 카름스테이 남원'), lat: 33.2795, lng: 126.7168 },
+  { zone: 'D8 · 남원 큰엉 (4코스)', type: 'guesthouse', name: '남원 게스트하우스 검색', note: '남원포구 주변 대체 옵션', link: naverMapSearch('남원 큰엉 게스트하우스'), lat: 33.2795, lng: 126.7168 },
+
+  { zone: 'D9 · 쇠소깍 (5코스)', type: 'guesthouse', name: '올레5게스트하우스', note: '서귀포시 남원읍 공천포로 137-5, 쇠소깍 인근, 2층 일출·일몰 뷰', link: naverMapSearch('제주 올레5게스트하우스 공천포'), lat: 33.2472, lng: 126.6260 },
+  { zone: 'D9 · 쇠소깍 (5코스)', type: 'guesthouse', name: '쇠소깍 게스트하우스 검색', note: '쇠소깍 인근 대체 옵션', link: naverMapSearch('쇠소깍 게스트하우스'), lat: 33.2472, lng: 126.6260 },
+
+  { zone: 'D10~D11 · 서귀포 올레스테이 (6, 7-1코스 연박)', type: 'guesthouse', name: '제주 올레스테이 (서귀포시 중정로 22)', note: '제주올레 사단법인 직영, 7코스 시작점(서귀포올레여행자센터) 바로 앞, D10~D11 연박. 1층 간세스테이션에 공유주방·세탁실, 카페·식당·펍 입점. 전화 064-762-2167', link: 'https://booking.naver.com/booking/3/bizes/48586', lat: 33.2515, lng: 126.5622 },
+  { zone: 'D10~D11 · 서귀포 올레스테이 (6, 7-1코스 연박)', type: 'guesthouse', name: '서귀포 이중섭거리 게스트하우스 밀집지역', note: '올레스테이 만실 시 대체 옵션, 매일올레시장 도보권', link: naverMapSearch('서귀포 이중섭거리 게스트하우스'), lat: 33.2515, lng: 126.5622 },
+
+  { zone: 'D12 · 월평 (7코스)', type: 'camping', name: '서귀포호텔 카라반 캠핑장', note: '⚠️ 월평에서 차량 이동 필요(사전 거리 확인), 카라반형', link: naverMapSearch('서귀포호텔 카라반 캠핑장'), lat: 33.2453, lng: 126.5117 },
+  { zone: 'D12 · 월평 (7코스)', type: 'guesthouse', name: '월평 게스트하우스 검색', note: '지정 야영장 없을 시 대체 숙소', link: naverMapSearch('월평 게스트하우스'), lat: 33.2453, lng: 126.5117 },
+
+  { zone: 'D13 · 대평포구 (8코스)', type: 'guesthouse', name: '대평포구 게스트하우스 검색', note: '⚠️ 지정 야영장 확인 안 됨 — 박수기정 인근 게스트하우스/펜션으로 대체 추천', link: naverMapSearch('대평포구 게스트하우스'), lat: 33.2277, lng: 126.4283 },
+  { zone: 'D13 · 대평포구 (8코스)', type: 'guesthouse', name: '안덕·대평 펜션 검색', note: '군산오름 인근 대체 옵션', link: naverMapSearch('안덕 대평 펜션'), lat: 33.2277, lng: 126.4283 },
+
+  { zone: 'D14 · 화순 (9코스)', type: 'guesthouse', name: '화순금모래해변 게스트하우스', note: '해변 도보권, 산방산 조망', link: naverMapSearch('화순금모래해변 게스트하우스'), lat: 33.2334, lng: 126.3592 },
+  { zone: 'D14 · 화순 (9코스)', type: 'guesthouse', name: '화순 펜션 검색', note: '대체 옵션', link: naverMapSearch('제주 화순 펜션'), lat: 33.2334, lng: 126.3592 },
+
+  { zone: '제주시내 게스트하우스 (D15 한라산 전날 · D24 본섬완주 · D26 완주)', type: 'guesthouse', name: '산지천 게스트하우스 밀집지역', note: '원도심, 공항 접근성 좋음', link: naverMapSearch('제주 산지천 게스트하우스'), lat: 33.5140, lng: 126.5290 },
+  { zone: '제주시내 게스트하우스 (D15 한라산 전날 · D24 본섬완주 · D26 완주)', type: 'guesthouse', name: '동문시장 게스트하우스 밀집지역', note: '재래시장 도보권, 야식·식사 편리', link: naverMapSearch('제주 동문시장 게스트하우스'), lat: 33.5140, lng: 126.5290 },
+
+  { zone: 'D16 · 모슬포·가파도 (10, 10-1코스)', type: 'guesthouse', name: '몽게스트하우스', note: '마라도·가파도 선착장 도보 2분, 모슬포 맛집·올레길 도보 5분', link: naverMapSearch('제주 몽게스트하우스 모슬포'), lat: 33.2136, lng: 126.2513 },
+  { zone: 'D16 · 모슬포·가파도 (10, 10-1코스)', type: 'guesthouse', name: '오렌지게스트하우스', note: '가파도 올레길 이용객 추천 숙소', link: naverMapSearch('제주 오렌지게스트하우스 모슬포'), lat: 33.2136, lng: 126.2513 },
+
+  { zone: 'D17 · 무릉 (11코스)', type: 'camping', name: '무릉힐링캠프장 (제1힐링캠핑장)', note: '⚠️ 무릉생태문화체험골 내 — 교육/단체 위주 운영 가능성 있어 개별 이용 여부 사전 확인 필요', link: naverMapSearch('무릉힐링캠프장'), lat: 33.2586, lng: 126.1913 },
+  { zone: 'D17 · 무릉 (11코스)', type: 'guesthouse', name: '무릉리 게스트하우스 검색', note: '캠핑 불가 시 대체 숙소', link: naverMapSearch('무릉리 게스트하우스'), lat: 33.2586, lng: 126.1913 },
+
+  { zone: 'D18 · 용수포구 (12코스)', type: 'guesthouse', name: '제주모모 게스트하우스', note: '한경면 용수리 305, 올레13코스 구간 내, 입실 18~19:30 · 퇴실 13:00', link: naverMapSearch('제주모모 게스트하우스 용수리'), lat: 33.2949, lng: 126.1656 },
+  { zone: 'D18 · 용수포구 (12코스)', type: 'guesthouse', name: '용수포구 펜션 검색', note: '대체 옵션', link: naverMapSearch('용수포구 펜션'), lat: 33.2949, lng: 126.1656 },
+
+  { zone: 'D19~D20 · 저지 (13, 14-1코스 연박)', type: 'guesthouse', name: '저지예술마을 게스트하우스', note: 'D19~D20 연박, 오설록(14-1코스) 당일치기 후 복귀', link: naverMapSearch('저지예술마을 게스트하우스'), lat: 33.3245, lng: 126.2645 },
+  { zone: 'D19~D20 · 저지 (13, 14-1코스 연박)', type: 'guesthouse', name: '저지리 펜션 검색', note: '대체 옵션', link: naverMapSearch('제주 저지리 펜션'), lat: 33.3245, lng: 126.2645 },
+
+  { zone: 'D21 · 한림 (14코스)', type: 'camping', name: '제주캠핑베이', note: '협재·한림 근처, 오토캠핑 가능', link: naverMapSearch('제주캠핑베이'), lat: 33.4130, lng: 126.2690 },
+  { zone: 'D21 · 한림 (14코스)', type: 'guesthouse', name: '한림항 게스트하우스 검색', note: '우천 시 대체 숙소', link: naverMapSearch('한림항 게스트하우스'), lat: 33.4130, lng: 126.2690 },
+
+  { zone: 'D22 · 애월 고내 (15코스)', type: 'guesthouse', name: '한담누리 게스트하우스', note: '15년차 예약1위, 애월읍 애월리 2443-2, 매일 포트럭 파티', link: naverMapSearch('제주 한담누리 게스트하우스'), lat: 33.4638, lng: 126.3520 },
+  { zone: 'D22 · 애월 고내 (15코스)', type: 'guesthouse', name: '고내포구 게스트하우스 검색', note: '대체 옵션', link: naverMapSearch('고내포구 게스트하우스'), lat: 33.4638, lng: 126.3520 },
+
+  { zone: 'D23 · 소길리 (16코스)', type: 'camping', name: '제주올레캠핑', note: '애월읍 평화로 2032-18, 숲속 분지형, 온라인 실시간 예약(땡큐캠핑)', link: 'https://m.thankqcamping.com/resv/view.hbb?cseq=4181', lat: 33.4701, lng: 126.4174 },
+  { zone: 'D23 · 소길리 (16코스)', type: 'guesthouse', name: '애월 게스트하우스 검색', note: '만실/우천 시 대체 숙소', link: naverMapSearch('애월 게스트하우스'), lat: 33.4701, lng: 126.4174 },
+
+  { zone: 'D25 · 추자도 (18-1코스)', type: 'guesthouse', name: '추자도에코하우스', note: '추자면 소재 민박', link: naverMapSearch('추자도에코하우스'), lat: 33.9636, lng: 126.3007 },
+  { zone: 'D25 · 추자도 (18-1코스)', type: 'guesthouse', name: '대서리 민박 검색', note: '대체 옵션, 여객선 결항 대비 여유 있게 예약', link: naverMapSearch('추자도 대서리 민박'), lat: 33.9636, lng: 126.3007 },
 ];
 
 export const FOOD_RECS: FoodRec[] = [
