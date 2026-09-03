@@ -77,7 +77,7 @@ const BudgetTab: React.FC = () => {
               cost: lodging.cost,
               note:
                 lodging.actualNights > 0
-                  ? `실제 기록 ${lodging.actualNights}박 반영, 나머지 ${lodging.totalNights - lodging.actualNights}박은 게하 2.5만/캠핑 1만 추정`
+                  ? `실제 기록 ${lodging.actualNights}박 반영, 나머지 ${lodging.totalNights - lodging.actualNights}박은 게하 2.5만/캠핑 4만 추정`
                   : item.note,
             }
           : item
@@ -120,7 +120,7 @@ const BudgetTab: React.FC = () => {
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-xs text-blue-700">
-        아침 식비 제외 (생략 기준). 올레패스포트 2만원 포함. 캠핑 비중 높일수록 절약 가능.
+        아침 식비 제외 (생략 기준). 올레패스포트 2만원 포함. 캠핑장 실제 요금은 사이트당 4만원대로 게스트하우스(2.5만원)보다 오히려 비쌀 수 있어요 — 예약 전 가격 비교 필요.
         트래커에서 완주 기록에 숙박비를 입력하면 여기 총액에 자동 반영돼요.
       </div>
     </div>
@@ -271,7 +271,7 @@ const StayTab: React.FC = () => {
                           ? 'bg-blue-100 text-blue-700'
                           : 'bg-amber-100 text-amber-700'
                       }`}>
-                        {acc.type === 'guesthouse' ? '게스트하우스 ~2.5만원' : '캠핑 ~1만원'}
+                        {acc.type === 'guesthouse' ? '게스트하우스 ~2.5만원' : '캠핑 ~4만원'}
                       </span>
                       <a
                         href={acc.link}

@@ -74,7 +74,9 @@ export interface FoodRec {
 // Per-night fallback estimate used for any night without a recorded actual
 // lodgeCost yet — matches the rates quoted throughout ACCOMMODATIONS/the info page.
 export const GUESTHOUSE_NIGHT_RATE = 25000;
-export const CAMPING_NIGHT_RATE = 10000;
+// 2026-09-03에 땡큐캠핑에서 제주올레캠핑(D23) 11/15 실제 사이트 요금을 확인한 값
+// (캠핑 데크/파쇄석 4만원, 1~2인 기준). 기존 1만원 추정치보다 훨씬 높아 갱신함.
+export const CAMPING_NIGHT_RATE = 40000;
 
 export interface BudgetItem {
   item: string;
@@ -231,7 +233,7 @@ export const TOTAL_MEAL_COST = REAL_SCHEDULE.reduce(
 );
 
 export const BUDGET_ITEMS: BudgetItem[] = [
-  { item: '숙박 (게스트하우스+캠핑 혼합, 26박)', cost: 530000, note: '게하 2.5만 × 18박 + 캠핑 1만 × 8박 기준' },
+  { item: '숙박 (게스트하우스+캠핑 혼합, 26박)', cost: 770000, note: '게하 2.5만 × 18박 + 캠핑 4만 × 8박 기준' },
   { item: '식비 (점심+저녁, 26일)', cost: TOTAL_MEAL_COST, note: '평일 점심 1.5만+저녁 2만(3.5만/일), 주말 특식 5만/일, 아침 제외' },
   { item: '항공 (김포↔제주 왕복)', cost: 0, note: '마일리지 1만 마일 사용 (현금 지출 없음)' },
   { item: '여객선 (우도·가파도·추자도 왕복)', cost: 70000, note: '우도 8천, 가파도 8천, 추자도 왕복 3만원대' },
