@@ -339,11 +339,27 @@ const RAW_COURSES: OlleCourse[] = [
   },
 ];
 
+// A real trail's mapped track often starts/ends a short walk from the
+// signposted stamp box (parking area, road crossing, etc). Splice the
+// authored startPoint/endPoint onto the GPX track when they're more than
+// ~150m from its first/last point, so the map marker and the trail line
+// visually connect instead of leaving a gap.
+const SNAP_THRESHOLD_DEG = 0.00135; // ~150m at this latitude
+function isFar(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
+  return Math.hypot(a.lat - b.lat, a.lng - b.lng) > SNAP_THRESHOLD_DEG;
+}
+function snapEnds(c: OlleCourse, gpxPoints: CourseWaypoint[]): CourseWaypoint[] {
+  const points = [...gpxPoints];
+  if (isFar(c.startPoint, points[0])) points.unshift(c.startPoint);
+  if (isFar(c.endPoint, points[points.length - 1])) points.push(c.endPoint);
+  return points;
+}
+
 // Real GPX-tracked coordinates override the straight-line fallback above for
 // any course whose file has been dropped into public/gpx/ and processed via
 // `node scripts/import-gpx.mjs` — see that script for the file naming rules.
 export const OLLE_COURSES: OlleCourse[] = RAW_COURSES.map((c) =>
-  GPX_WAYPOINTS[c.id] ? { ...c, waypoints: GPX_WAYPOINTS[c.id] } : c
+  GPX_WAYPOINTS[c.id] ? { ...c, waypoints: snapEnds(c, GPX_WAYPOINTS[c.id]) } : c
 );
 
 export const TOTAL_COURSES = OLLE_COURSES.filter(c => !c.isAlt).length;
