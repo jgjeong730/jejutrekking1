@@ -66,7 +66,7 @@ const OlleHome: React.FC = () => {
             <p className="text-xs text-gray-500">한라산 성판악~관음사 종주</p>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-xs text-gray-600 w-24 flex-shrink-0">11/19(목) 10:45</p>
+            <p className="text-xs text-gray-600 w-24 flex-shrink-0">11/19(목) 10:55</p>
             <p className="text-xs text-gray-500">제주 → 김포</p>
           </div>
         </div>
